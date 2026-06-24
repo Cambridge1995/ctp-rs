@@ -1,9 +1,40 @@
 # ctp-rs
 
 ## 本项目
-- **注意**: 本项目原开发者为 @rn7sr 的ctp-rs,只进行了函数、结构体、常量、结构体字段的命名上的改造。
+- **注意**: 本项目原开发者为 @rn7s2 的ctp-rs,只进行了函数、结构体、常量、结构体字段的命名上的改造。
 - **原因**： 个人不喜欢camelCase驼峰命名法，且原ctp有些单词命名错误，编译器提示，本人有强迫症，看不下去，所以全给改成snake_case命名法，并将错误拼写改掉。并未改变整体架构与逻辑。
 - 如果喜欢驼峰命名法，且希望项目保持更新频率，请前往原项目。
+
+本项目没有`crates.io`仓库，只有github仓库，使用时，将其下载后，确保解压后的文件夹名称为`ctp-rs`，项目结构如下：
+
+```
+ctp-rs/
+├── examples/
+│   ├── md_api.rs          # 行情接口示例
+│   └── td_api.rs          # 交易接口示例
+├── localctp/              # LocalCTP 本地模拟交易（C++ 源码）
+├── src/                   # Rust 源码
+│   ├── lib.rs             # crate 根，cxx::bridge 定义
+│   ├── enums.rs           # CTP 枚举常量
+│   ├── md.rs              # 行情接口（MdApi）
+│   └── trader.rs          # 交易接口（TraderApi）
+├── wrapper/               # C++ 封装层（桥接 Rust ↔ CTP）
+│   ├── include/           # 封装层头文件
+│   ├── src/               # 封装层实现
+│   └── scripts/
+├── build.rs               # 构建脚本（下载 CTP 库、编译 C++ 封装）
+├── Cargo.toml
+├── Cargo.lock
+├── LICENSE
+├── plan.md
+└── README.md
+```
+
+将 `ctp-rs` 项目整个移入自己的个人项目中，并在个人项目的 `Cargo.toml` 中引入本项目包：
+```toml
+    ctp-rs = { path = "ctp-rs" }
+```
+即可使用。
 
 
 ## 原 ctp-rs 地址
