@@ -44,7 +44,7 @@ ctp-rs/
 [![Crate](https://img.shields.io/crates/v/ctp-rs.svg)](https://crates.io/crates/ctp-rs)
 [![API](https://docs.rs/ctp-rs/badge.svg)](https://docs.rs/ctp-rs)
 
-CTP 期货接口的安全、符合 Rust 惯用法的绑定。支持 Windows、Linux 与 macOS 三平台，并内置 LocalCTP 本地模拟交易功能，无需连接真实服务器即可开发和测试交易逻辑。
+CTP 期货接口的安全、符合 Rust 惯用法的绑定。支持 Windows、Linux 与 macOS 三个平台，并内置 LocalCTP 本地模拟交易功能，无需连接真实服务器即可开发和测试交易逻辑。
 
 Safe & idiomatic Rust bindings for CTP — cross-platform (Windows / Linux / macOS) with built-in LocalCTP for offline simulation.
 
