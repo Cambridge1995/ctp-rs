@@ -38,9 +38,9 @@ mod ffi {
         pub fn on_rsp_qry_multicast_instrument(&self, multicast_instrument:  MulticastInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
         pub fn on_rsp_error(&self, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
         pub fn on_rsp_sub_market_data(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_un_sub_market_data(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
+        pub fn on_rsp_unsub_market_data(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
         pub fn on_rsp_sub_for_quote_rsp(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_un_sub_for_quote_rsp(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
+        pub fn on_rsp_unsub_for_quote_rsp(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
         pub fn on_rtn_depth_market_data(&self, depth_market_data:  DepthMarketData);
         pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp:  ForQuoteRsp);
     }
@@ -109,7 +109,7 @@ mod ffi {
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn un_subscribe_market_data(&self, instrument_ids:  Vec<String>)-> i32;
+        fn unsubscribe_market_data(&self, instrument_ids:  Vec<String>)-> i32;
         /// 订阅询价。
         ///
         /// # Parameters
@@ -121,7 +121,7 @@ mod ffi {
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn un_subscribe_for_quote_rsp(&self, instrument_ids:  Vec<String>)-> i32;
+        fn unsubscribe_for_quote_rsp(&self, instrument_ids:  Vec<String>)-> i32;
         /// 用户登录请求
         fn req_user_login(&self, req_user_login:  ReqUserLogin, request_id:  i32)-> i32;
         /// 登出请求

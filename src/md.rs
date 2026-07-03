@@ -1,7 +1,8 @@
 #![allow(non_camel_case_types)]
 use std::fs::create_dir_all;
 use std::path::Path;
-use std::sync::mpsc::Sender;
+use std::sync::Arc;
+use kanal::Sender;
 
 
 
@@ -36,41 +37,41 @@ pub enum MdMsg {
     on_front_connected,
     on_front_disconnected(i32),
     on_heart_beat_warning(i32),
-    on_rsp_user_login(Box<crate::RspUserLogin>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_user_logout(Box<crate::UserLogout>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_user_login(Arc<crate::RspUserLogin>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_user_logout(Arc<crate::UserLogout>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_multicast_instrument(
-        Box<crate::MulticastInstrument>,
-        Box<crate::RspInfo>,
+        Arc<crate::MulticastInstrument>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_error(Box<crate::RspInfo>, i32, bool),
+    on_rsp_error(Arc<crate::RspInfo>, i32, bool),
     on_rsp_sub_market_data(
-        Box<crate::SpecificInstrument>,
-        Box<crate::RspInfo>,
+        Arc<crate::SpecificInstrument>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_un_sub_market_data(
-        Box<crate::SpecificInstrument>,
-        Box<crate::RspInfo>,
+    on_rsp_unsub_market_data(
+        Arc<crate::SpecificInstrument>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_sub_for_quote_rsp(
-        Box<crate::SpecificInstrument>,
-        Box<crate::RspInfo>,
+        Arc<crate::SpecificInstrument>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_un_sub_for_quote_rsp(
-        Box<crate::SpecificInstrument>,
-        Box<crate::RspInfo>,
+    on_rsp_unsub_for_quote_rsp(
+        Arc<crate::SpecificInstrument>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rtn_depth_market_data(Box<crate::DepthMarketData>),
-    on_rtn_for_quote_rsp(Box<crate::ForQuoteRsp>),
+    on_rtn_depth_market_data(Arc<crate::DepthMarketData>),
+    on_rtn_for_quote_rsp(Arc<crate::ForQuoteRsp>),
 }
 
 pub struct MdSpi {
@@ -96,8 +97,8 @@ impl MdSpi {
     ) {
         self.tx
             .send(MdMsg::on_rsp_user_login(
-                Box::new(rsp_user_login),
-                Box::new(rsp_info),
+                Arc::new(rsp_user_login),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -112,8 +113,8 @@ impl MdSpi {
     ) {
         self.tx
             .send(MdMsg::on_rsp_user_logout(
-                Box::new(user_logout),
-                Box::new(rsp_info),
+                Arc::new(user_logout),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -128,8 +129,8 @@ impl MdSpi {
     ) {
         self.tx
             .send(MdMsg::on_rsp_qry_multicast_instrument(
-                Box::new(multicast_instrument),
-                Box::new(rsp_info),
+                Arc::new(multicast_instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -137,7 +138,7 @@ impl MdSpi {
     }
     pub fn on_rsp_error(&self, rsp_info: crate::RspInfo, request_id: i32, is_last: bool) {
         self.tx
-            .send(MdMsg::on_rsp_error(Box::new(rsp_info), request_id, is_last))
+            .send(MdMsg::on_rsp_error(Arc::new(rsp_info), request_id, is_last))
             .ok();
     }
     pub fn on_rsp_sub_market_data(
@@ -149,14 +150,14 @@ impl MdSpi {
     ) {
         self.tx
             .send(MdMsg::on_rsp_sub_market_data(
-                Box::new(specific_instrument),
-                Box::new(rsp_info),
+                Arc::new(specific_instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
             .ok();
     }
-    pub fn on_rsp_un_sub_market_data(
+    pub fn on_rsp_unsub_market_data(
         &self,
         specific_instrument: crate::SpecificInstrument,
         rsp_info: crate::RspInfo,
@@ -164,9 +165,9 @@ impl MdSpi {
         is_last: bool,
     ) {
         self.tx
-            .send(MdMsg::on_rsp_un_sub_market_data(
-                Box::new(specific_instrument),
-                Box::new(rsp_info),
+            .send(MdMsg::on_rsp_unsub_market_data(
+                Arc::new(specific_instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -181,14 +182,14 @@ impl MdSpi {
     ) {
         self.tx
             .send(MdMsg::on_rsp_sub_for_quote_rsp(
-                Box::new(specific_instrument),
-                Box::new(rsp_info),
+                Arc::new(specific_instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
             .ok();
     }
-    pub fn on_rsp_un_sub_for_quote_rsp(
+    pub fn on_rsp_unsub_for_quote_rsp(
         &self,
         specific_instrument: crate::SpecificInstrument,
         rsp_info: crate::RspInfo,
@@ -196,9 +197,9 @@ impl MdSpi {
         is_last: bool,
     ) {
         self.tx
-            .send(MdMsg::on_rsp_un_sub_for_quote_rsp(
-                Box::new(specific_instrument),
-                Box::new(rsp_info),
+            .send(MdMsg::on_rsp_unsub_for_quote_rsp(
+                Arc::new(specific_instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -206,12 +207,12 @@ impl MdSpi {
     }
     pub fn on_rtn_depth_market_data(&self, depth_market_data: crate::DepthMarketData) {
         self.tx
-            .send(MdMsg::on_rtn_depth_market_data(Box::new(depth_market_data)))
+            .send(MdMsg::on_rtn_depth_market_data(Arc::new(depth_market_data)))
             .ok();
     }
     pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: crate::ForQuoteRsp) {
         self.tx
-            .send(MdMsg::on_rtn_for_quote_rsp(Box::new(for_quote_rsp)))
+            .send(MdMsg::on_rtn_for_quote_rsp(Arc::new(for_quote_rsp)))
             .ok();
     }
 }

@@ -87,7 +87,7 @@ int32_t MdApi::subscribe_market_data(rust::Vec<rust::String> instrument_ids) con
     return ret;
 }
 
-int32_t MdApi::un_subscribe_market_data(rust::Vec<rust::String> instrument_ids) const {
+int32_t MdApi::unsubscribe_market_data(rust::Vec<rust::String> instrument_ids) const {
     char **instrument_ids_raw = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
         instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();
@@ -105,7 +105,7 @@ int32_t MdApi::subscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) c
     return ret;
 }
 
-int32_t MdApi::un_subscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const {
+int32_t MdApi::unsubscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const {
     char **instrument_ids_raw = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
         instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();

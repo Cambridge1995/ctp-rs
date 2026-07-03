@@ -79,7 +79,7 @@ void CMdSpi::OnRspSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificInst
 }
 
 void CMdSpi::OnRspUnSubMarketData(CThostFtdcSpecificInstrumentField* pSpecificInstrument, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
-    this->gateway->on_rsp_un_sub_market_data(
+    this->gateway->on_rsp_unsub_market_data(
         Converter::CThostFtdcSpecificInstrumentFieldToRust(pSpecificInstrument),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,
@@ -97,7 +97,7 @@ void CMdSpi::OnRspSubForQuoteRsp(CThostFtdcSpecificInstrumentField* pSpecificIns
 }
 
 void CMdSpi::OnRspUnSubForQuoteRsp(CThostFtdcSpecificInstrumentField* pSpecificInstrument, CThostFtdcRspInfoField* pRspInfo, int32_t nRequestID, bool bIsLast) {
-    this->gateway->on_rsp_un_sub_for_quote_rsp(
+    this->gateway->on_rsp_unsub_for_quote_rsp(
         Converter::CThostFtdcSpecificInstrumentFieldToRust(pSpecificInstrument),
         Converter::CThostFtdcRspInfoFieldToRust(pRspInfo),
         nRequestID,

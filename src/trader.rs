@@ -1,7 +1,8 @@
 #![allow(non_camel_case_types)]
 use std::fs::create_dir_all;
 use std::path::Path;
-use std::sync::mpsc::Sender;
+use std::sync::Arc;
+use kanal::Sender;
 
 use crate::{CreateTraderApi, UniquePtr};
 
@@ -26,527 +27,527 @@ pub enum TraderMsg {
     on_front_connected,
     on_front_disconnected(i32),
     on_heart_beat_warning(i32),
-    on_rsp_authenticate(Box<crate::RspAuthenticate>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_user_login(Box<crate::RspUserLogin>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_user_logout(Box<crate::UserLogout>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_authenticate(Arc<crate::RspAuthenticate>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_user_login(Arc<crate::RspUserLogin>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_user_logout(Arc<crate::UserLogout>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_user_password_update(
-        Box<crate::UserPasswordUpdate>,
-        Box<crate::RspInfo>,
+        Arc<crate::UserPasswordUpdate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_trading_account_password_update(
-        Box<crate::TradingAccountPasswordUpdate>,
-        Box<crate::RspInfo>,
+        Arc<crate::TradingAccountPasswordUpdate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_user_auth_method(Box<crate::RspUserAuthMethod>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_gen_user_captcha(Box<crate::RspGenUserCaptcha>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_gen_user_text(Box<crate::RspGenUserText>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_order_insert(Box<crate::InputOrder>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_parked_order_insert(Box<crate::ParkedOrder>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_parked_order_action(Box<crate::ParkedOrderAction>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_order_action(Box<crate::InputOrderAction>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_user_auth_method(Arc<crate::RspUserAuthMethod>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_gen_user_captcha(Arc<crate::RspGenUserCaptcha>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_gen_user_text(Arc<crate::RspGenUserText>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_order_insert(Arc<crate::InputOrder>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_parked_order_insert(Arc<crate::ParkedOrder>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_parked_order_action(Arc<crate::ParkedOrderAction>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_order_action(Arc<crate::InputOrderAction>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_max_order_volume(
-        Box<crate::QryMaxOrderVolume>,
-        Box<crate::RspInfo>,
+        Arc<crate::QryMaxOrderVolume>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_settlement_info_confirm(
-        Box<crate::SettlementInfoConfirm>,
-        Box<crate::RspInfo>,
+        Arc<crate::SettlementInfoConfirm>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_remove_parked_order(
-        Box<crate::RemoveParkedOrder>,
-        Box<crate::RspInfo>,
+        Arc<crate::RemoveParkedOrder>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_remove_parked_order_action(
-        Box<crate::RemoveParkedOrderAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::RemoveParkedOrderAction>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_exec_order_insert(Box<crate::InputExecOrder>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_exec_order_insert(Arc<crate::InputExecOrder>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_exec_order_action(
-        Box<crate::InputExecOrderAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputExecOrderAction>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_for_quote_insert(Box<crate::InputForQuote>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_quote_insert(Box<crate::InputQuote>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_quote_action(Box<crate::InputQuoteAction>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_for_quote_insert(Arc<crate::InputForQuote>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_quote_insert(Arc<crate::InputQuote>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_quote_action(Arc<crate::InputQuoteAction>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_batch_order_action(
-        Box<crate::InputBatchOrderAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputBatchOrderAction>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_option_self_close_insert(
-        Box<crate::InputOptionSelfClose>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputOptionSelfClose>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_option_self_close_action(
-        Box<crate::InputOptionSelfCloseAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputOptionSelfCloseAction>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_comb_action_insert(Box<crate::InputCombAction>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_order(Box<crate::Order>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_trade(Box<crate::Trade>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_comb_action_insert(Arc<crate::InputCombAction>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_order(Arc<crate::Order>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trade(Arc<crate::Trade>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_investor_position(
-        Box<crate::InvestorPosition>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorPosition>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trading_account(Box<crate::TradingAccount>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_investor(Box<crate::Investor>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_trading_code(Box<crate::TradingCode>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trading_account(Arc<crate::TradingAccount>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_investor(Arc<crate::Investor>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trading_code(Arc<crate::TradingCode>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_instrument_margin_rate(
-        Box<crate::InstrumentMarginRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::InstrumentMarginRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_instrument_commission_rate(
-        Box<crate::InstrumentCommissionRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::InstrumentCommissionRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_user_session(Box<crate::UserSession>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_exchange(Box<crate::Exchange>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_product(Box<crate::Product>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_instrument(Box<crate::Instrument>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_user_session(Arc<crate::UserSession>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_exchange(Arc<crate::Exchange>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_product(Arc<crate::Product>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_instrument(Arc<crate::Instrument>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_depth_market_data(
-        Box<crate::DepthMarketData>,
-        Box<crate::RspInfo>,
+        Arc<crate::DepthMarketData>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trader_offer(Box<crate::TraderOffer>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_settlement_info(Box<crate::SettlementInfo>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_transfer_bank(Box<crate::TransferBank>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trader_offer(Arc<crate::TraderOffer>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_settlement_info(Arc<crate::SettlementInfo>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_transfer_bank(Arc<crate::TransferBank>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_investor_position_detail(
-        Box<crate::InvestorPositionDetail>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorPositionDetail>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_notice(Box<crate::Notice>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_notice(Arc<crate::Notice>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_settlement_info_confirm(
-        Box<crate::SettlementInfoConfirm>,
-        Box<crate::RspInfo>,
+        Arc<crate::SettlementInfoConfirm>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_position_combine_detail(
-        Box<crate::InvestorPositionCombineDetail>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorPositionCombineDetail>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_cfmmc_trading_account_key(
-        Box<crate::CFMMCTradingAccountKey>,
-        Box<crate::RspInfo>,
+        Arc<crate::CFMMCTradingAccountKey>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_ewarrant_offset(Box<crate::EWarrantOffset>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_ewarrant_offset(Arc<crate::EWarrantOffset>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_investor_product_group_margin(
-        Box<crate::InvestorProductGroupMargin>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorProductGroupMargin>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_exchange_margin_rate(
-        Box<crate::ExchangeMarginRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::ExchangeMarginRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_exchange_margin_rate_adjust(
-        Box<crate::ExchangeMarginRateAdjust>,
-        Box<crate::RspInfo>,
+        Arc<crate::ExchangeMarginRateAdjust>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_exchange_rate(Box<crate::ExchangeRate>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_exchange_rate(Arc<crate::ExchangeRate>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_sec_agent_acid_map(
-        Box<crate::SecAgentACIDMap>,
-        Box<crate::RspInfo>,
+        Arc<crate::SecAgentACIDMap>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_product_exch_rate(
-        Box<crate::ProductExchRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::ProductExchRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_product_group(Box<crate::ProductGroup>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_product_group(Arc<crate::ProductGroup>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_mm_instrument_commission_rate(
-        Box<crate::MMInstrumentCommissionRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::MMInstrumentCommissionRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_mm_option_instr_comm_rate(
-        Box<crate::MMOptionInstrCommRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::MMOptionInstrCommRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_instrument_order_comm_rate(
-        Box<crate::InstrumentOrderCommRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::InstrumentOrderCommRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_sec_agent_trading_account(
-        Box<crate::TradingAccount>,
-        Box<crate::RspInfo>,
+        Arc<crate::TradingAccount>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_sec_agent_check_mode(
-        Box<crate::SecAgentCheckMode>,
-        Box<crate::RspInfo>,
+        Arc<crate::SecAgentCheckMode>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_sec_agent_trade_info(
-        Box<crate::SecAgentTradeInfo>,
-        Box<crate::RspInfo>,
+        Arc<crate::SecAgentTradeInfo>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_option_instr_trade_cost(
-        Box<crate::OptionInstrTradeCost>,
-        Box<crate::RspInfo>,
+        Arc<crate::OptionInstrTradeCost>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_option_instr_comm_rate(
-        Box<crate::OptionInstrCommRate>,
-        Box<crate::RspInfo>,
+        Arc<crate::OptionInstrCommRate>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_exec_order(Box<crate::ExecOrder>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_for_quote(Box<crate::ForQuote>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_quote(Box<crate::Quote>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_exec_order(Arc<crate::ExecOrder>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_for_quote(Arc<crate::ForQuote>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_quote(Arc<crate::Quote>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_option_self_close(
-        Box<crate::OptionSelfClose>,
-        Box<crate::RspInfo>,
+        Arc<crate::OptionSelfClose>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_invest_unit(Box<crate::InvestUnit>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_invest_unit(Arc<crate::InvestUnit>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_comb_instrument_guard(
-        Box<crate::CombInstrumentGuard>,
-        Box<crate::RspInfo>,
+        Arc<crate::CombInstrumentGuard>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_comb_action(Box<crate::CombAction>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_transfer_serial(Box<crate::TransferSerial>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_account_register(Box<crate::AccountRegister>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_error(Box<crate::RspInfo>, i32, bool),
-    on_rtn_order(Box<crate::Order>),
-    on_rtn_trade(Box<crate::Trade>),
-    on_err_rtn_order_insert(Box<crate::InputOrder>, Box<crate::RspInfo>),
-    on_err_rtn_order_action(Box<crate::OrderAction>, Box<crate::RspInfo>),
-    on_rtn_instrument_status(Box<crate::InstrumentStatus>),
-    on_rtn_bulletin(Box<crate::Bulletin>),
-    on_rtn_trading_notice(Box<crate::TradingNoticeInfo>),
-    on_rtn_error_conditional_order(Box<crate::ErrorConditionalOrder>),
-    on_rtn_exec_order(Box<crate::ExecOrder>),
-    on_err_rtn_exec_order_insert(Box<crate::InputExecOrder>, Box<crate::RspInfo>),
-    on_err_rtn_exec_order_action(Box<crate::ExecOrderAction>, Box<crate::RspInfo>),
-    on_err_rtn_for_quote_insert(Box<crate::InputForQuote>, Box<crate::RspInfo>),
-    on_rtn_quote(Box<crate::Quote>),
-    on_err_rtn_quote_insert(Box<crate::InputQuote>, Box<crate::RspInfo>),
-    on_err_rtn_quote_action(Box<crate::QuoteAction>, Box<crate::RspInfo>),
-    on_rtn_for_quote_rsp(Box<crate::ForQuoteRsp>),
-    on_rtn_cfmmc_trading_account_token(Box<crate::CFMMCTradingAccountToken>),
-    on_err_rtn_batch_order_action(Box<crate::BatchOrderAction>, Box<crate::RspInfo>),
-    on_rtn_option_self_close(Box<crate::OptionSelfClose>),
+    on_rsp_qry_comb_action(Arc<crate::CombAction>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_transfer_serial(Arc<crate::TransferSerial>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_account_register(Arc<crate::AccountRegister>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_error(Arc<crate::RspInfo>, i32, bool),
+    on_rtn_order(Arc<crate::Order>),
+    on_rtn_trade(Arc<crate::Trade>),
+    on_err_rtn_order_insert(Arc<crate::InputOrder>, Arc<crate::RspInfo>),
+    on_err_rtn_order_action(Arc<crate::OrderAction>, Arc<crate::RspInfo>),
+    on_rtn_instrument_status(Arc<crate::InstrumentStatus>),
+    on_rtn_bulletin(Arc<crate::Bulletin>),
+    on_rtn_trading_notice(Arc<crate::TradingNoticeInfo>),
+    on_rtn_error_conditional_order(Arc<crate::ErrorConditionalOrder>),
+    on_rtn_exec_order(Arc<crate::ExecOrder>),
+    on_err_rtn_exec_order_insert(Arc<crate::InputExecOrder>, Arc<crate::RspInfo>),
+    on_err_rtn_exec_order_action(Arc<crate::ExecOrderAction>, Arc<crate::RspInfo>),
+    on_err_rtn_for_quote_insert(Arc<crate::InputForQuote>, Arc<crate::RspInfo>),
+    on_rtn_quote(Arc<crate::Quote>),
+    on_err_rtn_quote_insert(Arc<crate::InputQuote>, Arc<crate::RspInfo>),
+    on_err_rtn_quote_action(Arc<crate::QuoteAction>, Arc<crate::RspInfo>),
+    on_rtn_for_quote_rsp(Arc<crate::ForQuoteRsp>),
+    on_rtn_cfmmc_trading_account_token(Arc<crate::CFMMCTradingAccountToken>),
+    on_err_rtn_batch_order_action(Arc<crate::BatchOrderAction>, Arc<crate::RspInfo>),
+    on_rtn_option_self_close(Arc<crate::OptionSelfClose>),
     on_err_rtn_option_self_close_insert(
-        Box<crate::InputOptionSelfClose>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputOptionSelfClose>,
+        Arc<crate::RspInfo>,
     ),
     on_err_rtn_option_self_close_action(
-        Box<crate::OptionSelfCloseAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::OptionSelfCloseAction>,
+        Arc<crate::RspInfo>,
     ),
-    on_rtn_comb_action(Box<crate::CombAction>),
-    on_err_rtn_comb_action_insert(Box<crate::InputCombAction>, Box<crate::RspInfo>),
-    on_rsp_qry_contract_bank(Box<crate::ContractBank>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_qry_parked_order(Box<crate::ParkedOrder>, Box<crate::RspInfo>, i32, bool),
+    on_rtn_comb_action(Arc<crate::CombAction>),
+    on_err_rtn_comb_action_insert(Arc<crate::InputCombAction>, Arc<crate::RspInfo>),
+    on_rsp_qry_contract_bank(Arc<crate::ContractBank>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_parked_order(Arc<crate::ParkedOrder>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_parked_order_action(
-        Box<crate::ParkedOrderAction>,
-        Box<crate::RspInfo>,
+        Arc<crate::ParkedOrderAction>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trading_notice(Box<crate::TradingNotice>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trading_notice(Arc<crate::TradingNotice>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_broker_trading_params(
-        Box<crate::BrokerTradingParams>,
-        Box<crate::RspInfo>,
+        Arc<crate::BrokerTradingParams>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_broker_trading_algos(
-        Box<crate::BrokerTradingAlgos>,
-        Box<crate::RspInfo>,
+        Arc<crate::BrokerTradingAlgos>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_query_cfmmc_trading_account_token(
-        Box<crate::QueryCFMMCTradingAccountToken>,
-        Box<crate::RspInfo>,
+        Arc<crate::QueryCFMMCTradingAccountToken>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rtn_from_bank_to_future_by_bank(Box<crate::RspTransfer>),
-    on_rtn_from_future_to_bank_by_bank(Box<crate::RspTransfer>),
-    on_rtn_repeal_from_bank_to_future_by_bank(Box<crate::RspRepeal>),
-    on_rtn_repeal_from_future_to_bank_by_bank(Box<crate::RspRepeal>),
-    on_rtn_from_bank_to_future_by_future(Box<crate::RspTransfer>),
-    on_rtn_from_future_to_bank_by_future(Box<crate::RspTransfer>),
-    on_rtn_repeal_from_bank_to_future_by_future_manual(Box<crate::RspRepeal>),
-    on_rtn_repeal_from_future_to_bank_by_future_manual(Box<crate::RspRepeal>),
-    on_rtn_query_bank_balance_by_future(Box<crate::NotifyQueryAccount>),
-    on_err_rtn_bank_to_future_by_future(Box<crate::ReqTransfer>, Box<crate::RspInfo>),
-    on_err_rtn_future_to_bank_by_future(Box<crate::ReqTransfer>, Box<crate::RspInfo>),
+    on_rtn_from_bank_to_future_by_bank(Arc<crate::RspTransfer>),
+    on_rtn_from_future_to_bank_by_bank(Arc<crate::RspTransfer>),
+    on_rtn_repeal_from_bank_to_future_by_bank(Arc<crate::RspRepeal>),
+    on_rtn_repeal_from_future_to_bank_by_bank(Arc<crate::RspRepeal>),
+    on_rtn_from_bank_to_future_by_future(Arc<crate::RspTransfer>),
+    on_rtn_from_future_to_bank_by_future(Arc<crate::RspTransfer>),
+    on_rtn_repeal_from_bank_to_future_by_future_manual(Arc<crate::RspRepeal>),
+    on_rtn_repeal_from_future_to_bank_by_future_manual(Arc<crate::RspRepeal>),
+    on_rtn_query_bank_balance_by_future(Arc<crate::NotifyQueryAccount>),
+    on_err_rtn_bank_to_future_by_future(Arc<crate::ReqTransfer>, Arc<crate::RspInfo>),
+    on_err_rtn_future_to_bank_by_future(Arc<crate::ReqTransfer>, Arc<crate::RspInfo>),
     on_err_rtn_repeal_bank_to_future_by_future_manual(
-        Box<crate::ReqRepeal>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqRepeal>,
+        Arc<crate::RspInfo>,
     ),
     on_err_rtn_repeal_future_to_bank_by_future_manual(
-        Box<crate::ReqRepeal>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqRepeal>,
+        Arc<crate::RspInfo>,
     ),
     on_err_rtn_query_bank_balance_by_future(
-        Box<crate::ReqQueryAccount>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqQueryAccount>,
+        Arc<crate::RspInfo>,
     ),
-    on_rtn_repeal_from_bank_to_future_by_future(Box<crate::RspRepeal>),
-    on_rtn_repeal_from_future_to_bank_by_future(Box<crate::RspRepeal>),
+    on_rtn_repeal_from_bank_to_future_by_future(Arc<crate::RspRepeal>),
+    on_rtn_repeal_from_future_to_bank_by_future(Arc<crate::RspRepeal>),
     on_rsp_from_bank_to_future_by_future(
-        Box<crate::ReqTransfer>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqTransfer>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_from_future_to_bank_by_future(
-        Box<crate::ReqTransfer>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqTransfer>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_query_bank_account_money_by_future(
-        Box<crate::ReqQueryAccount>,
-        Box<crate::RspInfo>,
+        Arc<crate::ReqQueryAccount>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rtn_open_account_by_bank(Box<crate::OpenAccount>),
-    on_rtn_cancel_account_by_bank(Box<crate::CancelAccount>),
-    on_rtn_change_account_by_bank(Box<crate::ChangeAccount>),
-    on_rsp_qry_classified_instrument(Box<crate::Instrument>, Box<crate::RspInfo>, i32, bool),
+    on_rtn_open_account_by_bank(Arc<crate::OpenAccount>),
+    on_rtn_cancel_account_by_bank(Arc<crate::CancelAccount>),
+    on_rtn_change_account_by_bank(Arc<crate::ChangeAccount>),
+    on_rsp_qry_classified_instrument(Arc<crate::Instrument>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_comb_promotion_param(
-        Box<crate::CombPromotionParam>,
-        Box<crate::RspInfo>,
+        Arc<crate::CombPromotionParam>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_risk_settle_invest_position(
-        Box<crate::RiskSettleInvestPosition>,
-        Box<crate::RspInfo>,
+        Arc<crate::RiskSettleInvestPosition>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_risk_settle_product_status(
-        Box<crate::RiskSettleProductStatus>,
-        Box<crate::RspInfo>,
+        Arc<crate::RiskSettleProductStatus>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_future_parameter(
-        Box<crate::SPBMFutureParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMFutureParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_option_parameter(
-        Box<crate::SPBMOptionParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMOptionParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_intra_parameter(
-        Box<crate::SPBMIntraParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMIntraParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_inter_parameter(
-        Box<crate::SPBMInterParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMInterParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_portf_definition(
-        Box<crate::SPBMPortfDefinition>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMPortfDefinition>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_investor_portf_def(
-        Box<crate::SPBMInvestorPortfDef>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMInvestorPortfDef>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_portf_margin_ratio(
-        Box<crate::InvestorPortfMarginRatio>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorPortfMarginRatio>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_prod_spbm_detail(
-        Box<crate::InvestorProdSPBMDetail>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorProdSPBMDetail>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_commodity_spmm_margin(
-        Box<crate::InvestorCommoditySPMMMargin>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorCommoditySPMMMargin>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_commodity_group_spmm_margin(
-        Box<crate::InvestorCommodityGroupSPMMMargin>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorCommodityGroupSPMMMargin>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_spmm_inst_param(Box<crate::SPMMInstParam>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_spmm_inst_param(Arc<crate::SPMMInstParam>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_qry_spmm_product_param(
-        Box<crate::SPMMProductParam>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPMMProductParam>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_spbm_add_on_inter_parameter(
-        Box<crate::SPBMAddOnInterParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::SPBMAddOnInterParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_comb_product_info(
-        Box<crate::RCAMSCombProductInfo>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSCombProductInfo>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_instr_parameter(
-        Box<crate::RCAMSInstrParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSInstrParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_intra_parameter(
-        Box<crate::RCAMSIntraParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSIntraParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_inter_parameter(
-        Box<crate::RCAMSInterParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSInterParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_short_opt_adjust_param(
-        Box<crate::RCAMSShortOptAdjustParam>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSShortOptAdjustParam>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rcams_investor_comb_position(
-        Box<crate::RCAMSInvestorCombPosition>,
-        Box<crate::RspInfo>,
+        Arc<crate::RCAMSInvestorCombPosition>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_prod_rcams_margin(
-        Box<crate::InvestorProdRCAMSMargin>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorProdRCAMSMargin>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rule_instr_parameter(
-        Box<crate::RULEInstrParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RULEInstrParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rule_intra_parameter(
-        Box<crate::RULEIntraParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RULEIntraParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_rule_inter_parameter(
-        Box<crate::RULEInterParameter>,
-        Box<crate::RspInfo>,
+        Arc<crate::RULEInterParameter>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_prod_rule_margin(
-        Box<crate::InvestorProdRULEMargin>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorProdRULEMargin>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_portf_setting(
-        Box<crate::InvestorPortfSetting>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorPortfSetting>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
     on_rsp_qry_investor_info_comm_rec(
-        Box<crate::InvestorInfoCommRec>,
-        Box<crate::RspInfo>,
+        Arc<crate::InvestorInfoCommRec>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_comb_leg(Box<crate::CombLeg>, Box<crate::RspInfo>, i32, bool),
-    on_rsp_offset_setting(Box<crate::InputOffsetSetting>, Box<crate::RspInfo>, i32, bool),
+    on_rsp_qry_comb_leg(Arc<crate::CombLeg>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_offset_setting(Arc<crate::InputOffsetSetting>, Arc<crate::RspInfo>, i32, bool),
     on_rsp_cancel_offset_setting(
-        Box<crate::InputOffsetSetting>,
-        Box<crate::RspInfo>,
+        Arc<crate::InputOffsetSetting>,
+        Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rtn_offset_setting(Box<crate::OffsetSetting>),
-    on_err_rtn_offset_setting(Box<crate::InputOffsetSetting>, Box<crate::RspInfo>),
-    on_err_rtn_cancel_offset_setting(Box<crate::CancelOffsetSetting>, Box<crate::RspInfo>),
-    on_rsp_qry_offset_setting(Box<crate::OffsetSetting>, Box<crate::RspInfo>, i32, bool),
+    on_rtn_offset_setting(Arc<crate::OffsetSetting>),
+    on_err_rtn_offset_setting(Arc<crate::InputOffsetSetting>, Arc<crate::RspInfo>),
+    on_err_rtn_cancel_offset_setting(Arc<crate::CancelOffsetSetting>, Arc<crate::RspInfo>),
+    on_rsp_qry_offset_setting(Arc<crate::OffsetSetting>, Arc<crate::RspInfo>, i32, bool),
 }
 
 pub struct TraderSpi {
@@ -572,8 +573,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_authenticate(
-                Box::new(rsp_authenticate),
-                Box::new(rsp_info),
+                Arc::new(rsp_authenticate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -588,8 +589,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_user_login(
-                Box::new(rsp_user_login),
-                Box::new(rsp_info),
+                Arc::new(rsp_user_login),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -604,8 +605,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_user_logout(
-                Box::new(user_logout),
-                Box::new(rsp_info),
+                Arc::new(user_logout),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -620,8 +621,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_user_password_update(
-                Box::new(user_password_update),
-                Box::new(rsp_info),
+                Arc::new(user_password_update),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -636,8 +637,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_trading_account_password_update(
-                Box::new(trading_account_password_update),
-                Box::new(rsp_info),
+                Arc::new(trading_account_password_update),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -652,8 +653,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_user_auth_method(
-                Box::new(rsp_user_auth_method),
-                Box::new(rsp_info),
+                Arc::new(rsp_user_auth_method),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -668,8 +669,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_gen_user_captcha(
-                Box::new(rsp_gen_user_captcha),
-                Box::new(rsp_info),
+                Arc::new(rsp_gen_user_captcha),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -684,8 +685,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_gen_user_text(
-                Box::new(rsp_gen_user_text),
-                Box::new(rsp_info),
+                Arc::new(rsp_gen_user_text),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -700,8 +701,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_order_insert(
-                Box::new(input_order),
-                Box::new(rsp_info),
+                Arc::new(input_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -716,8 +717,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_parked_order_insert(
-                Box::new(parked_order),
-                Box::new(rsp_info),
+                Arc::new(parked_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -732,8 +733,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_parked_order_action(
-                Box::new(parked_order_action),
-                Box::new(rsp_info),
+                Arc::new(parked_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -748,8 +749,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_order_action(
-                Box::new(input_order_action),
-                Box::new(rsp_info),
+                Arc::new(input_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -764,8 +765,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_max_order_volume(
-                Box::new(qry_max_order_volume),
-                Box::new(rsp_info),
+                Arc::new(qry_max_order_volume),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -780,8 +781,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_settlement_info_confirm(
-                Box::new(settlement_info_confirm),
-                Box::new(rsp_info),
+                Arc::new(settlement_info_confirm),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -796,8 +797,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_remove_parked_order(
-                Box::new(remove_parked_order),
-                Box::new(rsp_info),
+                Arc::new(remove_parked_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -812,8 +813,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_remove_parked_order_action(
-                Box::new(remove_parked_order_action),
-                Box::new(rsp_info),
+                Arc::new(remove_parked_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -828,8 +829,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_exec_order_insert(
-                Box::new(input_exec_order),
-                Box::new(rsp_info),
+                Arc::new(input_exec_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -844,8 +845,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_exec_order_action(
-                Box::new(input_exec_order_action),
-                Box::new(rsp_info),
+                Arc::new(input_exec_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -860,8 +861,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_for_quote_insert(
-                Box::new(input_for_quote),
-                Box::new(rsp_info),
+                Arc::new(input_for_quote),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -876,8 +877,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_quote_insert(
-                Box::new(input_quote),
-                Box::new(rsp_info),
+                Arc::new(input_quote),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -892,8 +893,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_quote_action(
-                Box::new(input_quote_action),
-                Box::new(rsp_info),
+                Arc::new(input_quote_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -908,8 +909,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_batch_order_action(
-                Box::new(input_batch_order_action),
-                Box::new(rsp_info),
+                Arc::new(input_batch_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -924,8 +925,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_option_self_close_insert(
-                Box::new(input_option_self_close),
-                Box::new(rsp_info),
+                Arc::new(input_option_self_close),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -940,8 +941,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_option_self_close_action(
-                Box::new(input_option_self_close_action),
-                Box::new(rsp_info),
+                Arc::new(input_option_self_close_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -956,8 +957,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_comb_action_insert(
-                Box::new(input_comb_action),
-                Box::new(rsp_info),
+                Arc::new(input_comb_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -972,8 +973,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_order(
-                Box::new(order),
-                Box::new(rsp_info),
+                Arc::new(order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -988,8 +989,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_trade(
-                Box::new(trade),
-                Box::new(rsp_info),
+                Arc::new(trade),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1004,8 +1005,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_position(
-                Box::new(investor_position),
-                Box::new(rsp_info),
+                Arc::new(investor_position),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1020,8 +1021,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_trading_account(
-                Box::new(trading_account),
-                Box::new(rsp_info),
+                Arc::new(trading_account),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1036,8 +1037,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor(
-                Box::new(investor),
-                Box::new(rsp_info),
+                Arc::new(investor),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1052,8 +1053,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_trading_code(
-                Box::new(trading_code),
-                Box::new(rsp_info),
+                Arc::new(trading_code),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1068,8 +1069,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_instrument_margin_rate(
-                Box::new(instrument_margin_rate),
-                Box::new(rsp_info),
+                Arc::new(instrument_margin_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1084,8 +1085,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_instrument_commission_rate(
-                Box::new(instrument_commission_rate),
-                Box::new(rsp_info),
+                Arc::new(instrument_commission_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1100,8 +1101,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_user_session(
-                Box::new(user_session),
-                Box::new(rsp_info),
+                Arc::new(user_session),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1116,8 +1117,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_exchange(
-                Box::new(exchange),
-                Box::new(rsp_info),
+                Arc::new(exchange),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1132,8 +1133,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_product(
-                Box::new(product),
-                Box::new(rsp_info),
+                Arc::new(product),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1148,8 +1149,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_instrument(
-                Box::new(instrument),
-                Box::new(rsp_info),
+                Arc::new(instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1164,8 +1165,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_depth_market_data(
-                Box::new(depth_market_data),
-                Box::new(rsp_info),
+                Arc::new(depth_market_data),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1180,8 +1181,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_trader_offer(
-                Box::new(trader_offer),
-                Box::new(rsp_info),
+                Arc::new(trader_offer),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1196,8 +1197,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_settlement_info(
-                Box::new(settlement_info),
-                Box::new(rsp_info),
+                Arc::new(settlement_info),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1212,8 +1213,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_transfer_bank(
-                Box::new(transfer_bank),
-                Box::new(rsp_info),
+                Arc::new(transfer_bank),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1228,8 +1229,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_position_detail(
-                Box::new(investor_position_detail),
-                Box::new(rsp_info),
+                Arc::new(investor_position_detail),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1244,8 +1245,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_notice(
-                Box::new(notice),
-                Box::new(rsp_info),
+                Arc::new(notice),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1260,8 +1261,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_settlement_info_confirm(
-                Box::new(settlement_info_confirm),
-                Box::new(rsp_info),
+                Arc::new(settlement_info_confirm),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1276,8 +1277,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_position_combine_detail(
-                Box::new(investor_position_combine_detail),
-                Box::new(rsp_info),
+                Arc::new(investor_position_combine_detail),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1292,8 +1293,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_cfmmc_trading_account_key(
-                Box::new(cfmmc_trading_account_key),
-                Box::new(rsp_info),
+                Arc::new(cfmmc_trading_account_key),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1308,8 +1309,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_ewarrant_offset(
-                Box::new(ewarrant_offset),
-                Box::new(rsp_info),
+                Arc::new(ewarrant_offset),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1324,8 +1325,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_product_group_margin(
-                Box::new(investor_product_group_margin),
-                Box::new(rsp_info),
+                Arc::new(investor_product_group_margin),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1340,8 +1341,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_exchange_margin_rate(
-                Box::new(exchange_margin_rate),
-                Box::new(rsp_info),
+                Arc::new(exchange_margin_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1356,8 +1357,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_exchange_margin_rate_adjust(
-                Box::new(exchange_margin_rate_adjust),
-                Box::new(rsp_info),
+                Arc::new(exchange_margin_rate_adjust),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1372,8 +1373,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_exchange_rate(
-                Box::new(exchange_rate),
-                Box::new(rsp_info),
+                Arc::new(exchange_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1388,8 +1389,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_sec_agent_acid_map(
-                Box::new(sec_agent_acid_map),
-                Box::new(rsp_info),
+                Arc::new(sec_agent_acid_map),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1404,8 +1405,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_product_exch_rate(
-                Box::new(product_exch_rate),
-                Box::new(rsp_info),
+                Arc::new(product_exch_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1420,8 +1421,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_product_group(
-                Box::new(product_group),
-                Box::new(rsp_info),
+                Arc::new(product_group),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1436,8 +1437,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_mm_instrument_commission_rate(
-                Box::new(mm_instrument_commission_rate),
-                Box::new(rsp_info),
+                Arc::new(mm_instrument_commission_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1452,8 +1453,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_mm_option_instr_comm_rate(
-                Box::new(mm_option_instr_comm_rate),
-                Box::new(rsp_info),
+                Arc::new(mm_option_instr_comm_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1468,8 +1469,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_instrument_order_comm_rate(
-                Box::new(instrument_order_comm_rate),
-                Box::new(rsp_info),
+                Arc::new(instrument_order_comm_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1484,8 +1485,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_sec_agent_trading_account(
-                Box::new(trading_account),
-                Box::new(rsp_info),
+                Arc::new(trading_account),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1500,8 +1501,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_sec_agent_check_mode(
-                Box::new(sec_agent_check_mode),
-                Box::new(rsp_info),
+                Arc::new(sec_agent_check_mode),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1516,8 +1517,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_sec_agent_trade_info(
-                Box::new(sec_agent_trade_info),
-                Box::new(rsp_info),
+                Arc::new(sec_agent_trade_info),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1532,8 +1533,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_option_instr_trade_cost(
-                Box::new(option_instr_trade_cost),
-                Box::new(rsp_info),
+                Arc::new(option_instr_trade_cost),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1548,8 +1549,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_option_instr_comm_rate(
-                Box::new(option_instr_comm_rate),
-                Box::new(rsp_info),
+                Arc::new(option_instr_comm_rate),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1564,8 +1565,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_exec_order(
-                Box::new(exec_order),
-                Box::new(rsp_info),
+                Arc::new(exec_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1580,8 +1581,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_for_quote(
-                Box::new(for_quote),
-                Box::new(rsp_info),
+                Arc::new(for_quote),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1596,8 +1597,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_quote(
-                Box::new(quote),
-                Box::new(rsp_info),
+                Arc::new(quote),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1612,8 +1613,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_option_self_close(
-                Box::new(option_self_close),
-                Box::new(rsp_info),
+                Arc::new(option_self_close),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1628,8 +1629,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_invest_unit(
-                Box::new(invest_unit),
-                Box::new(rsp_info),
+                Arc::new(invest_unit),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1644,8 +1645,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_comb_instrument_guard(
-                Box::new(comb_instrument_guard),
-                Box::new(rsp_info),
+                Arc::new(comb_instrument_guard),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1660,8 +1661,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_comb_action(
-                Box::new(comb_action),
-                Box::new(rsp_info),
+                Arc::new(comb_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1676,8 +1677,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_transfer_serial(
-                Box::new(transfer_serial),
-                Box::new(rsp_info),
+                Arc::new(transfer_serial),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1692,8 +1693,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_account_register(
-                Box::new(account_register),
-                Box::new(rsp_info),
+                Arc::new(account_register),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1701,20 +1702,20 @@ impl TraderSpi {
     }
     pub fn on_rsp_error(&self, rsp_info: crate::RspInfo, request_id: i32, is_last: bool) {
         self.tx
-            .send(TraderMsg::on_rsp_error(Box::new(rsp_info), request_id, is_last))
+            .send(TraderMsg::on_rsp_error(Arc::new(rsp_info), request_id, is_last))
             .ok();
     }
     pub fn on_rtn_order(&self, order: crate::Order) {
-        self.tx.send(TraderMsg::on_rtn_order(Box::new(order))).ok();
+        self.tx.send(TraderMsg::on_rtn_order(Arc::new(order))).ok();
     }
     pub fn on_rtn_trade(&self, trade: crate::Trade) {
-        self.tx.send(TraderMsg::on_rtn_trade(Box::new(trade))).ok();
+        self.tx.send(TraderMsg::on_rtn_trade(Arc::new(trade))).ok();
     }
     pub fn on_err_rtn_order_insert(&self, input_order: crate::InputOrder, rsp_info: crate::RspInfo) {
         self.tx
             .send(TraderMsg::on_err_rtn_order_insert(
-                Box::new(input_order),
-                Box::new(rsp_info),
+                Arc::new(input_order),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1725,22 +1726,22 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_order_action(
-                Box::new(order_action),
-                Box::new(rsp_info),
+                Arc::new(order_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_instrument_status(&self, instrument_status: crate::InstrumentStatus) {
         self.tx
-            .send(TraderMsg::on_rtn_instrument_status(Box::new(instrument_status)))
+            .send(TraderMsg::on_rtn_instrument_status(Arc::new(instrument_status)))
             .ok();
     }
     pub fn on_rtn_bulletin(&self, bulletin: crate::Bulletin) {
-        self.tx.send(TraderMsg::on_rtn_bulletin(Box::new(bulletin))).ok();
+        self.tx.send(TraderMsg::on_rtn_bulletin(Arc::new(bulletin))).ok();
     }
     pub fn on_rtn_trading_notice(&self, trading_notice_info: crate::TradingNoticeInfo) {
         self.tx
-            .send(TraderMsg::on_rtn_trading_notice(Box::new(trading_notice_info)))
+            .send(TraderMsg::on_rtn_trading_notice(Arc::new(trading_notice_info)))
             .ok();
     }
     pub fn on_rtn_error_conditional_order(
@@ -1748,14 +1749,14 @@ impl TraderSpi {
         error_conditional_order: crate::ErrorConditionalOrder,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_error_conditional_order(Box::new(
+            .send(TraderMsg::on_rtn_error_conditional_order(Arc::new(
                 error_conditional_order,
             )))
             .ok();
     }
     pub fn on_rtn_exec_order(&self, exec_order: crate::ExecOrder) {
         self.tx
-            .send(TraderMsg::on_rtn_exec_order(Box::new(exec_order)))
+            .send(TraderMsg::on_rtn_exec_order(Arc::new(exec_order)))
             .ok();
     }
     pub fn on_err_rtn_exec_order_insert(
@@ -1765,8 +1766,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_exec_order_insert(
-                Box::new(input_exec_order),
-                Box::new(rsp_info),
+                Arc::new(input_exec_order),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1777,8 +1778,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_exec_order_action(
-                Box::new(exec_order_action),
-                Box::new(rsp_info),
+                Arc::new(exec_order_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1789,19 +1790,19 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_for_quote_insert(
-                Box::new(input_for_quote),
-                Box::new(rsp_info),
+                Arc::new(input_for_quote),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_quote(&self, quote: crate::Quote) {
-        self.tx.send(TraderMsg::on_rtn_quote(Box::new(quote))).ok();
+        self.tx.send(TraderMsg::on_rtn_quote(Arc::new(quote))).ok();
     }
     pub fn on_err_rtn_quote_insert(&self, input_quote: crate::InputQuote, rsp_info: crate::RspInfo) {
         self.tx
             .send(TraderMsg::on_err_rtn_quote_insert(
-                Box::new(input_quote),
-                Box::new(rsp_info),
+                Arc::new(input_quote),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1812,14 +1813,14 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_quote_action(
-                Box::new(quote_action),
-                Box::new(rsp_info),
+                Arc::new(quote_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: crate::ForQuoteRsp) {
         self.tx
-            .send(TraderMsg::on_rtn_for_quote_rsp(Box::new(for_quote_rsp)))
+            .send(TraderMsg::on_rtn_for_quote_rsp(Arc::new(for_quote_rsp)))
             .ok();
     }
     pub fn on_rtn_cfmmc_trading_account_token(
@@ -1827,7 +1828,7 @@ impl TraderSpi {
         cfmmc_trading_account_token: crate::CFMMCTradingAccountToken,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_cfmmc_trading_account_token(Box::new(
+            .send(TraderMsg::on_rtn_cfmmc_trading_account_token(Arc::new(
                 cfmmc_trading_account_token,
             )))
             .ok();
@@ -1839,14 +1840,14 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_batch_order_action(
-                Box::new(batch_order_action),
-                Box::new(rsp_info),
+                Arc::new(batch_order_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_option_self_close(&self, option_self_close: crate::OptionSelfClose) {
         self.tx
-            .send(TraderMsg::on_rtn_option_self_close(Box::new(option_self_close)))
+            .send(TraderMsg::on_rtn_option_self_close(Arc::new(option_self_close)))
             .ok();
     }
     pub fn on_err_rtn_option_self_close_insert(
@@ -1856,8 +1857,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_option_self_close_insert(
-                Box::new(input_option_self_close),
-                Box::new(rsp_info),
+                Arc::new(input_option_self_close),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1868,14 +1869,14 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_option_self_close_action(
-                Box::new(option_self_close_action),
-                Box::new(rsp_info),
+                Arc::new(option_self_close_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_comb_action(&self, comb_action: crate::CombAction) {
         self.tx
-            .send(TraderMsg::on_rtn_comb_action(Box::new(comb_action)))
+            .send(TraderMsg::on_rtn_comb_action(Arc::new(comb_action)))
             .ok();
     }
     pub fn on_err_rtn_comb_action_insert(
@@ -1885,8 +1886,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_comb_action_insert(
-                Box::new(input_comb_action),
-                Box::new(rsp_info),
+                Arc::new(input_comb_action),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -1899,8 +1900,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_contract_bank(
-                Box::new(contract_bank),
-                Box::new(rsp_info),
+                Arc::new(contract_bank),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1915,8 +1916,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_parked_order(
-                Box::new(parked_order),
-                Box::new(rsp_info),
+                Arc::new(parked_order),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1931,8 +1932,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_parked_order_action(
-                Box::new(parked_order_action),
-                Box::new(rsp_info),
+                Arc::new(parked_order_action),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1947,8 +1948,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_trading_notice(
-                Box::new(trading_notice),
-                Box::new(rsp_info),
+                Arc::new(trading_notice),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1963,8 +1964,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_broker_trading_params(
-                Box::new(broker_trading_params),
-                Box::new(rsp_info),
+                Arc::new(broker_trading_params),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1979,8 +1980,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_broker_trading_algos(
-                Box::new(broker_trading_algos),
-                Box::new(rsp_info),
+                Arc::new(broker_trading_algos),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -1995,8 +1996,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_query_cfmmc_trading_account_token(
-                Box::new(query_cfmmc_trading_account_token),
-                Box::new(rsp_info),
+                Arc::new(query_cfmmc_trading_account_token),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2004,42 +2005,42 @@ impl TraderSpi {
     }
     pub fn on_rtn_from_bank_to_future_by_bank(&self, rsp_transfer: crate::RspTransfer) {
         self.tx
-            .send(TraderMsg::on_rtn_from_bank_to_future_by_bank(Box::new(
+            .send(TraderMsg::on_rtn_from_bank_to_future_by_bank(Arc::new(
                 rsp_transfer,
             )))
             .ok();
     }
     pub fn on_rtn_from_future_to_bank_by_bank(&self, rsp_transfer: crate::RspTransfer) {
         self.tx
-            .send(TraderMsg::on_rtn_from_future_to_bank_by_bank(Box::new(
+            .send(TraderMsg::on_rtn_from_future_to_bank_by_bank(Arc::new(
                 rsp_transfer,
             )))
             .ok();
     }
     pub fn on_rtn_repeal_from_bank_to_future_by_bank(&self, rsp_repeal: crate::RspRepeal) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_bank(Box::new(
+            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_bank(Arc::new(
                 rsp_repeal,
             )))
             .ok();
     }
     pub fn on_rtn_repeal_from_future_to_bank_by_bank(&self, rsp_repeal: crate::RspRepeal) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_bank(Box::new(
+            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_bank(Arc::new(
                 rsp_repeal,
             )))
             .ok();
     }
     pub fn on_rtn_from_bank_to_future_by_future(&self, rsp_transfer: crate::RspTransfer) {
         self.tx
-            .send(TraderMsg::on_rtn_from_bank_to_future_by_future(Box::new(
+            .send(TraderMsg::on_rtn_from_bank_to_future_by_future(Arc::new(
                 rsp_transfer,
             )))
             .ok();
     }
     pub fn on_rtn_from_future_to_bank_by_future(&self, rsp_transfer: crate::RspTransfer) {
         self.tx
-            .send(TraderMsg::on_rtn_from_future_to_bank_by_future(Box::new(
+            .send(TraderMsg::on_rtn_from_future_to_bank_by_future(Arc::new(
                 rsp_transfer,
             )))
             .ok();
@@ -2050,7 +2051,7 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future_manual(
-                Box::new(rsp_repeal),
+                Arc::new(rsp_repeal),
             ))
             .ok();
     }
@@ -2060,7 +2061,7 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future_manual(
-                Box::new(rsp_repeal),
+                Arc::new(rsp_repeal),
             ))
             .ok();
     }
@@ -2069,7 +2070,7 @@ impl TraderSpi {
         notify_query_account: crate::NotifyQueryAccount,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_query_bank_balance_by_future(Box::new(
+            .send(TraderMsg::on_rtn_query_bank_balance_by_future(Arc::new(
                 notify_query_account,
             )))
             .ok();
@@ -2081,8 +2082,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_bank_to_future_by_future(
-                Box::new(req_transfer),
-                Box::new(rsp_info),
+                Arc::new(req_transfer),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2093,8 +2094,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_future_to_bank_by_future(
-                Box::new(req_transfer),
-                Box::new(rsp_info),
+                Arc::new(req_transfer),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2105,8 +2106,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_repeal_bank_to_future_by_future_manual(
-                Box::new(req_repeal),
-                Box::new(rsp_info),
+                Arc::new(req_repeal),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2117,8 +2118,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_repeal_future_to_bank_by_future_manual(
-                Box::new(req_repeal),
-                Box::new(rsp_info),
+                Arc::new(req_repeal),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2129,21 +2130,21 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_query_bank_balance_by_future(
-                Box::new(req_query_account),
-                Box::new(rsp_info),
+                Arc::new(req_query_account),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
     pub fn on_rtn_repeal_from_bank_to_future_by_future(&self, rsp_repeal: crate::RspRepeal) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future(Box::new(
+            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future(Arc::new(
                 rsp_repeal,
             )))
             .ok();
     }
     pub fn on_rtn_repeal_from_future_to_bank_by_future(&self, rsp_repeal: crate::RspRepeal) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future(Box::new(
+            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future(Arc::new(
                 rsp_repeal,
             )))
             .ok();
@@ -2157,8 +2158,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_from_bank_to_future_by_future(
-                Box::new(req_transfer),
-                Box::new(rsp_info),
+                Arc::new(req_transfer),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2173,8 +2174,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_from_future_to_bank_by_future(
-                Box::new(req_transfer),
-                Box::new(rsp_info),
+                Arc::new(req_transfer),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2189,8 +2190,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_query_bank_account_money_by_future(
-                Box::new(req_query_account),
-                Box::new(rsp_info),
+                Arc::new(req_query_account),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2198,17 +2199,17 @@ impl TraderSpi {
     }
     pub fn on_rtn_open_account_by_bank(&self, open_account: crate::OpenAccount) {
         self.tx
-            .send(TraderMsg::on_rtn_open_account_by_bank(Box::new(open_account)))
+            .send(TraderMsg::on_rtn_open_account_by_bank(Arc::new(open_account)))
             .ok();
     }
     pub fn on_rtn_cancel_account_by_bank(&self, cancel_account: crate::CancelAccount) {
         self.tx
-            .send(TraderMsg::on_rtn_cancel_account_by_bank(Box::new(cancel_account)))
+            .send(TraderMsg::on_rtn_cancel_account_by_bank(Arc::new(cancel_account)))
             .ok();
     }
     pub fn on_rtn_change_account_by_bank(&self, change_account: crate::ChangeAccount) {
         self.tx
-            .send(TraderMsg::on_rtn_change_account_by_bank(Box::new(change_account)))
+            .send(TraderMsg::on_rtn_change_account_by_bank(Arc::new(change_account)))
             .ok();
     }
     pub fn on_rsp_qry_classified_instrument(
@@ -2220,8 +2221,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_classified_instrument(
-                Box::new(instrument),
-                Box::new(rsp_info),
+                Arc::new(instrument),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2236,8 +2237,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_comb_promotion_param(
-                Box::new(comb_promotion_param),
-                Box::new(rsp_info),
+                Arc::new(comb_promotion_param),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2252,8 +2253,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_risk_settle_invest_position(
-                Box::new(risk_settle_invest_position),
-                Box::new(rsp_info),
+                Arc::new(risk_settle_invest_position),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2268,8 +2269,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_risk_settle_product_status(
-                Box::new(risk_settle_product_status),
-                Box::new(rsp_info),
+                Arc::new(risk_settle_product_status),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2284,8 +2285,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_future_parameter(
-                Box::new(spbm_future_parameter),
-                Box::new(rsp_info),
+                Arc::new(spbm_future_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2300,8 +2301,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_option_parameter(
-                Box::new(spbm_option_parameter),
-                Box::new(rsp_info),
+                Arc::new(spbm_option_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2316,8 +2317,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_intra_parameter(
-                Box::new(spbm_intra_parameter),
-                Box::new(rsp_info),
+                Arc::new(spbm_intra_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2332,8 +2333,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_inter_parameter(
-                Box::new(spbm_inter_parameter),
-                Box::new(rsp_info),
+                Arc::new(spbm_inter_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2348,8 +2349,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_portf_definition(
-                Box::new(spbm_portf_definition),
-                Box::new(rsp_info),
+                Arc::new(spbm_portf_definition),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2364,8 +2365,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_investor_portf_def(
-                Box::new(spbm_investor_portf_def),
-                Box::new(rsp_info),
+                Arc::new(spbm_investor_portf_def),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2380,8 +2381,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_portf_margin_ratio(
-                Box::new(investor_portf_margin_ratio),
-                Box::new(rsp_info),
+                Arc::new(investor_portf_margin_ratio),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2396,8 +2397,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_prod_spbm_detail(
-                Box::new(investor_prod_spbm_detail),
-                Box::new(rsp_info),
+                Arc::new(investor_prod_spbm_detail),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2412,8 +2413,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_commodity_spmm_margin(
-                Box::new(investor_commodity_spmm_margin),
-                Box::new(rsp_info),
+                Arc::new(investor_commodity_spmm_margin),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2428,8 +2429,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_commodity_group_spmm_margin(
-                Box::new(investor_commodity_group_spmm_margin),
-                Box::new(rsp_info),
+                Arc::new(investor_commodity_group_spmm_margin),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2444,8 +2445,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spmm_inst_param(
-                Box::new(spmm_inst_param),
-                Box::new(rsp_info),
+                Arc::new(spmm_inst_param),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2460,8 +2461,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spmm_product_param(
-                Box::new(spmm_product_param),
-                Box::new(rsp_info),
+                Arc::new(spmm_product_param),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2476,8 +2477,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_spbm_add_on_inter_parameter(
-                Box::new(spbm_add_on_inter_parameter),
-                Box::new(rsp_info),
+                Arc::new(spbm_add_on_inter_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2492,8 +2493,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_comb_product_info(
-                Box::new(rcams_comb_product_info),
-                Box::new(rsp_info),
+                Arc::new(rcams_comb_product_info),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2508,8 +2509,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_instr_parameter(
-                Box::new(rcams_instr_parameter),
-                Box::new(rsp_info),
+                Arc::new(rcams_instr_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2524,8 +2525,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_intra_parameter(
-                Box::new(rcams_intra_parameter),
-                Box::new(rsp_info),
+                Arc::new(rcams_intra_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2540,8 +2541,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_inter_parameter(
-                Box::new(rcams_inter_parameter),
-                Box::new(rsp_info),
+                Arc::new(rcams_inter_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2556,8 +2557,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_short_opt_adjust_param(
-                Box::new(rcams_short_opt_adjust_param),
-                Box::new(rsp_info),
+                Arc::new(rcams_short_opt_adjust_param),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2572,8 +2573,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rcams_investor_comb_position(
-                Box::new(rcams_investor_comb_position),
-                Box::new(rsp_info),
+                Arc::new(rcams_investor_comb_position),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2588,8 +2589,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_prod_rcams_margin(
-                Box::new(investor_prod_rcams_margin),
-                Box::new(rsp_info),
+                Arc::new(investor_prod_rcams_margin),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2604,8 +2605,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rule_instr_parameter(
-                Box::new(rule_instr_parameter),
-                Box::new(rsp_info),
+                Arc::new(rule_instr_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2620,8 +2621,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rule_intra_parameter(
-                Box::new(rule_intra_parameter),
-                Box::new(rsp_info),
+                Arc::new(rule_intra_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2636,8 +2637,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_rule_inter_parameter(
-                Box::new(rule_inter_parameter),
-                Box::new(rsp_info),
+                Arc::new(rule_inter_parameter),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2652,8 +2653,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_prod_rule_margin(
-                Box::new(investor_prod_rule_margin),
-                Box::new(rsp_info),
+                Arc::new(investor_prod_rule_margin),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2668,8 +2669,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_portf_setting(
-                Box::new(investor_portf_setting),
-                Box::new(rsp_info),
+                Arc::new(investor_portf_setting),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2684,8 +2685,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_investor_info_comm_rec(
-                Box::new(investor_info_comm_rec),
-                Box::new(rsp_info),
+                Arc::new(investor_info_comm_rec),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2700,8 +2701,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_comb_leg(
-                Box::new(comb_leg),
-                Box::new(rsp_info),
+                Arc::new(comb_leg),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2716,8 +2717,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_offset_setting(
-                Box::new(input_offset_setting),
-                Box::new(rsp_info),
+                Arc::new(input_offset_setting),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2732,8 +2733,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_cancel_offset_setting(
-                Box::new(input_offset_setting),
-                Box::new(rsp_info),
+                Arc::new(input_offset_setting),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))
@@ -2741,7 +2742,7 @@ impl TraderSpi {
     }
     pub fn on_rtn_offset_setting(&self, offset_setting: crate::OffsetSetting) {
         self.tx
-            .send(TraderMsg::on_rtn_offset_setting(Box::new(offset_setting)))
+            .send(TraderMsg::on_rtn_offset_setting(Arc::new(offset_setting)))
             .ok();
     }
     pub fn on_err_rtn_offset_setting(
@@ -2751,8 +2752,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_offset_setting(
-                Box::new(input_offset_setting),
-                Box::new(rsp_info),
+                Arc::new(input_offset_setting),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2763,8 +2764,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_err_rtn_cancel_offset_setting(
-                Box::new(cancel_offset_setting),
-                Box::new(rsp_info),
+                Arc::new(cancel_offset_setting),
+                Arc::new(rsp_info),
             ))
             .ok();
     }
@@ -2777,8 +2778,8 @@ impl TraderSpi {
     ) {
         self.tx
             .send(TraderMsg::on_rsp_qry_offset_setting(
-                Box::new(offset_setting),
-                Box::new(rsp_info),
+                Arc::new(offset_setting),
+                Arc::new(rsp_info),
                 request_id,
                 is_last,
             ))

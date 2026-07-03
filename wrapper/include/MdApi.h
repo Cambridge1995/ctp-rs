@@ -527,9 +527,9 @@ struct MdApi {
     void register_name_server(rust::String ns_address) const;
     void register_fens_user_info(FensUserInfo fens_user_info) const;
     int32_t subscribe_market_data(rust::Vec<rust::String> instrument_ids) const;
-    int32_t un_subscribe_market_data(rust::Vec<rust::String> instrument_ids) const;
+    int32_t unsubscribe_market_data(rust::Vec<rust::String> instrument_ids) const;
     int32_t subscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const;
-    int32_t un_subscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const;
+    int32_t unsubscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const;
     int32_t req_user_login(ReqUserLogin req_user_login, int32_t request_id) const;
     int32_t req_user_logout(UserLogout user_logout, int32_t request_id) const;
     int32_t req_qry_multicast_instrument(QryMulticastInstrument qry_multicast_instrument, int32_t request_id) const;
