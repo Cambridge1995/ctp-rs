@@ -2,7 +2,7 @@ use ctp_rs::{
     QryInstrument, ReqAuthenticate, ReqUserLogin, ResumeType, TraderApi,
     TraderMsg,
 };
-use std::sync::{Arc, mpsc::channel};
+use std::sync::Arc;
 
 const BROKER_ID: &str = "9999";
 const USER_ID: &str = "251795";
@@ -13,7 +13,7 @@ const FRONT_ADDR: &str = "tcp://182.254.243.31:40001";
 const FLOW_PATH: &str = "flow/trader/";
 
 fn main() {
-    let (tx, rx) = channel();
+    let (tx, rx) = kanal::unbounded();
     let api = Arc::new(TraderApi::create_trader_api_and_spi(
         tx,
         FLOW_PATH.to_string(),

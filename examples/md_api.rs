@@ -1,5 +1,5 @@
 use ctp_rs::{MdApi, MdMsg, ReqUserLogin};
-use std::sync::{Arc, mpsc::channel};
+use std::sync::Arc;
 
 // 模拟环境地址列表见：http://www.openctp.cn/simenv.html
 const FRONT_ADDR: &str = "tcp://182.254.243.31:40011";
@@ -7,7 +7,7 @@ const FLOW_PATH: &str = "flow/md/";
 const INSTRUMENTS: &[&str] = &["ag2608", "pp2609"];
 
 fn main() {
-    let (tx, rx) = channel();
+    let (tx, rx) = kanal::unbounded();
     let api = Arc::new(MdApi::create_md_api_and_spi(
         tx,
         FLOW_PATH.to_string(),
