@@ -79,38 +79,38 @@ void MdApi::register_fens_user_info(FensUserInfo fens_user_info) const {
 }
 
 int32_t MdApi::subscribe_market_data(rust::Vec<rust::String> instrument_ids) const {
-    char **instrument_ids_raw = new char *[instrument_ids.size()];
+    char **instrument_id_raws = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
-        instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();
-    int ret = api->SubscribeMarketData(instrument_ids_raw, instrument_ids.size());
-    delete[] instrument_ids_raw;
+        instrument_id_raws[i] = (char *)instrument_ids[i].c_str();
+    int ret = api->SubscribeMarketData(instrument_id_raws, instrument_ids.size());
+    delete[] instrument_id_raws;
     return ret;
 }
 
 int32_t MdApi::unsubscribe_market_data(rust::Vec<rust::String> instrument_ids) const {
-    char **instrument_ids_raw = new char *[instrument_ids.size()];
+    char **instrument_id_raws = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
-        instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();
-    int ret = api->UnSubscribeMarketData(instrument_ids_raw, instrument_ids.size());
-    delete[] instrument_ids_raw;
+        instrument_id_raws[i] = (char *)instrument_ids[i].c_str();
+    int ret = api->UnSubscribeMarketData(instrument_id_raws, instrument_ids.size());
+    delete[] instrument_id_raws;
     return ret;
 }
 
 int32_t MdApi::subscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const {
-    char **instrument_ids_raw = new char *[instrument_ids.size()];
+    char **instrument_id_raws = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
-        instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();
-    int ret = api->SubscribeForQuoteRsp(instrument_ids_raw, instrument_ids.size());
-    delete[] instrument_ids_raw;
+        instrument_id_raws[i] = (char *)instrument_ids[i].c_str();
+    int ret = api->SubscribeForQuoteRsp(instrument_id_raws, instrument_ids.size());
+    delete[] instrument_id_raws;
     return ret;
 }
 
 int32_t MdApi::unsubscribe_for_quote_rsp(rust::Vec<rust::String> instrument_ids) const {
-    char **instrument_ids_raw = new char *[instrument_ids.size()];
+    char **instrument_id_raws = new char *[instrument_ids.size()];
     for (int i = 0; i < instrument_ids.size(); i++)
-        instrument_ids_raw[i] = (char *)instrument_ids[i].c_str();
-    int ret = api->UnSubscribeForQuoteRsp(instrument_ids_raw, instrument_ids.size());
-    delete[] instrument_ids_raw;
+        instrument_id_raws[i] = (char *)instrument_ids[i].c_str();
+    int ret = api->UnSubscribeForQuoteRsp(instrument_id_raws, instrument_ids.size());
+    delete[] instrument_id_raws;
     return ret;
 }
 

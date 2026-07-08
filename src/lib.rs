@@ -12,9 +12,6 @@
 //! 通过 [`TraderApi::create_trader_api_and_spi`] 创建实例，传入一个
 //! [`Sender`] 用于接收 [`TraderMsg`] 回调消息。
 
-
-
-
 pub use ffi::*;
 mod enums;
 pub use enums::*;
@@ -31,18 +28,18 @@ mod ffi {
         type MdSpi;
 
         pub fn on_front_connected(&self);
-        pub fn on_front_disconnected(&self, reason:  i32);
-        pub fn on_heart_beat_warning(&self, time_lapse:  i32);
-        pub fn on_rsp_user_login(&self, rsp_user_login:  RspUserLogin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_user_logout(&self, user_logout:  UserLogout, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_multicast_instrument(&self, multicast_instrument:  MulticastInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_error(&self, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_sub_market_data(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_unsub_market_data(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_sub_for_quote_rsp(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_unsub_for_quote_rsp(&self, specific_instrument:  SpecificInstrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rtn_depth_market_data(&self, depth_market_data:  DepthMarketData);
-        pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp:  ForQuoteRsp);
+        pub fn on_front_disconnected(&self, reason: i32);
+        pub fn on_heart_beat_warning(&self, time_lapse: i32);
+        pub fn on_rsp_user_login(&self, rsp_user_login: RspUserLogin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_user_logout(&self, user_logout: UserLogout, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_multicast_instrument(&self, multicast_instrument: MulticastInstrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_error(&self, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_sub_market_data(&self, specific_instrument: SpecificInstrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_unsub_market_data(&self, specific_instrument: SpecificInstrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_sub_for_quote_rsp(&self, specific_instrument: SpecificInstrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_unsub_for_quote_rsp(&self, specific_instrument: SpecificInstrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rtn_depth_market_data(&self, depth_market_data: DepthMarketData);
+        pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: ForQuoteRsp);
     }
 
     unsafe extern "C++" {
@@ -82,7 +79,7 @@ mod ffi {
         /// # Remarks
         /// 网络地址的格式为：“protocol://ip_address:port”，如：”tcp://127.0.0.1:17001”。
         /// “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”17001”代表服务器端口号。
-        fn register_front(&self, front_address:  String);
+        fn register_front(&self, front_address: String);
         /// 注册名字服务器网络地址
         ///
         /// # Parameters
@@ -92,211 +89,211 @@ mod ffi {
         /// 网络地址的格式为：“protocol://ip_address:port”，如：”tcp://127.0.0.1:12001”。
         /// “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”12001”代表服务器端口号。
         /// RegisterNameServer优先于RegisterFront
-        fn register_name_server(&self, ns_address:  String);
+        fn register_name_server(&self, ns_address: String);
         /// 注册名字服务器用户信息
         ///
         /// # Parameters
         /// - `pFensUserInfo` — 用户信息。
-        fn register_fens_user_info(&self, fens_user_info:  FensUserInfo);
+        fn register_fens_user_info(&self, fens_user_info: FensUserInfo);
         /// 订阅行情。
         ///
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn subscribe_market_data(&self, instrument_ids:  Vec<String>)-> i32;
+        fn subscribe_market_data(&self, instrument_ids: Vec<String>)-> i32;
         /// 退订行情。
         ///
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn unsubscribe_market_data(&self, instrument_ids:  Vec<String>)-> i32;
+        fn unsubscribe_market_data(&self, instrument_ids: Vec<String>)-> i32;
         /// 订阅询价。
         ///
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn subscribe_for_quote_rsp(&self, instrument_ids:  Vec<String>)-> i32;
+        fn subscribe_for_quote_rsp(&self, instrument_ids: Vec<String>)-> i32;
         /// 退订询价。
         ///
         /// # Parameters
         /// - `ppInstrumentID` — 合约ID
         /// - `nCount` — 要订阅/退订行情的合约个数
-        fn unsubscribe_for_quote_rsp(&self, instrument_ids:  Vec<String>)-> i32;
+        fn unsubscribe_for_quote_rsp(&self, instrument_ids: Vec<String>)-> i32;
         /// 用户登录请求
-        fn req_user_login(&self, req_user_login:  ReqUserLogin, request_id:  i32)-> i32;
+        fn req_user_login(&self, req_user_login: ReqUserLogin, request_id: i32)-> i32;
         /// 登出请求
-        fn req_user_logout(&self, user_logout:  UserLogout, request_id:  i32)-> i32;
+        fn req_user_logout(&self, user_logout: UserLogout, request_id: i32)-> i32;
         /// 请求查询组播合约
-        fn req_qry_multicast_instrument(&self, qry_multicast_instrument:  QryMulticastInstrument, request_id:  i32)-> i32;
+        fn req_qry_multicast_instrument(&self, qry_multicast_instrument: QryMulticastInstrument, request_id: i32)-> i32;
     }
 
     extern "Rust" {
         type TraderSpi;
 
         pub fn on_front_connected(&self);
-        pub fn on_front_disconnected(&self, reason:  i32);
-        pub fn on_heart_beat_warning(&self, time_lapse:  i32);
-        pub fn on_rsp_authenticate(&self, rsp_authenticate:  RspAuthenticate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_user_login(&self, rsp_user_login:  RspUserLogin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_user_logout(&self, user_logout:  UserLogout, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_user_password_update(&self, user_password_update:  UserPasswordUpdate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_trading_account_password_update(&self, trading_account_password_update:  TradingAccountPasswordUpdate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_user_auth_method(&self, rsp_user_auth_method:  RspUserAuthMethod, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_gen_user_captcha(&self, rsp_gen_user_captcha:  RspGenUserCaptcha, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_gen_user_text(&self, rsp_gen_user_text:  RspGenUserText, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_order_insert(&self, input_order:  InputOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_parked_order_insert(&self, parked_order:  ParkedOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_parked_order_action(&self, parked_order_action:  ParkedOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_order_action(&self, input_order_action:  InputOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_max_order_volume(&self, qry_max_order_volume:  QryMaxOrderVolume, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_settlement_info_confirm(&self, settlement_info_confirm:  SettlementInfoConfirm, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_remove_parked_order(&self, remove_parked_order:  RemoveParkedOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_remove_parked_order_action(&self, remove_parked_order_action:  RemoveParkedOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_exec_order_insert(&self, input_exec_order:  InputExecOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_exec_order_action(&self, input_exec_order_action:  InputExecOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_for_quote_insert(&self, input_for_quote:  InputForQuote, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_quote_insert(&self, input_quote:  InputQuote, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_quote_action(&self, input_quote_action:  InputQuoteAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_batch_order_action(&self, input_batch_order_action:  InputBatchOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_option_self_close_insert(&self, input_option_self_close:  InputOptionSelfClose, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_option_self_close_action(&self, input_option_self_close_action:  InputOptionSelfCloseAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_comb_action_insert(&self, input_comb_action:  InputCombAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_order(&self, order:  Order, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_trade(&self, trade:  Trade, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_position(&self, investor_position:  InvestorPosition, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_trading_account(&self, trading_account:  TradingAccount, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor(&self, investor:  Investor, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_trading_code(&self, trading_code:  TradingCode, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_instrument_margin_rate(&self, instrument_margin_rate:  InstrumentMarginRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_instrument_commission_rate(&self, instrument_commission_rate:  InstrumentCommissionRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_user_session(&self, user_session:  UserSession, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_exchange(&self, exchange:  Exchange, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_product(&self, product:  Product, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_instrument(&self, instrument:  Instrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_depth_market_data(&self, depth_market_data:  DepthMarketData, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_trader_offer(&self, trader_offer:  TraderOffer, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_settlement_info(&self, settlement_info:  SettlementInfo, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_transfer_bank(&self, transfer_bank:  TransferBank, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_position_detail(&self, investor_position_detail:  InvestorPositionDetail, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_notice(&self, notice:  Notice, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_settlement_info_confirm(&self, settlement_info_confirm:  SettlementInfoConfirm, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_position_combine_detail(&self, investor_position_combine_detail:  InvestorPositionCombineDetail, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_cfmmc_trading_account_key(&self, cfmmc_trading_account_key:  CFMMCTradingAccountKey, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_ewarrant_offset(&self, ewarrant_offset:  EWarrantOffset, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_product_group_margin(&self, investor_product_group_margin:  InvestorProductGroupMargin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_exchange_margin_rate(&self, exchange_margin_rate:  ExchangeMarginRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_exchange_margin_rate_adjust(&self, exchange_margin_rate_adjust:  ExchangeMarginRateAdjust, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_exchange_rate(&self, exchange_rate:  ExchangeRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_sec_agent_acid_map(&self, sec_agent_acid_map:  SecAgentACIDMap, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_product_exch_rate(&self, product_exch_rate:  ProductExchRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_product_group(&self, product_group:  ProductGroup, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_mm_instrument_commission_rate(&self, mm_instrument_commission_rate:  MMInstrumentCommissionRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_mm_option_instr_comm_rate(&self, mm_option_instr_comm_rate:  MMOptionInstrCommRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_instrument_order_comm_rate(&self, instrument_order_comm_rate:  InstrumentOrderCommRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_sec_agent_trading_account(&self, trading_account:  TradingAccount, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_sec_agent_check_mode(&self, sec_agent_check_mode:  SecAgentCheckMode, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_sec_agent_trade_info(&self, sec_agent_trade_info:  SecAgentTradeInfo, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_option_instr_trade_cost(&self, option_instr_trade_cost:  OptionInstrTradeCost, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_option_instr_comm_rate(&self, option_instr_comm_rate:  OptionInstrCommRate, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_exec_order(&self, exec_order:  ExecOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_for_quote(&self, for_quote:  ForQuote, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_quote(&self, quote:  Quote, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_option_self_close(&self, option_self_close:  OptionSelfClose, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_invest_unit(&self, invest_unit:  InvestUnit, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_comb_instrument_guard(&self, comb_instrument_guard:  CombInstrumentGuard, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_comb_action(&self, comb_action:  CombAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_transfer_serial(&self, transfer_serial:  TransferSerial, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_account_register(&self, account_register:  AccountRegister, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_error(&self, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rtn_order(&self, order:  Order);
-        pub fn on_rtn_trade(&self, trade:  Trade);
-        pub fn on_err_rtn_order_insert(&self, input_order:  InputOrder, rsp_info:  RspInfo);
-        pub fn on_err_rtn_order_action(&self, order_action:  OrderAction, rsp_info:  RspInfo);
-        pub fn on_rtn_instrument_status(&self, instrument_status:  InstrumentStatus);
-        pub fn on_rtn_bulletin(&self, bulletin:  Bulletin);
-        pub fn on_rtn_trading_notice(&self, trading_notice_info:  TradingNoticeInfo);
-        pub fn on_rtn_error_conditional_order(&self, error_conditional_order:  ErrorConditionalOrder);
-        pub fn on_rtn_exec_order(&self, exec_order:  ExecOrder);
-        pub fn on_err_rtn_exec_order_insert(&self, input_exec_order:  InputExecOrder, rsp_info:  RspInfo);
-        pub fn on_err_rtn_exec_order_action(&self, exec_order_action:  ExecOrderAction, rsp_info:  RspInfo);
-        pub fn on_err_rtn_for_quote_insert(&self, input_for_quote:  InputForQuote, rsp_info:  RspInfo);
-        pub fn on_rtn_quote(&self, quote:  Quote);
-        pub fn on_err_rtn_quote_insert(&self, input_quote:  InputQuote, rsp_info:  RspInfo);
-        pub fn on_err_rtn_quote_action(&self, quote_action:  QuoteAction, rsp_info:  RspInfo);
-        pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp:  ForQuoteRsp);
-        pub fn on_rtn_cfmmc_trading_account_token(&self, cfmmc_trading_account_token:  CFMMCTradingAccountToken);
-        pub fn on_err_rtn_batch_order_action(&self, batch_order_action:  BatchOrderAction, rsp_info:  RspInfo);
-        pub fn on_rtn_option_self_close(&self, option_self_close:  OptionSelfClose);
-        pub fn on_err_rtn_option_self_close_insert(&self, input_option_self_close:  InputOptionSelfClose, rsp_info:  RspInfo);
-        pub fn on_err_rtn_option_self_close_action(&self, option_self_close_action:  OptionSelfCloseAction, rsp_info:  RspInfo);
-        pub fn on_rtn_comb_action(&self, comb_action:  CombAction);
-        pub fn on_err_rtn_comb_action_insert(&self, input_comb_action:  InputCombAction, rsp_info:  RspInfo);
-        pub fn on_rsp_qry_contract_bank(&self, contract_bank:  ContractBank, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_parked_order(&self, parked_order:  ParkedOrder, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_parked_order_action(&self, parked_order_action:  ParkedOrderAction, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_trading_notice(&self, trading_notice:  TradingNotice, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_broker_trading_params(&self, broker_trading_params:  BrokerTradingParams, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_broker_trading_algos(&self, broker_trading_algos:  BrokerTradingAlgos, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_query_cfmmc_trading_account_token(&self, query_cfmmc_trading_account_token:  QueryCFMMCTradingAccountToken, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rtn_from_bank_to_future_by_bank(&self, rsp_transfer:  RspTransfer);
-        pub fn on_rtn_from_future_to_bank_by_bank(&self, rsp_transfer:  RspTransfer);
-        pub fn on_rtn_repeal_from_bank_to_future_by_bank(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rtn_repeal_from_future_to_bank_by_bank(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rtn_from_bank_to_future_by_future(&self, rsp_transfer:  RspTransfer);
-        pub fn on_rtn_from_future_to_bank_by_future(&self, rsp_transfer:  RspTransfer);
-        pub fn on_rtn_repeal_from_bank_to_future_by_future_manual(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rtn_repeal_from_future_to_bank_by_future_manual(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rtn_query_bank_balance_by_future(&self, notify_query_account:  NotifyQueryAccount);
-        pub fn on_err_rtn_bank_to_future_by_future(&self, req_transfer:  ReqTransfer, rsp_info:  RspInfo);
-        pub fn on_err_rtn_future_to_bank_by_future(&self, req_transfer:  ReqTransfer, rsp_info:  RspInfo);
-        pub fn on_err_rtn_repeal_bank_to_future_by_future_manual(&self, req_repeal:  ReqRepeal, rsp_info:  RspInfo);
-        pub fn on_err_rtn_repeal_future_to_bank_by_future_manual(&self, req_repeal:  ReqRepeal, rsp_info:  RspInfo);
-        pub fn on_err_rtn_query_bank_balance_by_future(&self, req_query_account:  ReqQueryAccount, rsp_info:  RspInfo);
-        pub fn on_rtn_repeal_from_bank_to_future_by_future(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rtn_repeal_from_future_to_bank_by_future(&self, rsp_repeal:  RspRepeal);
-        pub fn on_rsp_from_bank_to_future_by_future(&self, req_transfer:  ReqTransfer, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_from_future_to_bank_by_future(&self, req_transfer:  ReqTransfer, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_query_bank_account_money_by_future(&self, req_query_account:  ReqQueryAccount, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rtn_open_account_by_bank(&self, open_account:  OpenAccount);
-        pub fn on_rtn_cancel_account_by_bank(&self, cancel_account:  CancelAccount);
-        pub fn on_rtn_change_account_by_bank(&self, change_account:  ChangeAccount);
-        pub fn on_rsp_qry_classified_instrument(&self, instrument:  Instrument, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_comb_promotion_param(&self, comb_promotion_param:  CombPromotionParam, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_risk_settle_invest_position(&self, risk_settle_invest_position:  RiskSettleInvestPosition, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_risk_settle_product_status(&self, risk_settle_product_status:  RiskSettleProductStatus, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_future_parameter(&self, spbm_future_parameter:  SPBMFutureParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_option_parameter(&self, spbm_option_parameter:  SPBMOptionParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_intra_parameter(&self, spbm_intra_parameter:  SPBMIntraParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_inter_parameter(&self, spbm_inter_parameter:  SPBMInterParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_portf_definition(&self, spbm_portf_definition:  SPBMPortfDefinition, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_investor_portf_def(&self, spbm_investor_portf_def:  SPBMInvestorPortfDef, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_portf_margin_ratio(&self, investor_portf_margin_ratio:  InvestorPortfMarginRatio, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_prod_spbm_detail(&self, investor_prod_spbm_detail:  InvestorProdSPBMDetail, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_commodity_spmm_margin(&self, investor_commodity_spmm_margin:  InvestorCommoditySPMMMargin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_commodity_group_spmm_margin(&self, investor_commodity_group_spmm_margin:  InvestorCommodityGroupSPMMMargin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spmm_inst_param(&self, spmm_inst_param:  SPMMInstParam, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spmm_product_param(&self, spmm_product_param:  SPMMProductParam, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_spbm_add_on_inter_parameter(&self, spbm_add_on_inter_parameter:  SPBMAddOnInterParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_comb_product_info(&self, rcams_comb_product_info:  RCAMSCombProductInfo, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_instr_parameter(&self, rcams_instr_parameter:  RCAMSInstrParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_intra_parameter(&self, rcams_intra_parameter:  RCAMSIntraParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_inter_parameter(&self, rcams_inter_parameter:  RCAMSInterParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_short_opt_adjust_param(&self, rcams_short_opt_adjust_param:  RCAMSShortOptAdjustParam, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rcams_investor_comb_position(&self, rcams_investor_comb_position:  RCAMSInvestorCombPosition, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_prod_rcams_margin(&self, investor_prod_rcams_margin:  InvestorProdRCAMSMargin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rule_instr_parameter(&self, rule_instr_parameter:  RULEInstrParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rule_intra_parameter(&self, rule_intra_parameter:  RULEIntraParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_rule_inter_parameter(&self, rule_inter_parameter:  RULEInterParameter, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_prod_rule_margin(&self, investor_prod_rule_margin:  InvestorProdRULEMargin, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_portf_setting(&self, investor_portf_setting:  InvestorPortfSetting, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_investor_info_comm_rec(&self, investor_info_comm_rec:  InvestorInfoCommRec, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_qry_comb_leg(&self, comb_leg:  CombLeg, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_offset_setting(&self, input_offset_setting:  InputOffsetSetting, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rsp_cancel_offset_setting(&self, input_offset_setting:  InputOffsetSetting, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
-        pub fn on_rtn_offset_setting(&self, offset_setting:  OffsetSetting);
-        pub fn on_err_rtn_offset_setting(&self, input_offset_setting:  InputOffsetSetting, rsp_info:  RspInfo);
-        pub fn on_err_rtn_cancel_offset_setting(&self, cancel_offset_setting:  CancelOffsetSetting, rsp_info:  RspInfo);
-        pub fn on_rsp_qry_offset_setting(&self, offset_setting:  OffsetSetting, rsp_info:  RspInfo, request_id:  i32, is_last: bool);
+        pub fn on_front_disconnected(&self, reason: i32);
+        pub fn on_heart_beat_warning(&self, time_lapse: i32);
+        pub fn on_rsp_authenticate(&self, rsp_authenticate: RspAuthenticate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_user_login(&self, rsp_user_login: RspUserLogin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_user_logout(&self, user_logout: UserLogout, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_user_password_update(&self, user_password_update: UserPasswordUpdate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_trading_account_password_update(&self, trading_account_password_update: TradingAccountPasswordUpdate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_user_auth_method(&self, rsp_user_auth_method: RspUserAuthMethod, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_gen_user_captcha(&self, rsp_gen_user_captcha: RspGenUserCaptcha, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_gen_user_text(&self, rsp_gen_user_text: RspGenUserText, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_order_insert(&self, input_order: InputOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_parked_order_insert(&self, parked_order: ParkedOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_parked_order_action(&self, parked_order_action: ParkedOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_order_action(&self, input_order_action: InputOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_max_order_volume(&self, qry_max_order_volume: QryMaxOrderVolume, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_settlement_info_confirm(&self, settlement_info_confirm: SettlementInfoConfirm, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_remove_parked_order(&self, remove_parked_order: RemoveParkedOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_remove_parked_order_action(&self, remove_parked_order_action: RemoveParkedOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_exec_order_insert(&self, input_exec_order: InputExecOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_exec_order_action(&self, input_exec_order_action: InputExecOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_for_quote_insert(&self, input_for_quote: InputForQuote, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_quote_insert(&self, input_quote: InputQuote, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_quote_action(&self, input_quote_action: InputQuoteAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_batch_order_action(&self, input_batch_order_action: InputBatchOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_option_self_close_insert(&self, input_option_self_close: InputOptionSelfClose, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_option_self_close_action(&self, input_option_self_close_action: InputOptionSelfCloseAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_comb_action_insert(&self, input_comb_action: InputCombAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_order(&self, order: Order, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_trade(&self, trade: Trade, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_position(&self, investor_position: InvestorPosition, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_trading_account(&self, trading_account: TradingAccount, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor(&self, investor: Investor, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_trading_code(&self, trading_code: TradingCode, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_instrument_margin_rate(&self, instrument_margin_rate: InstrumentMarginRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_instrument_commission_rate(&self, instrument_commission_rate: InstrumentCommissionRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_user_session(&self, user_session: UserSession, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_exchange(&self, exchange: Exchange, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_product(&self, product: Product, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_instrument(&self, instrument: Instrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_depth_market_data(&self, depth_market_data: DepthMarketData, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_trader_offer(&self, trader_offer: TraderOffer, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_settlement_info(&self, settlement_info: SettlementInfo, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_transfer_bank(&self, transfer_bank: TransferBank, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_position_detail(&self, investor_position_detail: InvestorPositionDetail, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_notice(&self, notice: Notice, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_settlement_info_confirm(&self, settlement_info_confirm: SettlementInfoConfirm, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_position_combine_detail(&self, investor_position_combine_detail: InvestorPositionCombineDetail, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_cfmmc_trading_account_key(&self, cfmmc_trading_account_key: CFMMCTradingAccountKey, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_ewarrant_offset(&self, ewarrant_offset: EWarrantOffset, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_product_group_margin(&self, investor_product_group_margin: InvestorProductGroupMargin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_exchange_margin_rate(&self, exchange_margin_rate: ExchangeMarginRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_exchange_margin_rate_adjust(&self, exchange_margin_rate_adjust: ExchangeMarginRateAdjust, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_exchange_rate(&self, exchange_rate: ExchangeRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_sec_agent_acid_map(&self, sec_agent_acid_map: SecAgentACIDMap, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_product_exch_rate(&self, product_exch_rate: ProductExchRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_product_group(&self, product_group: ProductGroup, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_mm_instrument_commission_rate(&self, mm_instrument_commission_rate: MMInstrumentCommissionRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_mm_option_instr_comm_rate(&self, mm_option_instr_comm_rate: MMOptionInstrCommRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_instrument_order_comm_rate(&self, instrument_order_comm_rate: InstrumentOrderCommRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_sec_agent_trading_account(&self, trading_account: TradingAccount, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_sec_agent_check_mode(&self, sec_agent_check_mode: SecAgentCheckMode, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_sec_agent_trade_info(&self, sec_agent_trade_info: SecAgentTradeInfo, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_option_instr_trade_cost(&self, option_instr_trade_cost: OptionInstrTradeCost, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_option_instr_comm_rate(&self, option_instr_comm_rate: OptionInstrCommRate, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_exec_order(&self, exec_order: ExecOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_for_quote(&self, for_quote: ForQuote, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_quote(&self, quote: Quote, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_option_self_close(&self, option_self_close: OptionSelfClose, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_invest_unit(&self, invest_unit: InvestUnit, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_comb_instrument_guard(&self, comb_instrument_guard: CombInstrumentGuard, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_comb_action(&self, comb_action: CombAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_transfer_serial(&self, transfer_serial: TransferSerial, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_account_register(&self, account_register: AccountRegister, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_error(&self, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rtn_order(&self, order: Order);
+        pub fn on_rtn_trade(&self, trade: Trade);
+        pub fn on_err_rtn_order_insert(&self, input_order: InputOrder, rsp_info: RspInfo);
+        pub fn on_err_rtn_order_action(&self, order_action: OrderAction, rsp_info: RspInfo);
+        pub fn on_rtn_instrument_status(&self, instrument_status: InstrumentStatus);
+        pub fn on_rtn_bulletin(&self, bulletin: Bulletin);
+        pub fn on_rtn_trading_notice(&self, trading_notice_info: TradingNoticeInfo);
+        pub fn on_rtn_error_conditional_order(&self, error_conditional_order: ErrorConditionalOrder);
+        pub fn on_rtn_exec_order(&self, exec_order: ExecOrder);
+        pub fn on_err_rtn_exec_order_insert(&self, input_exec_order: InputExecOrder, rsp_info: RspInfo);
+        pub fn on_err_rtn_exec_order_action(&self, exec_order_action: ExecOrderAction, rsp_info: RspInfo);
+        pub fn on_err_rtn_for_quote_insert(&self, input_for_quote: InputForQuote, rsp_info: RspInfo);
+        pub fn on_rtn_quote(&self, quote: Quote);
+        pub fn on_err_rtn_quote_insert(&self, input_quote: InputQuote, rsp_info: RspInfo);
+        pub fn on_err_rtn_quote_action(&self, quote_action: QuoteAction, rsp_info: RspInfo);
+        pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: ForQuoteRsp);
+        pub fn on_rtn_cfmmc_trading_account_token(&self, cfmmc_trading_account_token: CFMMCTradingAccountToken);
+        pub fn on_err_rtn_batch_order_action(&self, batch_order_action: BatchOrderAction, rsp_info: RspInfo);
+        pub fn on_rtn_option_self_close(&self, option_self_close: OptionSelfClose);
+        pub fn on_err_rtn_option_self_close_insert(&self, input_option_self_close: InputOptionSelfClose, rsp_info: RspInfo);
+        pub fn on_err_rtn_option_self_close_action(&self, option_self_close_action: OptionSelfCloseAction, rsp_info: RspInfo);
+        pub fn on_rtn_comb_action(&self, comb_action: CombAction);
+        pub fn on_err_rtn_comb_action_insert(&self, input_comb_action: InputCombAction, rsp_info: RspInfo);
+        pub fn on_rsp_qry_contract_bank(&self, contract_bank: ContractBank, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_parked_order(&self, parked_order: ParkedOrder, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_parked_order_action(&self, parked_order_action: ParkedOrderAction, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_trading_notice(&self, trading_notice: TradingNotice, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_broker_trading_params(&self, broker_trading_params: BrokerTradingParams, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_broker_trading_algos(&self, broker_trading_algos: BrokerTradingAlgos, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_query_cfmmc_trading_account_token(&self, query_cfmmc_trading_account_token: QueryCFMMCTradingAccountToken, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rtn_from_bank_to_future_by_bank(&self, rsp_transfer: RspTransfer);
+        pub fn on_rtn_from_future_to_bank_by_bank(&self, rsp_transfer: RspTransfer);
+        pub fn on_rtn_repeal_from_bank_to_future_by_bank(&self, rsp_repeal: RspRepeal);
+        pub fn on_rtn_repeal_from_future_to_bank_by_bank(&self, rsp_repeal: RspRepeal);
+        pub fn on_rtn_from_bank_to_future_by_future(&self, rsp_transfer: RspTransfer);
+        pub fn on_rtn_from_future_to_bank_by_future(&self, rsp_transfer: RspTransfer);
+        pub fn on_rtn_repeal_from_bank_to_future_by_future_manual(&self, rsp_repeal: RspRepeal);
+        pub fn on_rtn_repeal_from_future_to_bank_by_future_manual(&self, rsp_repeal: RspRepeal);
+        pub fn on_rtn_query_bank_balance_by_future(&self, notify_query_account: NotifyQueryAccount);
+        pub fn on_err_rtn_bank_to_future_by_future(&self, req_transfer: ReqTransfer, rsp_info: RspInfo);
+        pub fn on_err_rtn_future_to_bank_by_future(&self, req_transfer: ReqTransfer, rsp_info: RspInfo);
+        pub fn on_err_rtn_repeal_bank_to_future_by_future_manual(&self, req_repeal: ReqRepeal, rsp_info: RspInfo);
+        pub fn on_err_rtn_repeal_future_to_bank_by_future_manual(&self, req_repeal: ReqRepeal, rsp_info: RspInfo);
+        pub fn on_err_rtn_query_bank_balance_by_future(&self, req_query_account: ReqQueryAccount, rsp_info: RspInfo);
+        pub fn on_rtn_repeal_from_bank_to_future_by_future(&self, rsp_repeal: RspRepeal);
+        pub fn on_rtn_repeal_from_future_to_bank_by_future(&self, rsp_repeal: RspRepeal);
+        pub fn on_rsp_from_bank_to_future_by_future(&self, req_transfer: ReqTransfer, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_from_future_to_bank_by_future(&self, req_transfer: ReqTransfer, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_query_bank_account_money_by_future(&self, req_query_account: ReqQueryAccount, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rtn_open_account_by_bank(&self, open_account: OpenAccount);
+        pub fn on_rtn_cancel_account_by_bank(&self, cancel_account: CancelAccount);
+        pub fn on_rtn_change_account_by_bank(&self, change_account: ChangeAccount);
+        pub fn on_rsp_qry_classified_instrument(&self, instrument: Instrument, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_comb_promotion_param(&self, comb_promotion_param: CombPromotionParam, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_risk_settle_invest_position(&self, risk_settle_invest_position: RiskSettleInvestPosition, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_risk_settle_product_status(&self, risk_settle_product_status: RiskSettleProductStatus, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_future_parameter(&self, spbm_future_parameter: SPBMFutureParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_option_parameter(&self, spbm_option_parameter: SPBMOptionParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_intra_parameter(&self, spbm_intra_parameter: SPBMIntraParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_inter_parameter(&self, spbm_inter_parameter: SPBMInterParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_portf_definition(&self, spbm_portf_definition: SPBMPortfDefinition, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_investor_portf_def(&self, spbm_investor_portf_def: SPBMInvestorPortfDef, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_portf_margin_ratio(&self, investor_portf_margin_ratio: InvestorPortfMarginRatio, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_prod_spbm_detail(&self, investor_prod_spbm_detail: InvestorProdSPBMDetail, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_commodity_spmm_margin(&self, investor_commodity_spmm_margin: InvestorCommoditySPMMMargin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_commodity_group_spmm_margin(&self, investor_commodity_group_spmm_margin: InvestorCommodityGroupSPMMMargin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spmm_inst_param(&self, spmm_inst_param: SPMMInstParam, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spmm_product_param(&self, spmm_product_param: SPMMProductParam, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_spbm_add_on_inter_parameter(&self, spbm_add_on_inter_parameter: SPBMAddOnInterParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_comb_product_info(&self, rcams_comb_product_info: RCAMSCombProductInfo, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_instr_parameter(&self, rcams_instr_parameter: RCAMSInstrParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_intra_parameter(&self, rcams_intra_parameter: RCAMSIntraParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_inter_parameter(&self, rcams_inter_parameter: RCAMSInterParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_short_opt_adjust_param(&self, rcams_short_opt_adjust_param: RCAMSShortOptAdjustParam, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rcams_investor_comb_position(&self, rcams_investor_comb_position: RCAMSInvestorCombPosition, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_prod_rcams_margin(&self, investor_prod_rcams_margin: InvestorProdRCAMSMargin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rule_instr_parameter(&self, rule_instr_parameter: RULEInstrParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rule_intra_parameter(&self, rule_intra_parameter: RULEIntraParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_rule_inter_parameter(&self, rule_inter_parameter: RULEInterParameter, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_prod_rule_margin(&self, investor_prod_rule_margin: InvestorProdRULEMargin, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_portf_setting(&self, investor_portf_setting: InvestorPortfSetting, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_investor_info_comm_rec(&self, investor_info_comm_rec: InvestorInfoCommRec, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_qry_comb_leg(&self, comb_leg: CombLeg, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_offset_setting(&self, input_offset_setting: InputOffsetSetting, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rsp_cancel_offset_setting(&self, input_offset_setting: InputOffsetSetting, rsp_info: RspInfo, request_id: i32, is_last: bool);
+        pub fn on_rtn_offset_setting(&self, offset_setting: OffsetSetting);
+        pub fn on_err_rtn_offset_setting(&self, input_offset_setting: InputOffsetSetting, rsp_info: RspInfo);
+        pub fn on_err_rtn_cancel_offset_setting(&self, cancel_offset_setting: CancelOffsetSetting, rsp_info: RspInfo);
+        pub fn on_rsp_qry_offset_setting(&self, offset_setting: OffsetSetting, rsp_info: RspInfo, request_id: i32, is_last: bool);
     }
 
     unsafe extern "C++" {
@@ -337,7 +334,7 @@ mod ffi {
         /// # Remarks
         /// 网络地址的格式为：“protocol://ip_address:port”，如：”tcp://127.0.0.1:17001”。
         /// “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”17001”代表服务器端口号。
-        fn register_front(&self, front_address:  String);
+        fn register_front(&self, front_address: String);
         /// 注册名字服务器网络地址
         ///
         /// # Parameters
@@ -347,12 +344,12 @@ mod ffi {
         /// 网络地址的格式为：“protocol://ip_address:port”，如：”tcp://127.0.0.1:12001”。
         /// “tcp”代表传输协议，“127.0.0.1”代表服务器地址。”12001”代表服务器端口号。
         /// RegisterNameServer优先于RegisterFront
-        fn register_name_server(&self, ns_address:  String);
+        fn register_name_server(&self, ns_address: String);
         /// 注册名字服务器用户信息
         ///
         /// # Parameters
         /// - `pFensUserInfo` — 用户信息。
-        fn register_fens_user_info(&self, fens_user_info:  FensUserInfo);
+        fn register_fens_user_info(&self, fens_user_info: FensUserInfo);
         /// 订阅私有流。
         ///
         /// # Parameters
@@ -363,7 +360,7 @@ mod ffi {
         ///
         /// # Remarks
         /// 该方法要在Init方法前调用。若不调用则不会收到私有流的数据。
-        fn subscribe_private_topic(&self, resume_type:  i32);
+        fn subscribe_private_topic(&self, resume_type: i32);
         /// 订阅公共流。
         ///
         /// # Parameters
@@ -371,264 +368,264 @@ mod ffi {
         ///   - Restart:从本交易日开始重传
         ///   - Resume:从上次收到的续传
         ///   - Quick:只传送登录后公共流的内容
-        ///   - NONE:取消订阅公共流
+        ///   - None:取消订阅公共流
         ///
         /// # Remarks
         /// 该方法要在Init方法前调用。若不调用则不会收到公共流的数据。
-        fn subscribe_public_topic(&self, resume_type:  i32);
+        fn subscribe_public_topic(&self, resume_type: i32);
         /// 客户端认证请求
-        fn req_authenticate(&self, req_authenticate:  ReqAuthenticate, request_id:  i32)-> i32;
+        fn req_authenticate(&self, req_authenticate: ReqAuthenticate, request_id: i32)-> i32;
         /// 注册用户终端信息，用于中继服务器多连接模式
         /// 需要在终端认证成功后，用户登录前调用该接口
-        fn register_user_system_info(&self, user_system_info:  UserSystemInfo)-> i32;
+        fn register_user_system_info(&self, user_system_info: UserSystemInfo)-> i32;
         /// 上报用户终端信息，用于中继服务器操作员登录模式
         /// 操作员登录后，可以多次调用该接口上报客户信息
-        fn submit_user_system_info(&self, user_system_info:  UserSystemInfo)-> i32;
+        fn submit_user_system_info(&self, user_system_info: UserSystemInfo)-> i32;
         /// 注册用户终端信息，用于中继服务器多连接模式.用于微信小程序等应用上报信息.
-        fn register_wechat_user_system_info(&self, user_system_info:  WechatUserSystemInfo)-> i32;
+        fn register_wechat_user_system_info(&self, user_system_info: WechatUserSystemInfo)-> i32;
         /// 上报用户终端信息，用于中继服务器操作员登录模式.用于微信小程序等应用上报信息.
-        fn submit_wechat_user_system_info(&self, user_system_info:  WechatUserSystemInfo)-> i32;
+        fn submit_wechat_user_system_info(&self, user_system_info: WechatUserSystemInfo)-> i32;
         /// 用户登录请求
-        fn req_user_login(&self, req_user_login:  ReqUserLogin, request_id:  i32)-> i32;
+        fn req_user_login(&self, req_user_login: ReqUserLogin, request_id: i32)-> i32;
         /// 登出请求
-        fn req_user_logout(&self, user_logout:  UserLogout, request_id:  i32)-> i32;
+        fn req_user_logout(&self, user_logout: UserLogout, request_id: i32)-> i32;
         /// 用户口令更新请求
-        fn req_user_password_update(&self, user_password_update:  UserPasswordUpdate, request_id:  i32)-> i32;
+        fn req_user_password_update(&self, user_password_update: UserPasswordUpdate, request_id: i32)-> i32;
         /// 资金账户口令更新请求
-        fn req_trading_account_password_update(&self, trading_account_password_update:  TradingAccountPasswordUpdate, request_id:  i32)-> i32;
+        fn req_trading_account_password_update(&self, trading_account_password_update: TradingAccountPasswordUpdate, request_id: i32)-> i32;
         /// 查询用户当前支持的认证模式
-        fn req_user_auth_method(&self, req_user_auth_method:  ReqUserAuthMethod, request_id:  i32)-> i32;
+        fn req_user_auth_method(&self, req_user_auth_method: ReqUserAuthMethod, request_id: i32)-> i32;
         /// 用户发出获取图形验证码请求
-        fn req_gen_user_captcha(&self, req_gen_user_captcha:  ReqGenUserCaptcha, request_id:  i32)-> i32;
+        fn req_gen_user_captcha(&self, req_gen_user_captcha: ReqGenUserCaptcha, request_id: i32)-> i32;
         /// 用户发出获取短信验证码请求
-        fn req_gen_user_text(&self, req_gen_user_text:  ReqGenUserText, request_id:  i32)-> i32;
+        fn req_gen_user_text(&self, req_gen_user_text: ReqGenUserText, request_id: i32)-> i32;
         /// 用户发出带有图片验证码的登陆请求
-        fn req_user_login_with_captcha(&self, req_user_login_with_captcha:  ReqUserLoginWithCaptcha, request_id:  i32)-> i32;
+        fn req_user_login_with_captcha(&self, req_user_login_with_captcha: ReqUserLoginWithCaptcha, request_id: i32)-> i32;
         /// 用户发出带有短信验证码的登陆请求
-        fn req_user_login_with_text(&self, req_user_login_with_text:  ReqUserLoginWithText, request_id:  i32)-> i32;
+        fn req_user_login_with_text(&self, req_user_login_with_text: ReqUserLoginWithText, request_id: i32)-> i32;
         /// 用户发出带有动态口令的登陆请求
-        fn req_user_login_with_otp(&self, req_user_login_with_otp:  ReqUserLoginWithOTP, request_id:  i32)-> i32;
+        fn req_user_login_with_otp(&self, req_user_login_with_otp: ReqUserLoginWithOTP, request_id: i32)-> i32;
         /// 报单录入请求
-        fn req_order_insert(&self, input_order:  InputOrder, request_id:  i32)-> i32;
+        fn req_order_insert(&self, input_order: InputOrder, request_id: i32)-> i32;
         /// 预埋单录入请求
-        fn req_parked_order_insert(&self, parked_order:  ParkedOrder, request_id:  i32)-> i32;
+        fn req_parked_order_insert(&self, parked_order: ParkedOrder, request_id: i32)-> i32;
         /// 预埋撤单录入请求
-        fn req_parked_order_action(&self, parked_order_action:  ParkedOrderAction, request_id:  i32)-> i32;
+        fn req_parked_order_action(&self, parked_order_action: ParkedOrderAction, request_id: i32)-> i32;
         /// 报单操作请求
-        fn req_order_action(&self, input_order_action:  InputOrderAction, request_id:  i32)-> i32;
+        fn req_order_action(&self, input_order_action: InputOrderAction, request_id: i32)-> i32;
         /// 查询最大报单数量请求
-        fn req_qry_max_order_volume(&self, qry_max_order_volume:  QryMaxOrderVolume, request_id:  i32)-> i32;
+        fn req_qry_max_order_volume(&self, qry_max_order_volume: QryMaxOrderVolume, request_id: i32)-> i32;
         /// 投资者结算结果确认
-        fn req_settlement_info_confirm(&self, settlement_info_confirm:  SettlementInfoConfirm, request_id:  i32)-> i32;
+        fn req_settlement_info_confirm(&self, settlement_info_confirm: SettlementInfoConfirm, request_id: i32)-> i32;
         /// 请求删除预埋单
-        fn req_remove_parked_order(&self, remove_parked_order:  RemoveParkedOrder, request_id:  i32)-> i32;
+        fn req_remove_parked_order(&self, remove_parked_order: RemoveParkedOrder, request_id: i32)-> i32;
         /// 请求删除预埋撤单
-        fn req_remove_parked_order_action(&self, remove_parked_order_action:  RemoveParkedOrderAction, request_id:  i32)-> i32;
+        fn req_remove_parked_order_action(&self, remove_parked_order_action: RemoveParkedOrderAction, request_id: i32)-> i32;
         /// 执行宣告录入请求
-        fn req_exec_order_insert(&self, input_exec_order:  InputExecOrder, request_id:  i32)-> i32;
+        fn req_exec_order_insert(&self, input_exec_order: InputExecOrder, request_id: i32)-> i32;
         /// 执行宣告操作请求
-        fn req_exec_order_action(&self, input_exec_order_action:  InputExecOrderAction, request_id:  i32)-> i32;
+        fn req_exec_order_action(&self, input_exec_order_action: InputExecOrderAction, request_id: i32)-> i32;
         /// 询价录入请求
-        fn req_for_quote_insert(&self, input_for_quote:  InputForQuote, request_id:  i32)-> i32;
+        fn req_for_quote_insert(&self, input_for_quote: InputForQuote, request_id: i32)-> i32;
         /// 报价录入请求
-        fn req_quote_insert(&self, input_quote:  InputQuote, request_id:  i32)-> i32;
+        fn req_quote_insert(&self, input_quote: InputQuote, request_id: i32)-> i32;
         /// 报价操作请求
-        fn req_quote_action(&self, input_quote_action:  InputQuoteAction, request_id:  i32)-> i32;
+        fn req_quote_action(&self, input_quote_action: InputQuoteAction, request_id: i32)-> i32;
         /// 批量报单操作请求
-        fn req_batch_order_action(&self, input_batch_order_action:  InputBatchOrderAction, request_id:  i32)-> i32;
+        fn req_batch_order_action(&self, input_batch_order_action: InputBatchOrderAction, request_id: i32)-> i32;
         /// 期权自对冲录入请求
-        fn req_option_self_close_insert(&self, input_option_self_close:  InputOptionSelfClose, request_id:  i32)-> i32;
+        fn req_option_self_close_insert(&self, input_option_self_close: InputOptionSelfClose, request_id: i32)-> i32;
         /// 期权自对冲操作请求
-        fn req_option_self_close_action(&self, input_option_self_close_action:  InputOptionSelfCloseAction, request_id:  i32)-> i32;
+        fn req_option_self_close_action(&self, input_option_self_close_action: InputOptionSelfCloseAction, request_id: i32)-> i32;
         /// 申请组合录入请求
-        fn req_comb_action_insert(&self, input_comb_action:  InputCombAction, request_id:  i32)-> i32;
+        fn req_comb_action_insert(&self, input_comb_action: InputCombAction, request_id: i32)-> i32;
         /// 请求查询报单
-        fn req_qry_order(&self, qry_order:  QryOrder, request_id:  i32)-> i32;
+        fn req_qry_order(&self, qry_order: QryOrder, request_id: i32)-> i32;
         /// 请求查询成交
-        fn req_qry_trade(&self, qry_trade:  QryTrade, request_id:  i32)-> i32;
+        fn req_qry_trade(&self, qry_trade: QryTrade, request_id: i32)-> i32;
         /// 请求查询投资者持仓
-        fn req_qry_investor_position(&self, qry_investor_position:  QryInvestorPosition, request_id:  i32)-> i32;
+        fn req_qry_investor_position(&self, qry_investor_position: QryInvestorPosition, request_id: i32)-> i32;
         /// 请求查询资金账户
-        fn req_qry_trading_account(&self, qry_trading_account:  QryTradingAccount, request_id:  i32)-> i32;
+        fn req_qry_trading_account(&self, qry_trading_account: QryTradingAccount, request_id: i32)-> i32;
         /// 请求查询投资者
-        fn req_qry_investor(&self, qry_investor:  QryInvestor, request_id:  i32)-> i32;
+        fn req_qry_investor(&self, qry_investor: QryInvestor, request_id: i32)-> i32;
         /// 请求查询交易编码
-        fn req_qry_trading_code(&self, qry_trading_code:  QryTradingCode, request_id:  i32)-> i32;
+        fn req_qry_trading_code(&self, qry_trading_code: QryTradingCode, request_id: i32)-> i32;
         /// 请求查询合约保证金率
-        fn req_qry_instrument_margin_rate(&self, qry_instrument_margin_rate:  QryInstrumentMarginRate, request_id:  i32)-> i32;
+        fn req_qry_instrument_margin_rate(&self, qry_instrument_margin_rate: QryInstrumentMarginRate, request_id: i32)-> i32;
         /// 请求查询合约手续费率
-        fn req_qry_instrument_commission_rate(&self, qry_instrument_commission_rate:  QryInstrumentCommissionRate, request_id:  i32)-> i32;
+        fn req_qry_instrument_commission_rate(&self, qry_instrument_commission_rate: QryInstrumentCommissionRate, request_id: i32)-> i32;
         /// 请求查询用户会话
-        fn req_qry_user_session(&self, qry_user_session:  QryUserSession, request_id:  i32)-> i32;
+        fn req_qry_user_session(&self, qry_user_session: QryUserSession, request_id: i32)-> i32;
         /// 请求查询交易所
-        fn req_qry_exchange(&self, qry_exchange:  QryExchange, request_id:  i32)-> i32;
+        fn req_qry_exchange(&self, qry_exchange: QryExchange, request_id: i32)-> i32;
         /// 请求查询产品
-        fn req_qry_product(&self, qry_product:  QryProduct, request_id:  i32)-> i32;
+        fn req_qry_product(&self, qry_product: QryProduct, request_id: i32)-> i32;
         /// 请求查询合约
-        fn req_qry_instrument(&self, qry_instrument:  QryInstrument, request_id:  i32)-> i32;
+        fn req_qry_instrument(&self, qry_instrument: QryInstrument, request_id: i32)-> i32;
         /// 请求查询行情
-        fn req_qry_depth_market_data(&self, qry_depth_market_data:  QryDepthMarketData, request_id:  i32)-> i32;
+        fn req_qry_depth_market_data(&self, qry_depth_market_data: QryDepthMarketData, request_id: i32)-> i32;
         /// 请求查询交易员报盘机
-        fn req_qry_trader_offer(&self, qry_trader_offer:  QryTraderOffer, request_id:  i32)-> i32;
+        fn req_qry_trader_offer(&self, qry_trader_offer: QryTraderOffer, request_id: i32)-> i32;
         /// 请求查询投资者结算结果
-        fn req_qry_settlement_info(&self, qry_settlement_info:  QrySettlementInfo, request_id:  i32)-> i32;
+        fn req_qry_settlement_info(&self, qry_settlement_info: QrySettlementInfo, request_id: i32)-> i32;
         /// 请求查询转帐银行
-        fn req_qry_transfer_bank(&self, qry_transfer_bank:  QryTransferBank, request_id:  i32)-> i32;
+        fn req_qry_transfer_bank(&self, qry_transfer_bank: QryTransferBank, request_id: i32)-> i32;
         /// 请求查询投资者持仓明细
-        fn req_qry_investor_position_detail(&self, qry_investor_position_detail:  QryInvestorPositionDetail, request_id:  i32)-> i32;
+        fn req_qry_investor_position_detail(&self, qry_investor_position_detail: QryInvestorPositionDetail, request_id: i32)-> i32;
         /// 请求查询客户通知
-        fn req_qry_notice(&self, qry_notice:  QryNotice, request_id:  i32)-> i32;
+        fn req_qry_notice(&self, qry_notice: QryNotice, request_id: i32)-> i32;
         /// 请求查询结算信息确认
-        fn req_qry_settlement_info_confirm(&self, qry_settlement_info_confirm:  QrySettlementInfoConfirm, request_id:  i32)-> i32;
+        fn req_qry_settlement_info_confirm(&self, qry_settlement_info_confirm: QrySettlementInfoConfirm, request_id: i32)-> i32;
         /// 请求查询投资者持仓明细
-        fn req_qry_investor_position_combine_detail(&self, qry_investor_position_combine_detail:  QryInvestorPositionCombineDetail, request_id:  i32)-> i32;
+        fn req_qry_investor_position_combine_detail(&self, qry_investor_position_combine_detail: QryInvestorPositionCombineDetail, request_id: i32)-> i32;
         /// 请求查询保证金监管系统经纪公司资金账户密钥
-        fn req_qry_cfmmc_trading_account_key(&self, qry_cfmmc_trading_account_key:  QryCFMMCTradingAccountKey, request_id:  i32)-> i32;
+        fn req_qry_cfmmc_trading_account_key(&self, qry_cfmmc_trading_account_key: QryCFMMCTradingAccountKey, request_id: i32)-> i32;
         /// 请求查询仓单折抵信息
-        fn req_qry_ewarrant_offset(&self, qry_ewarrant_offset:  QryEWarrantOffset, request_id:  i32)-> i32;
+        fn req_qry_ewarrant_offset(&self, qry_ewarrant_offset: QryEWarrantOffset, request_id: i32)-> i32;
         /// 请求查询投资者品种/跨品种保证金
-        fn req_qry_investor_product_group_margin(&self, qry_investor_product_group_margin:  QryInvestorProductGroupMargin, request_id:  i32)-> i32;
+        fn req_qry_investor_product_group_margin(&self, qry_investor_product_group_margin: QryInvestorProductGroupMargin, request_id: i32)-> i32;
         /// 请求查询交易所保证金率
-        fn req_qry_exchange_margin_rate(&self, qry_exchange_margin_rate:  QryExchangeMarginRate, request_id:  i32)-> i32;
+        fn req_qry_exchange_margin_rate(&self, qry_exchange_margin_rate: QryExchangeMarginRate, request_id: i32)-> i32;
         /// 请求查询交易所调整保证金率
-        fn req_qry_exchange_margin_rate_adjust(&self, qry_exchange_margin_rate_adjust:  QryExchangeMarginRateAdjust, request_id:  i32)-> i32;
+        fn req_qry_exchange_margin_rate_adjust(&self, qry_exchange_margin_rate_adjust: QryExchangeMarginRateAdjust, request_id: i32)-> i32;
         /// 请求查询汇率
-        fn req_qry_exchange_rate(&self, qry_exchange_rate:  QryExchangeRate, request_id:  i32)-> i32;
+        fn req_qry_exchange_rate(&self, qry_exchange_rate: QryExchangeRate, request_id: i32)-> i32;
         /// 请求查询二级代理操作员银期权限
-        fn req_qry_sec_agent_acid_map(&self, qry_sec_agent_acid_map:  QrySecAgentACIDMap, request_id:  i32)-> i32;
+        fn req_qry_sec_agent_acid_map(&self, qry_sec_agent_acid_map: QrySecAgentACIDMap, request_id: i32)-> i32;
         /// 请求查询产品报价汇率
-        fn req_qry_product_exch_rate(&self, qry_product_exch_rate:  QryProductExchRate, request_id:  i32)-> i32;
+        fn req_qry_product_exch_rate(&self, qry_product_exch_rate: QryProductExchRate, request_id: i32)-> i32;
         /// 请求查询产品组
-        fn req_qry_product_group(&self, qry_product_group:  QryProductGroup, request_id:  i32)-> i32;
+        fn req_qry_product_group(&self, qry_product_group: QryProductGroup, request_id: i32)-> i32;
         /// 请求查询做市商合约手续费率
-        fn req_qry_mm_instrument_commission_rate(&self, qry_mm_instrument_commission_rate:  QryMMInstrumentCommissionRate, request_id:  i32)-> i32;
+        fn req_qry_mm_instrument_commission_rate(&self, qry_mm_instrument_commission_rate: QryMMInstrumentCommissionRate, request_id: i32)-> i32;
         /// 请求查询做市商期权合约手续费
-        fn req_qry_mm_option_instr_comm_rate(&self, qry_mm_option_instr_comm_rate:  QryMMOptionInstrCommRate, request_id:  i32)-> i32;
+        fn req_qry_mm_option_instr_comm_rate(&self, qry_mm_option_instr_comm_rate: QryMMOptionInstrCommRate, request_id: i32)-> i32;
         /// 请求查询报单手续费
-        fn req_qry_instrument_order_comm_rate(&self, qry_instrument_order_comm_rate:  QryInstrumentOrderCommRate, request_id:  i32)-> i32;
+        fn req_qry_instrument_order_comm_rate(&self, qry_instrument_order_comm_rate: QryInstrumentOrderCommRate, request_id: i32)-> i32;
         /// 请求查询资金账户
-        fn req_qry_sec_agent_trading_account(&self, qry_trading_account:  QryTradingAccount, request_id:  i32)-> i32;
+        fn req_qry_sec_agent_trading_account(&self, qry_trading_account: QryTradingAccount, request_id: i32)-> i32;
         /// 请求查询二级代理商资金校验模式
-        fn req_qry_sec_agent_check_mode(&self, qry_sec_agent_check_mode:  QrySecAgentCheckMode, request_id:  i32)-> i32;
+        fn req_qry_sec_agent_check_mode(&self, qry_sec_agent_check_mode: QrySecAgentCheckMode, request_id: i32)-> i32;
         /// 请求查询二级代理商信息
-        fn req_qry_sec_agent_trade_info(&self, qry_sec_agent_trade_info:  QrySecAgentTradeInfo, request_id:  i32)-> i32;
+        fn req_qry_sec_agent_trade_info(&self, qry_sec_agent_trade_info: QrySecAgentTradeInfo, request_id: i32)-> i32;
         /// 请求查询期权交易成本
-        fn req_qry_option_instr_trade_cost(&self, qry_option_instr_trade_cost:  QryOptionInstrTradeCost, request_id:  i32)-> i32;
+        fn req_qry_option_instr_trade_cost(&self, qry_option_instr_trade_cost: QryOptionInstrTradeCost, request_id: i32)-> i32;
         /// 请求查询期权合约手续费
-        fn req_qry_option_instr_comm_rate(&self, qry_option_instr_comm_rate:  QryOptionInstrCommRate, request_id:  i32)-> i32;
+        fn req_qry_option_instr_comm_rate(&self, qry_option_instr_comm_rate: QryOptionInstrCommRate, request_id: i32)-> i32;
         /// 请求查询执行宣告
-        fn req_qry_exec_order(&self, qry_exec_order:  QryExecOrder, request_id:  i32)-> i32;
+        fn req_qry_exec_order(&self, qry_exec_order: QryExecOrder, request_id: i32)-> i32;
         /// 请求查询询价
-        fn req_qry_for_quote(&self, qry_for_quote:  QryForQuote, request_id:  i32)-> i32;
+        fn req_qry_for_quote(&self, qry_for_quote: QryForQuote, request_id: i32)-> i32;
         /// 请求查询报价
-        fn req_qry_quote(&self, qry_quote:  QryQuote, request_id:  i32)-> i32;
+        fn req_qry_quote(&self, qry_quote: QryQuote, request_id: i32)-> i32;
         /// 请求查询期权自对冲
-        fn req_qry_option_self_close(&self, qry_option_self_close:  QryOptionSelfClose, request_id:  i32)-> i32;
+        fn req_qry_option_self_close(&self, qry_option_self_close: QryOptionSelfClose, request_id: i32)-> i32;
         /// 请求查询投资单元
-        fn req_qry_invest_unit(&self, qry_invest_unit:  QryInvestUnit, request_id:  i32)-> i32;
+        fn req_qry_invest_unit(&self, qry_invest_unit: QryInvestUnit, request_id: i32)-> i32;
         /// 请求查询组合合约安全系数
-        fn req_qry_comb_instrument_guard(&self, qry_comb_instrument_guard:  QryCombInstrumentGuard, request_id:  i32)-> i32;
+        fn req_qry_comb_instrument_guard(&self, qry_comb_instrument_guard: QryCombInstrumentGuard, request_id: i32)-> i32;
         /// 请求查询申请组合
-        fn req_qry_comb_action(&self, qry_comb_action:  QryCombAction, request_id:  i32)-> i32;
+        fn req_qry_comb_action(&self, qry_comb_action: QryCombAction, request_id: i32)-> i32;
         /// 请求查询转帐流水
-        fn req_qry_transfer_serial(&self, qry_transfer_serial:  QryTransferSerial, request_id:  i32)-> i32;
+        fn req_qry_transfer_serial(&self, qry_transfer_serial: QryTransferSerial, request_id: i32)-> i32;
         /// 请求查询银期签约关系
-        fn req_qry_account_register(&self, qry_account_register:  QryAccountRegister, request_id:  i32)-> i32;
+        fn req_qry_account_register(&self, qry_account_register: QryAccountRegister, request_id: i32)-> i32;
         /// 请求查询签约银行
-        fn req_qry_contract_bank(&self, qry_contract_bank:  QryContractBank, request_id:  i32)-> i32;
+        fn req_qry_contract_bank(&self, qry_contract_bank: QryContractBank, request_id: i32)-> i32;
         /// 请求查询预埋单
-        fn req_qry_parked_order(&self, qry_parked_order:  QryParkedOrder, request_id:  i32)-> i32;
+        fn req_qry_parked_order(&self, qry_parked_order: QryParkedOrder, request_id: i32)-> i32;
         /// 请求查询预埋撤单
-        fn req_qry_parked_order_action(&self, qry_parked_order_action:  QryParkedOrderAction, request_id:  i32)-> i32;
+        fn req_qry_parked_order_action(&self, qry_parked_order_action: QryParkedOrderAction, request_id: i32)-> i32;
         /// 请求查询交易通知
-        fn req_qry_trading_notice(&self, qry_trading_notice:  QryTradingNotice, request_id:  i32)-> i32;
+        fn req_qry_trading_notice(&self, qry_trading_notice: QryTradingNotice, request_id: i32)-> i32;
         /// 请求查询经纪公司交易参数
-        fn req_qry_broker_trading_params(&self, qry_broker_trading_params:  QryBrokerTradingParams, request_id:  i32)-> i32;
+        fn req_qry_broker_trading_params(&self, qry_broker_trading_params: QryBrokerTradingParams, request_id: i32)-> i32;
         /// 请求查询经纪公司交易算法
-        fn req_qry_broker_trading_algos(&self, qry_broker_trading_algos:  QryBrokerTradingAlgos, request_id:  i32)-> i32;
+        fn req_qry_broker_trading_algos(&self, qry_broker_trading_algos: QryBrokerTradingAlgos, request_id: i32)-> i32;
         /// 请求查询监控中心用户令牌
-        fn req_query_cfmmc_trading_account_token(&self, query_cfmmc_trading_account_token:  QueryCFMMCTradingAccountToken, request_id:  i32)-> i32;
+        fn req_query_cfmmc_trading_account_token(&self, query_cfmmc_trading_account_token: QueryCFMMCTradingAccountToken, request_id: i32)-> i32;
         /// 期货发起银行资金转期货请求
-        fn req_from_bank_to_future_by_future(&self, req_transfer:  ReqTransfer, request_id:  i32)-> i32;
+        fn req_from_bank_to_future_by_future(&self, req_transfer: ReqTransfer, request_id: i32)-> i32;
         /// 期货发起期货资金转银行请求
-        fn req_from_future_to_bank_by_future(&self, req_transfer:  ReqTransfer, request_id:  i32)-> i32;
+        fn req_from_future_to_bank_by_future(&self, req_transfer: ReqTransfer, request_id: i32)-> i32;
         /// 期货发起查询银行余额请求
-        fn req_query_bank_account_money_by_future(&self, req_query_account:  ReqQueryAccount, request_id:  i32)-> i32;
+        fn req_query_bank_account_money_by_future(&self, req_query_account: ReqQueryAccount, request_id: i32)-> i32;
         /// 请求查询分类合约
-        fn req_qry_classified_instrument(&self, qry_classified_instrument:  QryClassifiedInstrument, request_id:  i32)-> i32;
+        fn req_qry_classified_instrument(&self, qry_classified_instrument: QryClassifiedInstrument, request_id: i32)-> i32;
         /// 请求组合优惠比例
-        fn req_qry_comb_promotion_param(&self, qry_comb_promotion_param:  QryCombPromotionParam, request_id:  i32)-> i32;
+        fn req_qry_comb_promotion_param(&self, qry_comb_promotion_param: QryCombPromotionParam, request_id: i32)-> i32;
         /// 投资者风险结算持仓查询
-        fn req_qry_risk_settle_invest_position(&self, qry_risk_settle_invest_position:  QryRiskSettleInvestPosition, request_id:  i32)-> i32;
+        fn req_qry_risk_settle_invest_position(&self, qry_risk_settle_invest_position: QryRiskSettleInvestPosition, request_id: i32)-> i32;
         /// 风险结算产品查询
-        fn req_qry_risk_settle_product_status(&self, qry_risk_settle_product_status:  QryRiskSettleProductStatus, request_id:  i32)-> i32;
+        fn req_qry_risk_settle_product_status(&self, qry_risk_settle_product_status: QryRiskSettleProductStatus, request_id: i32)-> i32;
         /// SPBM期货合约参数查询
-        fn req_qry_spbm_future_parameter(&self, qry_spbm_future_parameter:  QrySPBMFutureParameter, request_id:  i32)-> i32;
+        fn req_qry_spbm_future_parameter(&self, qry_spbm_future_parameter: QrySPBMFutureParameter, request_id: i32)-> i32;
         /// SPBM期权合约参数查询
-        fn req_qry_spbm_option_parameter(&self, qry_spbm_option_parameter:  QrySPBMOptionParameter, request_id:  i32)-> i32;
+        fn req_qry_spbm_option_parameter(&self, qry_spbm_option_parameter: QrySPBMOptionParameter, request_id: i32)-> i32;
         /// SPBM品种内对锁仓折扣参数查询
-        fn req_qry_spbm_intra_parameter(&self, qry_spbm_intra_parameter:  QrySPBMIntraParameter, request_id:  i32)-> i32;
+        fn req_qry_spbm_intra_parameter(&self, qry_spbm_intra_parameter: QrySPBMIntraParameter, request_id: i32)-> i32;
         /// SPBM跨品种抵扣参数查询
-        fn req_qry_spbm_inter_parameter(&self, qry_spbm_inter_parameter:  QrySPBMInterParameter, request_id:  i32)-> i32;
+        fn req_qry_spbm_inter_parameter(&self, qry_spbm_inter_parameter: QrySPBMInterParameter, request_id: i32)-> i32;
         /// SPBM组合保证金套餐查询
-        fn req_qry_spbm_portf_definition(&self, qry_spbm_portf_definition:  QrySPBMPortfDefinition, request_id:  i32)-> i32;
+        fn req_qry_spbm_portf_definition(&self, qry_spbm_portf_definition: QrySPBMPortfDefinition, request_id: i32)-> i32;
         /// 投资者SPBM套餐选择查询
-        fn req_qry_spbm_investor_portf_def(&self, qry_spbm_investor_portf_def:  QrySPBMInvestorPortfDef, request_id:  i32)-> i32;
+        fn req_qry_spbm_investor_portf_def(&self, qry_spbm_investor_portf_def: QrySPBMInvestorPortfDef, request_id: i32)-> i32;
         /// 投资者新型组合保证金系数查询
-        fn req_qry_investor_portf_margin_ratio(&self, qry_investor_portf_margin_ratio:  QryInvestorPortfMarginRatio, request_id:  i32)-> i32;
+        fn req_qry_investor_portf_margin_ratio(&self, qry_investor_portf_margin_ratio: QryInvestorPortfMarginRatio, request_id: i32)-> i32;
         /// 投资者产品SPBM明细查询
-        fn req_qry_investor_prod_spbm_detail(&self, qry_investor_prod_spbm_detail:  QryInvestorProdSPBMDetail, request_id:  i32)-> i32;
+        fn req_qry_investor_prod_spbm_detail(&self, qry_investor_prod_spbm_detail: QryInvestorProdSPBMDetail, request_id: i32)-> i32;
         /// 投资者商品组SPMM记录查询
-        fn req_qry_investor_commodity_spmm_margin(&self, qry_investor_commodity_spmm_margin:  QryInvestorCommoditySPMMMargin, request_id:  i32)-> i32;
+        fn req_qry_investor_commodity_spmm_margin(&self, qry_investor_commodity_spmm_margin: QryInvestorCommoditySPMMMargin, request_id: i32)-> i32;
         /// 投资者商品群SPMM记录查询
-        fn req_qry_investor_commodity_group_spmm_margin(&self, qry_investor_commodity_group_spmm_margin:  QryInvestorCommodityGroupSPMMMargin, request_id:  i32)-> i32;
+        fn req_qry_investor_commodity_group_spmm_margin(&self, qry_investor_commodity_group_spmm_margin: QryInvestorCommodityGroupSPMMMargin, request_id: i32)-> i32;
         /// SPMM合约参数查询
-        fn req_qry_spmm_inst_param(&self, qry_spmm_inst_param:  QrySPMMInstParam, request_id:  i32)-> i32;
+        fn req_qry_spmm_inst_param(&self, qry_spmm_inst_param: QrySPMMInstParam, request_id: i32)-> i32;
         /// SPMM产品参数查询
-        fn req_qry_spmm_product_param(&self, qry_spmm_product_param:  QrySPMMProductParam, request_id:  i32)-> i32;
+        fn req_qry_spmm_product_param(&self, qry_spmm_product_param: QrySPMMProductParam, request_id: i32)-> i32;
         /// SPBM附加跨品种抵扣参数查询
-        fn req_qry_spbm_add_on_inter_parameter(&self, qry_spbm_add_on_inter_parameter:  QrySPBMAddOnInterParameter, request_id:  i32)-> i32;
+        fn req_qry_spbm_add_on_inter_parameter(&self, qry_spbm_add_on_inter_parameter: QrySPBMAddOnInterParameter, request_id: i32)-> i32;
         /// RCAMS产品组合信息查询
-        fn req_qry_rcams_comb_product_info(&self, qry_rcams_comb_product_info:  QryRCAMSCombProductInfo, request_id:  i32)-> i32;
+        fn req_qry_rcams_comb_product_info(&self, qry_rcams_comb_product_info: QryRCAMSCombProductInfo, request_id: i32)-> i32;
         /// RCAMS同合约风险对冲参数查询
-        fn req_qry_rcams_instr_parameter(&self, qry_rcams_instr_parameter:  QryRCAMSInstrParameter, request_id:  i32)-> i32;
+        fn req_qry_rcams_instr_parameter(&self, qry_rcams_instr_parameter: QryRCAMSInstrParameter, request_id: i32)-> i32;
         /// RCAMS品种内风险对冲参数查询
-        fn req_qry_rcams_intra_parameter(&self, qry_rcams_intra_parameter:  QryRCAMSIntraParameter, request_id:  i32)-> i32;
+        fn req_qry_rcams_intra_parameter(&self, qry_rcams_intra_parameter: QryRCAMSIntraParameter, request_id: i32)-> i32;
         /// RCAMS跨品种风险折抵参数查询
-        fn req_qry_rcams_inter_parameter(&self, qry_rcams_inter_parameter:  QryRCAMSInterParameter, request_id:  i32)-> i32;
+        fn req_qry_rcams_inter_parameter(&self, qry_rcams_inter_parameter: QryRCAMSInterParameter, request_id: i32)-> i32;
         /// RCAMS空头期权风险调整参数查询
-        fn req_qry_rcams_short_opt_adjust_param(&self, qry_rcams_short_opt_adjust_param:  QryRCAMSShortOptAdjustParam, request_id:  i32)-> i32;
+        fn req_qry_rcams_short_opt_adjust_param(&self, qry_rcams_short_opt_adjust_param: QryRCAMSShortOptAdjustParam, request_id: i32)-> i32;
         /// RCAMS策略组合持仓查询
-        fn req_qry_rcams_investor_comb_position(&self, qry_rcams_investor_comb_position:  QryRCAMSInvestorCombPosition, request_id:  i32)-> i32;
+        fn req_qry_rcams_investor_comb_position(&self, qry_rcams_investor_comb_position: QryRCAMSInvestorCombPosition, request_id: i32)-> i32;
         /// 投资者品种RCAMS保证金查询
-        fn req_qry_investor_prod_rcams_margin(&self, qry_investor_prod_rcams_margin:  QryInvestorProdRCAMSMargin, request_id:  i32)-> i32;
+        fn req_qry_investor_prod_rcams_margin(&self, qry_investor_prod_rcams_margin: QryInvestorProdRCAMSMargin, request_id: i32)-> i32;
         /// RULE合约保证金参数查询
-        fn req_qry_rule_instr_parameter(&self, qry_rule_instr_parameter:  QryRULEInstrParameter, request_id:  i32)-> i32;
+        fn req_qry_rule_instr_parameter(&self, qry_rule_instr_parameter: QryRULEInstrParameter, request_id: i32)-> i32;
         /// RULE品种内对锁仓折扣参数查询
-        fn req_qry_rule_intra_parameter(&self, qry_rule_intra_parameter:  QryRULEIntraParameter, request_id:  i32)-> i32;
+        fn req_qry_rule_intra_parameter(&self, qry_rule_intra_parameter: QryRULEIntraParameter, request_id: i32)-> i32;
         /// RULE跨品种抵扣参数查询
-        fn req_qry_rule_inter_parameter(&self, qry_rule_inter_parameter:  QryRULEInterParameter, request_id:  i32)-> i32;
+        fn req_qry_rule_inter_parameter(&self, qry_rule_inter_parameter: QryRULEInterParameter, request_id: i32)-> i32;
         /// 投资者产品RULE保证金查询
-        fn req_qry_investor_prod_rule_margin(&self, qry_investor_prod_rule_margin:  QryInvestorProdRULEMargin, request_id:  i32)-> i32;
+        fn req_qry_investor_prod_rule_margin(&self, qry_investor_prod_rule_margin: QryInvestorProdRULEMargin, request_id: i32)-> i32;
         /// 投资者新型组合保证金开关查询
-        fn req_qry_investor_portf_setting(&self, qry_investor_portf_setting:  QryInvestorPortfSetting, request_id:  i32)-> i32;
+        fn req_qry_investor_portf_setting(&self, qry_investor_portf_setting: QryInvestorPortfSetting, request_id: i32)-> i32;
         /// 投资者申报费阶梯收取记录查询
-        fn req_qry_investor_info_comm_rec(&self, qry_investor_info_comm_rec:  QryInvestorInfoCommRec, request_id:  i32)-> i32;
+        fn req_qry_investor_info_comm_rec(&self, qry_investor_info_comm_rec: QryInvestorInfoCommRec, request_id: i32)-> i32;
         /// 组合腿信息查询
-        fn req_qry_comb_leg(&self, qry_comb_leg:  QryCombLeg, request_id:  i32)-> i32;
+        fn req_qry_comb_leg(&self, qry_comb_leg: QryCombLeg, request_id: i32)-> i32;
         /// 对冲设置请求
-        fn req_offset_setting(&self, input_offset_setting:  InputOffsetSetting, request_id:  i32)-> i32;
+        fn req_offset_setting(&self, input_offset_setting: InputOffsetSetting, request_id: i32)-> i32;
         /// 对冲设置撤销请求
-        fn req_cancel_offset_setting(&self, input_offset_setting:  InputOffsetSetting, request_id:  i32)-> i32;
+        fn req_cancel_offset_setting(&self, input_offset_setting: InputOffsetSetting, request_id: i32)-> i32;
         /// 投资者对冲设置查询
-        fn req_qry_offset_setting(&self, qry_offset_setting:  QryOffsetSetting, request_id:  i32)-> i32;
+        fn req_qry_offset_setting(&self, qry_offset_setting: QryOffsetSetting, request_id: i32)-> i32;
     }
 
     /// 信息分发
     #[derive(Debug, Clone, Default)]
     struct Dissemination {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 序列系列号
         sequence_series:  u16,
         /// 序列号
@@ -638,7 +635,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserLogin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -668,7 +665,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspUserLogin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 登录成功时间
@@ -712,7 +709,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserLogout {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -722,7 +719,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ForceUserLogout {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -732,7 +729,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqAuthenticate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -748,7 +745,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspAuthenticate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -764,7 +761,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AuthenticationInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -786,7 +783,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspUserLogin2 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 登录成功时间
@@ -820,7 +817,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferHeader {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 版本号，常量，1.0
         version:  String,
         /// 交易代码，必填
@@ -852,7 +849,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferBankToFutureReq {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 期货资金账户
         future_account:  String,
         /// 密码标志
@@ -870,7 +867,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferBankToFutureRsp {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 响应代码
         ret_code:  String,
         /// 响应信息
@@ -888,7 +885,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferFutureToBankReq {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 期货资金账户
         future_account:  String,
         /// 密码标志
@@ -906,7 +903,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferFutureToBankRsp {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 响应代码
         ret_code:  String,
         /// 响应信息
@@ -924,7 +921,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferQryBankReq {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 期货资金账户
         future_account:  String,
         /// 密码标志
@@ -938,7 +935,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferQryBankRsp {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 响应代码
         ret_code:  String,
         /// 响应信息
@@ -958,7 +955,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferQryDetailReq {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 期货资金账户
         future_account:  String,
     }
@@ -966,7 +963,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferQryDetailRsp {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日期
         trade_date:  String,
         /// 交易时间
@@ -1000,7 +997,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 错误代码
         error_id:  i32,
         /// 错误信息
@@ -1010,7 +1007,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Exchange {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 交易所名称
@@ -1022,7 +1019,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Product {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品名称
         product_name:  String,
         /// 交易所代码
@@ -1066,7 +1063,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Instrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约名称
@@ -1134,7 +1131,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Broker {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 经纪公司简称
@@ -1148,7 +1145,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Trader {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 交易所交易员代码
@@ -1172,7 +1169,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Investor {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 经纪公司代码
@@ -1208,7 +1205,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingCode {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 经纪公司代码
@@ -1220,7 +1217,7 @@ mod ffi {
         /// 是否活跃
         is_active:  i32,
         /// 交易编码类型
-        client_idtype:  u8,
+        client_id_type:  u8,
         /// 营业部编号
         branch_id:  String,
         /// 业务类型
@@ -1232,7 +1229,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct PartBroker {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -1246,7 +1243,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SuperUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 用户代码
         user_id:  String,
         /// 用户名称
@@ -1260,7 +1257,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SuperUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 用户代码
         user_id:  String,
         /// 功能代码
@@ -1270,7 +1267,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorGroup {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者分组代码
@@ -1282,7 +1279,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -1388,7 +1385,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -1494,7 +1491,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -1524,7 +1521,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentCommissionRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -1556,7 +1553,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct DepthMarketData {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -1654,7 +1651,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -1670,7 +1667,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -1690,7 +1687,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUserPassword {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -1710,7 +1707,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -1722,7 +1719,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TraderOffer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 交易所交易员代码
@@ -1768,7 +1765,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SettlementInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 结算编号
@@ -1790,7 +1787,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentMarginRateAdjust {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -1816,7 +1813,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投机套保标志
@@ -1838,7 +1835,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeMarginRateAdjust {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投机套保标志
@@ -1874,7 +1871,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 源币种
@@ -1890,7 +1887,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SettlementRef {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 结算编号
@@ -1900,7 +1897,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CurrentTime {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 当前交易日
         curr_date:  String,
         /// 当前时间
@@ -1914,7 +1911,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CommPhase {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 通讯时段编号
@@ -1926,7 +1923,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LoginInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
         /// 会话编号
@@ -1978,7 +1975,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LogoutAll {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
         /// 会话编号
@@ -1990,7 +1987,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct FrontStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
         /// 上次报告日期
@@ -2004,7 +2001,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserPasswordUpdate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -2018,7 +2015,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2088,7 +2085,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Order {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2224,7 +2221,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 报单价格条件
         order_price_type:  u8,
         /// 买卖方向
@@ -2320,7 +2317,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOrderInsertError {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 会员代码
@@ -2340,7 +2337,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2384,7 +2381,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2452,7 +2449,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 报单编号
@@ -2496,7 +2493,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOrderActionError {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 报单编号
@@ -2518,7 +2515,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeTrade {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 成交编号
@@ -2568,7 +2565,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Trade {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2636,7 +2633,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserSession {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
         /// 会话编号
@@ -2666,7 +2663,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMaxOrderVolume {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2690,7 +2687,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SettlementInfoConfirm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -2710,7 +2707,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeposit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 出入金流水号
         deposit_seq_no:  Vec<u8>,
         /// 经纪公司代码
@@ -2734,7 +2731,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncFundMortgage {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 货币质押流水号
         mortgage_seq_no:  Vec<u8>,
         /// 经纪公司代码
@@ -2752,7 +2749,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerSync {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -2760,7 +2757,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingInvestor {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 经纪公司代码
@@ -2796,7 +2793,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingTradingCode {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 经纪公司代码
@@ -2808,13 +2805,13 @@ mod ffi {
         /// 是否活跃
         is_active:  i32,
         /// 交易编码类型
-        client_idtype:  u8,
+        client_id_type:  u8,
     }
     /// 正在同步中的投资者分组
     #[derive(Debug, Clone, Default)]
     struct SyncingInvestorGroup {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者分组代码
@@ -2826,7 +2823,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingTradingAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -2930,7 +2927,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingInvestorPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3034,7 +3031,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingInstrumentMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3060,7 +3057,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingInstrumentCommissionRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3086,7 +3083,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncingInstrumentTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3102,7 +3099,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3124,7 +3121,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTrade {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3146,7 +3143,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3162,7 +3159,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTradingAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3178,7 +3175,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestor {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3188,7 +3185,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTradingCode {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3198,7 +3195,7 @@ mod ffi {
         /// 客户代码
         client_id:  String,
         /// 交易编码类型
-        client_idtype:  u8,
+        client_id_type:  u8,
         /// 投资单元代码
         invest_unit_id:  String,
     }
@@ -3206,7 +3203,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorGroup {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -3214,7 +3211,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrumentMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3232,7 +3229,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrumentCommissionRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3248,7 +3245,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrumentTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3260,7 +3257,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBroker {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -3268,7 +3265,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTrader {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 会员代码
@@ -3280,7 +3277,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySuperUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 用户代码
         user_id:  String,
     }
@@ -3288,7 +3285,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryUserSession {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
         /// 会话编号
@@ -3302,7 +3299,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryPartBroker {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -3314,7 +3311,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryFrontStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置编号
         front_id:  i32,
     }
@@ -3322,7 +3319,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -3338,7 +3335,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3350,7 +3347,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -3364,7 +3361,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySuperUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 用户代码
         user_id:  String,
     }
@@ -3372,7 +3369,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchange {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
     }
@@ -3380,7 +3377,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryProduct {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品类型
         product_class:  u8,
         /// 交易所代码
@@ -3392,7 +3389,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -3406,7 +3403,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryDepthMarketData {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -3418,7 +3415,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBrokerUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -3428,7 +3425,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBrokerUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -3438,7 +3435,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTraderOffer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 会员代码
@@ -3450,7 +3447,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySyncDeposit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 出入金流水号
@@ -3460,7 +3457,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySettlementInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3476,7 +3473,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投机套保标志
@@ -3490,7 +3487,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeMarginRateAdjust {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投机套保标志
@@ -3502,7 +3499,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 源币种
@@ -3514,7 +3511,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySyncFundMortgage {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 货币质押流水号
@@ -3524,7 +3521,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryHisOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3548,7 +3545,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrMiniMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3568,7 +3565,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrMarginAdjust {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3600,7 +3597,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -3634,7 +3631,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrTradeCost {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3662,7 +3659,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOptionInstrTradeCost {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3684,7 +3681,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOptionInstrCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3700,7 +3697,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct IndexPrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 指数现货收盘价
@@ -3712,7 +3709,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3760,7 +3757,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3796,7 +3793,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3890,7 +3887,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3952,7 +3949,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -3972,7 +3969,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 数量
         volume:  i32,
         /// 请求编号
@@ -4038,7 +4035,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -4054,7 +4051,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4066,7 +4063,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 执行宣告操作编号
@@ -4112,7 +4109,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -4126,7 +4123,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ErrExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4178,7 +4175,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryErrExecOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4188,7 +4185,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ErrExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4228,7 +4225,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryErrExecOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4238,7 +4235,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -4256,7 +4253,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOptionInstrTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4270,7 +4267,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputForQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4294,7 +4291,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ForQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4346,7 +4343,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryForQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4366,7 +4363,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeForQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 本地询价编号
         for_quote_local_id:  String,
         /// 交易所代码
@@ -4396,7 +4393,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeForQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -4412,7 +4409,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4472,7 +4469,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputQuoteAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4514,7 +4511,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Quote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4628,7 +4625,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QuoteAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4692,7 +4689,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4714,7 +4711,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 卖价格
         ask_price:  f64,
         /// 买价格
@@ -4790,7 +4787,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeQuote {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -4806,7 +4803,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryQuoteAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4818,7 +4815,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeQuoteAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 报价操作编号
@@ -4856,7 +4853,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeQuoteAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -4870,7 +4867,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionInstrDelta {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -4886,7 +4883,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ForQuoteRsp {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 询价编号
@@ -4904,7 +4901,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct StrikeOffset {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -4922,7 +4919,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryStrikeOffset {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4934,7 +4931,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputBatchOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -4962,7 +4959,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BatchOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5010,7 +5007,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeBatchOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 操作日期
@@ -5042,7 +5039,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBatchOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5054,7 +5051,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CombInstrumentGuard {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 担保比例
@@ -5068,7 +5065,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCombInstrumentGuard {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -5080,7 +5077,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputCombAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5116,7 +5113,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CombAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5182,7 +5179,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCombAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5198,7 +5195,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeCombAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 买卖方向
         direction:  u8,
         /// 数量
@@ -5244,7 +5241,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeCombAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 会员代码
         participant_id:  String,
         /// 客户代码
@@ -5260,7 +5257,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ProductExchRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 报价币种类型
         quote_currency_id:  String,
         /// 汇率
@@ -5274,7 +5271,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryProductExchRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品代码
@@ -5284,7 +5281,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryForQuoteParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -5296,7 +5293,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ForQuoteParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -5312,7 +5309,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MMOptionInstrCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -5342,7 +5339,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMMOptionInstrCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5354,7 +5351,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MMInstrumentCommissionRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -5380,7 +5377,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMMInstrumentCommissionRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5392,7 +5389,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentOrderCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -5420,7 +5417,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrumentOrderCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5432,7 +5429,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradeParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 参数代码
@@ -5446,7 +5443,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentMarginRateUL {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -5470,7 +5467,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct FutureLimitPosiParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -5490,7 +5487,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LoginForbiddenIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// IP地址
         ip_address:  String,
     }
@@ -5498,7 +5495,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct IPList {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 是否白名单
         is_white:  i32,
         /// IP地址
@@ -5508,7 +5505,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputOptionSelfClose {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5548,7 +5545,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputOptionSelfCloseAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5584,7 +5581,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionSelfClose {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5670,7 +5667,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OptionSelfCloseAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5730,7 +5727,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOptionSelfClose {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5750,7 +5747,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOptionSelfClose {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 数量
         volume:  i32,
         /// 请求编号
@@ -5808,7 +5805,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOptionSelfCloseAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5820,7 +5817,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeOptionSelfCloseAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 期权自对冲操作编号
@@ -5864,7 +5861,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDelaySwap {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 换汇流水号
         delay_swap_seq_no:  Vec<u8>,
         /// 经纪公司代码
@@ -5892,7 +5889,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySyncDelaySwap {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 延时换汇流水号
@@ -5902,7 +5899,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestUnit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5926,7 +5923,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestUnit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -5938,7 +5935,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SecAgentCheckMode {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 经纪公司代码
@@ -5954,7 +5951,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SecAgentTradeInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 境外中介机构资金帐号
@@ -5968,7 +5965,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketData {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -6020,7 +6017,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataBase {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 上次结算价
@@ -6036,7 +6033,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataStatic {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 今开盘
         open_price:  f64,
         /// 最高价
@@ -6058,7 +6055,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataLastMatch {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 最新价
         last_price:  f64,
         /// 数量
@@ -6072,7 +6069,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataBestPrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 申买价一
         bid_price1:  f64,
         /// 申买量一
@@ -6086,7 +6083,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataBid23 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 申买价二
         bid_price2:  f64,
         /// 申买量二
@@ -6100,7 +6097,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataAsk23 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 申卖价二
         ask_price2:  f64,
         /// 申卖量二
@@ -6114,7 +6111,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataBid45 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 申买价四
         bid_price4:  f64,
         /// 申买量四
@@ -6128,7 +6125,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataAsk45 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 申卖价四
         ask_price4:  f64,
         /// 申卖量四
@@ -6142,7 +6139,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataUpdateTime {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 最后修改时间
         update_time:  String,
         /// 最后修改毫秒
@@ -6156,7 +6153,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataBandingPrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 上带价
         banding_upper_price:  f64,
         /// 下带价
@@ -6166,7 +6163,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataExchange {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
     }
@@ -6174,7 +6171,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SpecificInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
     }
@@ -6182,7 +6179,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InstrumentStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 结算组代码
@@ -6204,7 +6201,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInstrumentStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约在交易所的代码
@@ -6214,7 +6211,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6228,7 +6225,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct PositionProfitAlgorithm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -6244,7 +6241,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Discount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者范围
@@ -6258,7 +6255,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTransferBank {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 银行代码
         bank_id:  String,
         /// 银行分中心代码
@@ -6268,7 +6265,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferBank {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 银行代码
         bank_id:  String,
         /// 银行分中心代码
@@ -6282,7 +6279,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorPositionDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6298,7 +6295,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPositionDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6362,7 +6359,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccountPassword {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -6376,7 +6373,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MDTraderOffer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 交易所交易员代码
@@ -6422,7 +6419,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMDTraderOffer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 会员代码
@@ -6434,7 +6431,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryNotice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -6442,7 +6439,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Notice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 消息正文
@@ -6454,7 +6451,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -6468,7 +6465,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySettlementInfoConfirm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6482,7 +6479,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LoadSettlementInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -6490,7 +6487,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerWithdrawAlgorithm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 可提资金算法
@@ -6516,7 +6513,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccountPasswordUpdateV1 {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6530,7 +6527,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccountPasswordUpdate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -6546,7 +6543,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCombinationLeg {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 单腿编号
         leg_id:  i32,
         /// 组合合约代码
@@ -6558,7 +6555,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySyncStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
     }
@@ -6566,7 +6563,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CombinationLeg {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 单腿编号
         leg_id:  i32,
         /// 买卖方向
@@ -6584,7 +6581,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 数据同步状态
@@ -6594,7 +6591,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryLinkMan {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6604,7 +6601,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LinkMan {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6634,7 +6631,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBrokerUserEvent {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -6646,7 +6643,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUserEvent {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -6674,7 +6671,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryContractBank {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 银行代码
@@ -6686,7 +6683,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ContractBank {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 银行代码
@@ -6700,7 +6697,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPositionCombineDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 开仓日期
@@ -6748,7 +6745,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ParkedOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6824,7 +6821,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ParkedOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6874,7 +6871,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryParkedOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6890,7 +6887,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryParkedOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6906,7 +6903,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RemoveParkedOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6920,7 +6917,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RemoveParkedOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6934,7 +6931,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorWithdrawAlgorithm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者范围
@@ -6952,7 +6949,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorPositionCombineDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6968,7 +6965,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarketDataAveragePrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 当日均价
         average_price:  f64,
     }
@@ -6976,7 +6973,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct VerifyInvestorPassword {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -6988,7 +6985,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -7004,7 +7001,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingNoticeInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7024,7 +7021,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingNotice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者范围
@@ -7048,7 +7045,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTradingNotice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7060,7 +7057,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryErrOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7070,7 +7067,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ErrOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7144,7 +7141,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ErrorConditionalOrder {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7280,7 +7277,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryErrOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7290,7 +7287,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ErrOrderAction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7362,7 +7359,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryExchangeSequence {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
     }
@@ -7370,7 +7367,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExchangeSequence {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 序号
@@ -7382,7 +7379,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMaxOrderVolumeWithPrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7408,7 +7405,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBrokerTradingParams {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7422,7 +7419,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerTradingParams {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7444,7 +7441,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBrokerTradingAlgos {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -7456,7 +7453,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerTradingAlgos {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -7474,7 +7471,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QueryBrokerDeposit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 交易所代码
@@ -7484,7 +7481,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerDeposit {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日期
         trading_day:  String,
         /// 经纪公司代码
@@ -7516,7 +7513,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCFMMCBrokerKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -7524,7 +7521,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CFMMCBrokerKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 经纪公司统一编码
@@ -7544,7 +7541,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CFMMCTradingAccountKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 经纪公司统一编码
@@ -7560,7 +7557,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCFMMCTradingAccountKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7570,7 +7567,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUserOTPParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -7592,7 +7589,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ManualSyncBrokerUserOTP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -7608,7 +7605,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CommRateModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 手续费率模板代码
@@ -7620,7 +7617,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCommRateModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 手续费率模板代码
@@ -7630,7 +7627,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MarginModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 保证金率模板代码
@@ -7642,7 +7639,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMarginModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 保证金率模板代码
@@ -7652,7 +7649,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct EWarrantOffset {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日期
         trading_day:  String,
         /// 经纪公司代码
@@ -7676,7 +7673,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryEWarrantOffset {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7692,7 +7689,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorProductGroupMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7710,7 +7707,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorProductGroupMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7774,7 +7771,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QueryCFMMCTradingAccountToken {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -7786,7 +7783,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CFMMCTradingAccountToken {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 经纪公司统一编码
@@ -7802,7 +7799,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryProductGroup {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品代码
@@ -7812,7 +7809,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ProductGroup {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品代码
@@ -7824,7 +7821,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct Bulletin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 交易日
@@ -7840,8 +7837,7 @@ mod ffi {
         /// 发送时间
         send_time:  String,
         /// 消息摘要
-
-        abstracts: Vec<u8>,
+        abstracts:  Vec<u8>,
         /// 消息来源
         come_from:  Vec<u8>,
         /// 消息正文
@@ -7855,7 +7851,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryBulletin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 公告编号
@@ -7871,7 +7867,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MulticastInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 主题号
         topic_id:  i32,
         /// 合约编号
@@ -7889,7 +7885,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryMulticastInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 主题号
         topic_id:  i32,
         /// 合约代码
@@ -7899,7 +7895,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AppIDAuthAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// App代码
@@ -7911,7 +7907,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqOpenAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8007,7 +8003,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqCancelAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8103,7 +8099,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqChangeAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8191,7 +8187,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqTransfer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8285,7 +8281,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspTransfer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8383,7 +8379,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqRepeal {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 冲正时间间隔
         repeal_time_interval:  i32,
         /// 已经冲正次数
@@ -8491,7 +8487,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspRepeal {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 冲正时间间隔
         repeal_time_interval:  i32,
         /// 已经冲正次数
@@ -8603,7 +8599,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqQueryAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8683,7 +8679,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspQueryAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8767,7 +8763,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct FutureSignIO {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8815,7 +8811,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspFutureSignIn {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8871,7 +8867,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqFutureSignOut {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8919,7 +8915,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspFutureSignOut {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -8971,7 +8967,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqQueryTradeResultBySerial {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9031,7 +9027,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspQueryTradeResultBySerial {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9089,7 +9085,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqDayEndFileReady {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9123,7 +9119,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReturnResult {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 返回代码
         return_code:  String,
         /// 返回码描述
@@ -9133,7 +9129,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct VerifyFuturePassword {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9177,7 +9173,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct VerifyCustInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 客户姓名
         customer_name:  String,
         /// 证件类型
@@ -9193,7 +9189,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct VerifyFuturePasswordAndCustInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 客户姓名
         customer_name:  String,
         /// 证件类型
@@ -9215,7 +9211,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct DepositResultInform {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 出入金流水号，该流水号为银期报盘返回的流水号
         deposit_seq_no:  Vec<u8>,
         /// 经纪公司代码
@@ -9235,7 +9231,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqSyncKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9281,7 +9277,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspSyncKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9331,7 +9327,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct NotifyQueryAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9419,7 +9415,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TransferSerial {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 平台流水号
         plate_serial:  i32,
         /// 交易发起方日期
@@ -9481,7 +9477,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTransferSerial {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -9495,7 +9491,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct NotifyFutureSignIn {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9551,7 +9547,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct NotifyFutureSignOut {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9603,7 +9599,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct NotifySyncKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9653,7 +9649,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryAccountRegister {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -9669,7 +9665,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AccountRegister {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日期
         trade_day:  String,
         /// 银行编码
@@ -9711,7 +9707,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OpenAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9811,7 +9807,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CancelAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -9911,7 +9907,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ChangeAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -10003,7 +9999,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SecAgentACIDMap {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10019,7 +10015,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySecAgentACIDMap {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10033,7 +10029,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserRightsAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 应用单元代码
         broker_id:  String,
         /// 用户代码
@@ -10045,7 +10041,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct BrokerUserRightAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 应用单元代码
         broker_id:  String,
         /// 交易中心代码
@@ -10057,7 +10053,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct DRTransfer {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 原交易中心代码
         orig_dr_identity_id:  i32,
         /// 目标交易中心代码
@@ -10071,7 +10067,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct FensUserInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10083,7 +10079,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CurrTransferIdentity {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易中心代码
         identity_id:  i32,
     }
@@ -10091,7 +10087,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LoginForbiddenUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10103,7 +10099,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryLoginForbiddenUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10113,7 +10109,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccountReserve {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -10127,7 +10123,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryLoginForbiddenIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// IP地址
         ip_address:  String,
     }
@@ -10135,7 +10131,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryIPList {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// IP地址
         ip_address:  String,
     }
@@ -10143,7 +10139,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryUserRightsAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 应用单元代码
         broker_id:  String,
         /// 用户代码
@@ -10153,7 +10149,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReserveOpenAccountConfirm {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -10241,7 +10237,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReserveOpenAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -10321,7 +10317,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AccountProperty {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -10355,7 +10351,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCurrDRIdentity {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易中心代码
         dr_identity_id:  i32,
     }
@@ -10363,7 +10359,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CurrDRIdentity {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易中心代码
         dr_identity_id:  i32,
     }
@@ -10371,7 +10367,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySecAgentCheckMode {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -10381,7 +10377,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySecAgentTradeInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 境外中介机构资金帐号
@@ -10391,7 +10387,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserAuthMethod {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10403,7 +10399,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspUserAuthMethod {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 当前可以用的认证模式
         usable_auth_method:  i32,
     }
@@ -10411,7 +10407,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqGenUserCaptcha {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10423,7 +10419,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspGenUserCaptcha {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10437,7 +10433,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqGenUserText {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10449,7 +10445,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspGenUserText {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 短信验证码序号
         user_text_seq:  i32,
     }
@@ -10457,7 +10453,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserLoginWithCaptcha {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10487,7 +10483,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserLoginWithText {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10517,7 +10513,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserLoginWithOTP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10547,7 +10543,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqApiHandshake {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// api与front通信密钥版本号
         crypto_key_version:  String,
     }
@@ -10555,7 +10551,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspApiHandshake {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 握手回复数据长度
         front_handshake_data_len:  i32,
         /// 握手回复数据
@@ -10567,7 +10563,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqVerifyApiKey {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 握手回复数据长度
         api_handshake_data_len:  i32,
         /// 握手回复数据
@@ -10577,7 +10573,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct DepartmentUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10591,7 +10587,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QueryFreq {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 查询频率
         query_freq:  i32,
         /// FTD频率
@@ -10601,7 +10597,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AuthForbiddenIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// IP地址
         ip_address:  String,
     }
@@ -10609,7 +10605,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryAuthForbiddenIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// IP地址
         ip_address:  String,
     }
@@ -10617,7 +10613,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDelaySwapFrozen {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 换汇流水号
         delay_swap_seq_no:  Vec<u8>,
         /// 经纪公司代码
@@ -10635,7 +10631,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserSystemInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -10659,7 +10655,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AuthUserID {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// App代码
@@ -10673,7 +10669,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AuthIP {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// App代码
@@ -10685,7 +10681,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryClassifiedInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 交易所代码
@@ -10703,7 +10699,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCombPromotionParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -10713,7 +10709,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CombPromotionParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -10727,7 +10723,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqUserLoginSM {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 经纪公司代码
@@ -10765,7 +10761,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRiskSettleInvestPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -10777,7 +10773,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRiskSettleProductStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品代码
         product_id:  String,
     }
@@ -10785,7 +10781,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RiskSettleInvestPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 经纪公司代码
@@ -10889,7 +10885,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RiskSettleProductStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品编号
@@ -10901,7 +10897,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 追平序号
         sync_delta_sequence_no:  i32,
         /// 追平状态
@@ -10915,7 +10911,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaProductStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 追平序号
         sync_delta_sequence_no:  i32,
         /// 交易所代码
@@ -10929,7 +10925,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestPosDtl {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 经纪公司代码
@@ -10995,7 +10991,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestPosCombDtl {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 开仓日期
@@ -11043,7 +11039,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaTradingAccount {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -11149,7 +11145,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInitInvestMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -11185,7 +11181,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaDceCombInstrument {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         comb_instrument_id:  String,
         /// 交易所代码
@@ -11213,7 +11209,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 投资者范围
@@ -11243,7 +11239,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaExchMarginRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 合约代码
@@ -11267,7 +11263,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaOptExchMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 合约代码
@@ -11297,7 +11293,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaOptInvestMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 投资者范围
@@ -11333,7 +11329,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestMarginRateUL {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 投资者范围
@@ -11361,7 +11357,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaOptInvestCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 投资者范围
@@ -11395,7 +11391,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestCommRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
         /// 投资者范围
@@ -11425,7 +11421,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaProductExchRate {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品代码
         product_id:  String,
         /// 报价币种类型
@@ -11441,7 +11437,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaDepthMarketData {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 合约代码
@@ -11543,7 +11539,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaIndexPrice {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 合约代码
@@ -11559,7 +11555,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaEWarrantOffset {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日期
         trading_day:  String,
         /// 经纪公司代码
@@ -11585,7 +11581,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMFutureParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -11613,7 +11609,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMOptionParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -11637,7 +11633,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -11653,7 +11649,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -11671,7 +11667,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncSPBMParameterEnd {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
     }
@@ -11679,7 +11675,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMFutureParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -11691,7 +11687,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMOptionParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -11703,7 +11699,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 品种代码
@@ -11713,7 +11709,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 第一腿构成品种
@@ -11725,7 +11721,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMPortfDefinition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 组合保证金套餐代码
@@ -11739,7 +11735,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMInvestorPortfDef {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -11753,7 +11749,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPortfMarginRatio {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者范围
         investor_range:  u8,
         /// 经纪公司代码
@@ -11771,7 +11767,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMPortfDefinition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 组合保证金套餐代码
@@ -11783,7 +11779,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMInvestorPortfDef {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -11795,7 +11791,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorPortfMarginRatio {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -11809,7 +11805,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorProdSPBMDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -11857,7 +11853,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorProdSPBMDetail {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -11871,7 +11867,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct PortfTradeParamSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -11889,7 +11885,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorTradingRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -11901,7 +11897,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct MortgageParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -11915,7 +11911,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct WithDrawParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -11929,7 +11925,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ThostUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -11941,7 +11937,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryThostUserFunction {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -11951,7 +11947,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPBMAddOnInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -11969,7 +11965,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPBMAddOnInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 第一腿构成品种
@@ -11981,7 +11977,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorCommoditySPMMMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -11993,7 +11989,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorCommodityGroupSPMMMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -12005,7 +12001,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPMMInstParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 合约代码
         instrument_id:  String,
     }
@@ -12013,7 +12009,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QrySPMMProductParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品代码
         product_id:  String,
     }
@@ -12021,7 +12017,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorCommoditySPMMMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12073,7 +12069,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorCommodityGroupSPMMMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12121,7 +12117,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPMMInstParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -12137,7 +12133,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SPMMProductParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品代码
@@ -12151,7 +12147,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTraderAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易员代码
         trader_id:  String,
     }
@@ -12159,7 +12155,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TraderAssign {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 应用单元代码
         broker_id:  String,
         /// 交易所代码
@@ -12175,7 +12171,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorInfoCntSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12195,7 +12191,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSCombProductInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12211,7 +12207,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12225,7 +12221,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12239,7 +12235,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12259,7 +12255,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSShortOptAdjustParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12275,7 +12271,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RCAMSInvestorCombPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12305,7 +12301,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorProdRCAMSMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12365,7 +12361,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSCombProductInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品代码
         product_id:  String,
         /// 商品组代码
@@ -12377,7 +12373,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品代码
         product_id:  String,
     }
@@ -12385,7 +12381,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品组合代码
         comb_product_id:  String,
     }
@@ -12393,7 +12389,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 商品群代码
         product_group_id:  String,
         /// 产品组合代码1
@@ -12405,7 +12401,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSShortOptAdjustParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 产品组合代码
         comb_product_id:  String,
     }
@@ -12413,7 +12409,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRCAMSInvestorCombPosition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -12427,7 +12423,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorProdRCAMSMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -12441,7 +12437,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RULEInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12461,7 +12457,7 @@ mod ffi {
         /// 套保卖折算系数
         s_hedge_ratio:  f64,
         /// 买附加风险保证金
-        badd_on_margin:  f64,
+        b_add_on_margin:  f64,
         /// 卖附加风险保证金
         s_add_on_margin:  f64,
         /// 商品群号
@@ -12471,7 +12467,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RULEIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12491,7 +12487,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RULEInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12517,7 +12513,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRULEInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -12527,7 +12523,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRULEIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 品种代码
@@ -12537,7 +12533,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryRULEInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 第一腿构成品种
@@ -12551,7 +12547,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorProdRULEMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12611,7 +12607,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorProdRULEMargin {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12627,7 +12623,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMPortfDefinition {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 组合保证金套餐代码
@@ -12645,7 +12641,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMInvestPortfDef {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12663,7 +12659,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMFutureParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12695,7 +12691,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMOptionParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12723,7 +12719,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12743,7 +12739,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12765,7 +12761,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPBMAddOnInterParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12787,7 +12783,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPMMInstParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 合约代码
@@ -12807,7 +12803,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPMMProductParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 产品代码
@@ -12825,7 +12821,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaInvestorSPMMModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -12843,7 +12839,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaSPMMModelParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// SPMM模板ID
@@ -12867,7 +12863,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSCombProdInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12887,7 +12883,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12905,7 +12901,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12923,7 +12919,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12947,7 +12943,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSSOptAdjParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -12967,7 +12963,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSCombRuleDtl {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -13001,7 +12997,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRCAMSInvestCombPos {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -13035,7 +13031,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRULEInstrParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -13055,7 +13051,7 @@ mod ffi {
         /// 套保卖折算系数
         s_hedge_ratio:  f64,
         /// 买附加风险保证金
-        badd_on_margin:  f64,
+        b_add_on_margin:  f64,
         /// 卖附加风险保证金
         s_add_on_margin:  f64,
         /// 商品群号
@@ -13069,7 +13065,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRULEIntraParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -13093,7 +13089,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SyncDeltaRULEInterParameter {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易日
         trading_day:  String,
         /// 交易所代码
@@ -13123,7 +13119,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct IpAddrParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 服务地址
@@ -13155,7 +13151,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryIpAddrParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -13163,7 +13159,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TGIpAddrParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -13197,7 +13193,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryTGIpAddrParam {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -13209,7 +13205,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TGSessionQryStatus {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 最近30s的查询频率
         last_qry_freq:  i32,
         /// 查询状态
@@ -13219,7 +13215,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct LocalAddrConfig {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 对端地址
@@ -13235,7 +13231,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryLocalAddrConfig {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -13243,7 +13239,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqQueryBankAccountBySec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -13327,7 +13323,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspQueryBankAccountBySec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -13415,7 +13411,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ReqTransferBySec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -13513,7 +13509,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RspTransferBySec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -13615,7 +13611,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct NotifyQueryFutureAccountBySec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 业务功能码
         trade_code:  String,
         /// 银行代码
@@ -13707,7 +13703,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct ExitEmergency {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -13715,7 +13711,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPortfMarginModel {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -13727,7 +13723,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorPortfSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -13743,7 +13739,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorPortfSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -13755,7 +13751,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct UserPasswordUpdateFromSec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -13771,7 +13767,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct SettlementInfoConfirmFromSec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -13787,7 +13783,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct TradingAccountPasswordUpdateFromSec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者帐号
@@ -13805,7 +13801,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct RiskForbiddenRight {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者编号
@@ -13819,7 +13815,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorInfoCommRec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 交易所代码
         exchange_id:  String,
         /// 经纪公司代码
@@ -13847,7 +13843,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorInfoCommRec {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 投资者代码
         investor_id:  String,
         /// 商品代码
@@ -13859,7 +13855,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CombLeg {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 组合合约代码
         comb_instrument_id:  String,
         /// 单腿编号
@@ -13877,7 +13873,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryCombLeg {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 单腿合约代码
         leg_instrument_id:  String,
     }
@@ -13885,7 +13881,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InputOffsetSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -13917,7 +13913,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct OffsetSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -13991,7 +13987,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct CancelOffsetSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -14047,7 +14043,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryOffsetSetting {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -14061,7 +14057,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct AddrAppIDRelation {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 服务地址
@@ -14075,7 +14071,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryAddrAppIDRelation {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -14083,7 +14079,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct WechatUserSystemInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -14107,7 +14103,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorReserveInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 用户代码
@@ -14119,7 +14115,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryInvestorDepartmentFlat {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -14127,7 +14123,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct InvestorDepartmentFlat {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
         /// 投资者代码
@@ -14139,7 +14135,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct QryDepartmentUser {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 经纪公司代码
         broker_id:  String,
     }
@@ -14147,7 +14143,7 @@ mod ffi {
     #[derive(Debug, Clone, Default)]
     struct FrontInfo {
         /// C++ 端传入的整体 Field 是否为 `nullptr`
-        is_null: bool,
+        is_null:  bool,
         /// 前置地址
         front_addr:  String,
         /// 查询流控

@@ -875,7 +875,7 @@ CThostFtdcTradingCodeField Converter::TradingCodeToCpp(TradingCode x) {
     strcpy(y.ExchangeID, x.exchange_id.c_str());
     strcpy(y.ClientID, x.client_id.c_str());
     y.IsActive = x.is_active;
-    y.ClientIDType = x.client_idtype;
+    y.ClientIDType = x.client_id_type;
     strcpy(y.BranchID, x.branch_id.c_str());
     y.BizType = x.biz_type;
     strcpy(y.InvestUnitID, x.invest_unit_id.c_str());
@@ -891,7 +891,7 @@ TradingCode Converter::CThostFtdcTradingCodeFieldToRust(CThostFtdcTradingCodeFie
     y.exchange_id = Converter::Gb2312ToRustString(x->ExchangeID);
     y.client_id = Converter::Gb2312ToRustString(x->ClientID);
     y.is_active = x->IsActive;
-    y.client_idtype = x->ClientIDType;
+    y.client_id_type = x->ClientIDType;
     y.branch_id = Converter::Gb2312ToRustString(x->BranchID);
     y.biz_type = x->BizType;
     y.invest_unit_id = Converter::Gb2312ToRustString(x->InvestUnitID);
@@ -2776,7 +2776,7 @@ CThostFtdcSyncingTradingCodeField Converter::SyncingTradingCodeToCpp(SyncingTrad
     strcpy(y.ExchangeID, x.exchange_id.c_str());
     strcpy(y.ClientID, x.client_id.c_str());
     y.IsActive = x.is_active;
-    y.ClientIDType = x.client_idtype;
+    y.ClientIDType = x.client_id_type;
     return y;
 }
 
@@ -2789,7 +2789,7 @@ SyncingTradingCode Converter::CThostFtdcSyncingTradingCodeFieldToRust(CThostFtdc
     y.exchange_id = Converter::Gb2312ToRustString(x->ExchangeID);
     y.client_id = Converter::Gb2312ToRustString(x->ClientID);
     y.is_active = x->IsActive;
-    y.client_idtype = x->ClientIDType;
+    y.client_id_type = x->ClientIDType;
     return y;
 }
 
@@ -3251,7 +3251,7 @@ CThostFtdcQryTradingCodeField Converter::QryTradingCodeToCpp(QryTradingCode x) {
     strcpy(y.InvestorID, x.investor_id.c_str());
     strcpy(y.ExchangeID, x.exchange_id.c_str());
     strcpy(y.ClientID, x.client_id.c_str());
-    y.ClientIDType = x.client_idtype;
+    y.ClientIDType = x.client_id_type;
     strcpy(y.InvestUnitID, x.invest_unit_id.c_str());
     return y;
 }
@@ -3264,7 +3264,7 @@ QryTradingCode Converter::CThostFtdcQryTradingCodeFieldToRust(CThostFtdcQryTradi
     y.investor_id = Converter::Gb2312ToRustString(x->InvestorID);
     y.exchange_id = Converter::Gb2312ToRustString(x->ExchangeID);
     y.client_id = Converter::Gb2312ToRustString(x->ClientID);
-    y.client_idtype = x->ClientIDType;
+    y.client_id_type = x->ClientIDType;
     y.invest_unit_id = Converter::Gb2312ToRustString(x->InvestUnitID);
     return y;
 }
@@ -15108,7 +15108,7 @@ CThostFtdcRULEInstrParameterField Converter::RULEInstrParameterToCpp(RULEInstrPa
     y.SSpecRatio = x.s_spec_ratio;
     y.BHedgeRatio = x.b_hedge_ratio;
     y.SHedgeRatio = x.s_hedge_ratio;
-    y.BAddOnMargin = x.badd_on_margin;
+    y.BAddOnMargin = x.b_add_on_margin;
     y.SAddOnMargin = x.s_add_on_margin;
     y.CommodityGroupID = x.commodity_group_id;
     return y;
@@ -15127,7 +15127,7 @@ RULEInstrParameter Converter::CThostFtdcRULEInstrParameterFieldToRust(CThostFtdc
     y.s_spec_ratio = x->SSpecRatio;
     y.b_hedge_ratio = x->BHedgeRatio;
     y.s_hedge_ratio = x->SHedgeRatio;
-    y.badd_on_margin = x->BAddOnMargin;
+    y.b_add_on_margin = x->BAddOnMargin;
     y.s_add_on_margin = x->SAddOnMargin;
     y.commodity_group_id = x->CommodityGroupID;
     return y;
@@ -15886,7 +15886,7 @@ CThostFtdcSyncDeltaRULEInstrParameterField Converter::SyncDeltaRULEInstrParamete
     y.SSpecRatio = x.s_spec_ratio;
     y.BHedgeRatio = x.b_hedge_ratio;
     y.SHedgeRatio = x.s_hedge_ratio;
-    y.BAddOnMargin = x.badd_on_margin;
+    y.BAddOnMargin = x.b_add_on_margin;
     y.SAddOnMargin = x.s_add_on_margin;
     y.CommodityGroupID = x.commodity_group_id;
     y.ActionDirection = x.action_direction;
@@ -15907,7 +15907,7 @@ SyncDeltaRULEInstrParameter Converter::CThostFtdcSyncDeltaRULEInstrParameterFiel
     y.s_spec_ratio = x->SSpecRatio;
     y.b_hedge_ratio = x->BHedgeRatio;
     y.s_hedge_ratio = x->SHedgeRatio;
-    y.badd_on_margin = x->BAddOnMargin;
+    y.b_add_on_margin = x->BAddOnMargin;
     y.s_add_on_margin = x->SAddOnMargin;
     y.commodity_group_id = x->CommodityGroupID;
     y.action_direction = x->ActionDirection;

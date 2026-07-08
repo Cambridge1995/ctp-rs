@@ -4,6 +4,8 @@ use std::path::Path;
 use std::sync::Arc;
 use kanal::Sender;
 
+
+
 use crate::{CreateTraderApi, UniquePtr};
 
 unsafe impl Send for crate::TraderApi {}
@@ -18,7 +20,11 @@ impl crate::TraderApi {
         if !Path::new(&flow_path).exists() {
             create_dir_all(&flow_path).unwrap();
         }
-        CreateTraderApi(Box::new(TraderSpi { tx }), flow_path, is_production_mode)
+        CreateTraderApi(
+            Box::new(TraderSpi { tx }),
+            flow_path,
+            is_production_mode,
+        )
     }
 }
 
@@ -27,9 +33,24 @@ pub enum TraderMsg {
     on_front_connected,
     on_front_disconnected(i32),
     on_heart_beat_warning(i32),
-    on_rsp_authenticate(Arc<crate::RspAuthenticate>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_user_login(Arc<crate::RspUserLogin>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_user_logout(Arc<crate::UserLogout>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_authenticate(
+        Arc<crate::RspAuthenticate>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_user_login(
+        Arc<crate::RspUserLogin>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_user_logout(
+        Arc<crate::UserLogout>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_user_password_update(
         Arc<crate::UserPasswordUpdate>,
         Arc<crate::RspInfo>,
@@ -42,13 +63,48 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_user_auth_method(Arc<crate::RspUserAuthMethod>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_gen_user_captcha(Arc<crate::RspGenUserCaptcha>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_gen_user_text(Arc<crate::RspGenUserText>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_order_insert(Arc<crate::InputOrder>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_parked_order_insert(Arc<crate::ParkedOrder>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_parked_order_action(Arc<crate::ParkedOrderAction>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_order_action(Arc<crate::InputOrderAction>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_user_auth_method(
+        Arc<crate::RspUserAuthMethod>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_gen_user_captcha(
+        Arc<crate::RspGenUserCaptcha>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_gen_user_text(
+        Arc<crate::RspGenUserText>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_order_insert(
+        Arc<crate::InputOrder>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_parked_order_insert(
+        Arc<crate::ParkedOrder>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_parked_order_action(
+        Arc<crate::ParkedOrderAction>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_order_action(
+        Arc<crate::InputOrderAction>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_max_order_volume(
         Arc<crate::QryMaxOrderVolume>,
         Arc<crate::RspInfo>,
@@ -73,16 +129,36 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_exec_order_insert(Arc<crate::InputExecOrder>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_exec_order_insert(
+        Arc<crate::InputExecOrder>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_exec_order_action(
         Arc<crate::InputExecOrderAction>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_for_quote_insert(Arc<crate::InputForQuote>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_quote_insert(Arc<crate::InputQuote>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_quote_action(Arc<crate::InputQuoteAction>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_for_quote_insert(
+        Arc<crate::InputForQuote>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_quote_insert(
+        Arc<crate::InputQuote>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_quote_action(
+        Arc<crate::InputQuoteAction>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_batch_order_action(
         Arc<crate::InputBatchOrderAction>,
         Arc<crate::RspInfo>,
@@ -101,18 +177,48 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_comb_action_insert(Arc<crate::InputCombAction>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_order(Arc<crate::Order>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_trade(Arc<crate::Trade>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_comb_action_insert(
+        Arc<crate::InputCombAction>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_order(
+        Arc<crate::Order>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_trade(
+        Arc<crate::Trade>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_investor_position(
         Arc<crate::InvestorPosition>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trading_account(Arc<crate::TradingAccount>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_investor(Arc<crate::Investor>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_trading_code(Arc<crate::TradingCode>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trading_account(
+        Arc<crate::TradingAccount>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_investor(
+        Arc<crate::Investor>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_trading_code(
+        Arc<crate::TradingCode>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_instrument_margin_rate(
         Arc<crate::InstrumentMarginRate>,
         Arc<crate::RspInfo>,
@@ -125,26 +231,66 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_user_session(Arc<crate::UserSession>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_exchange(Arc<crate::Exchange>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_product(Arc<crate::Product>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_instrument(Arc<crate::Instrument>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_user_session(
+        Arc<crate::UserSession>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_exchange(
+        Arc<crate::Exchange>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_product(
+        Arc<crate::Product>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_instrument(
+        Arc<crate::Instrument>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_depth_market_data(
         Arc<crate::DepthMarketData>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trader_offer(Arc<crate::TraderOffer>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_settlement_info(Arc<crate::SettlementInfo>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_transfer_bank(Arc<crate::TransferBank>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trader_offer(
+        Arc<crate::TraderOffer>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_settlement_info(
+        Arc<crate::SettlementInfo>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_transfer_bank(
+        Arc<crate::TransferBank>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_investor_position_detail(
         Arc<crate::InvestorPositionDetail>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_notice(Arc<crate::Notice>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_notice(
+        Arc<crate::Notice>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_settlement_info_confirm(
         Arc<crate::SettlementInfoConfirm>,
         Arc<crate::RspInfo>,
@@ -163,7 +309,12 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_ewarrant_offset(Arc<crate::EWarrantOffset>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_ewarrant_offset(
+        Arc<crate::EWarrantOffset>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_investor_product_group_margin(
         Arc<crate::InvestorProductGroupMargin>,
         Arc<crate::RspInfo>,
@@ -182,7 +333,12 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_exchange_rate(Arc<crate::ExchangeRate>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_exchange_rate(
+        Arc<crate::ExchangeRate>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_sec_agent_acid_map(
         Arc<crate::SecAgentACIDMap>,
         Arc<crate::RspInfo>,
@@ -195,7 +351,12 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_product_group(Arc<crate::ProductGroup>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_product_group(
+        Arc<crate::ProductGroup>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_mm_instrument_commission_rate(
         Arc<crate::MMInstrumentCommissionRate>,
         Arc<crate::RspInfo>,
@@ -244,44 +405,107 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_exec_order(Arc<crate::ExecOrder>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_for_quote(Arc<crate::ForQuote>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_quote(Arc<crate::Quote>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_exec_order(
+        Arc<crate::ExecOrder>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_for_quote(
+        Arc<crate::ForQuote>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_quote(
+        Arc<crate::Quote>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_option_self_close(
         Arc<crate::OptionSelfClose>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_invest_unit(Arc<crate::InvestUnit>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_invest_unit(
+        Arc<crate::InvestUnit>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_comb_instrument_guard(
         Arc<crate::CombInstrumentGuard>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_comb_action(Arc<crate::CombAction>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_transfer_serial(Arc<crate::TransferSerial>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_account_register(Arc<crate::AccountRegister>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_error(Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_comb_action(
+        Arc<crate::CombAction>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_transfer_serial(
+        Arc<crate::TransferSerial>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_account_register(
+        Arc<crate::AccountRegister>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_error(
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rtn_order(Arc<crate::Order>),
     on_rtn_trade(Arc<crate::Trade>),
-    on_err_rtn_order_insert(Arc<crate::InputOrder>, Arc<crate::RspInfo>),
-    on_err_rtn_order_action(Arc<crate::OrderAction>, Arc<crate::RspInfo>),
+    on_err_rtn_order_insert(
+        Arc<crate::InputOrder>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_order_action(
+        Arc<crate::OrderAction>,
+        Arc<crate::RspInfo>,
+    ),
     on_rtn_instrument_status(Arc<crate::InstrumentStatus>),
     on_rtn_bulletin(Arc<crate::Bulletin>),
     on_rtn_trading_notice(Arc<crate::TradingNoticeInfo>),
     on_rtn_error_conditional_order(Arc<crate::ErrorConditionalOrder>),
     on_rtn_exec_order(Arc<crate::ExecOrder>),
-    on_err_rtn_exec_order_insert(Arc<crate::InputExecOrder>, Arc<crate::RspInfo>),
-    on_err_rtn_exec_order_action(Arc<crate::ExecOrderAction>, Arc<crate::RspInfo>),
-    on_err_rtn_for_quote_insert(Arc<crate::InputForQuote>, Arc<crate::RspInfo>),
+    on_err_rtn_exec_order_insert(
+        Arc<crate::InputExecOrder>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_exec_order_action(
+        Arc<crate::ExecOrderAction>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_for_quote_insert(
+        Arc<crate::InputForQuote>,
+        Arc<crate::RspInfo>,
+    ),
     on_rtn_quote(Arc<crate::Quote>),
-    on_err_rtn_quote_insert(Arc<crate::InputQuote>, Arc<crate::RspInfo>),
-    on_err_rtn_quote_action(Arc<crate::QuoteAction>, Arc<crate::RspInfo>),
+    on_err_rtn_quote_insert(
+        Arc<crate::InputQuote>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_quote_action(
+        Arc<crate::QuoteAction>,
+        Arc<crate::RspInfo>,
+    ),
     on_rtn_for_quote_rsp(Arc<crate::ForQuoteRsp>),
     on_rtn_cfmmc_trading_account_token(Arc<crate::CFMMCTradingAccountToken>),
-    on_err_rtn_batch_order_action(Arc<crate::BatchOrderAction>, Arc<crate::RspInfo>),
+    on_err_rtn_batch_order_action(
+        Arc<crate::BatchOrderAction>,
+        Arc<crate::RspInfo>,
+    ),
     on_rtn_option_self_close(Arc<crate::OptionSelfClose>),
     on_err_rtn_option_self_close_insert(
         Arc<crate::InputOptionSelfClose>,
@@ -292,16 +516,34 @@ pub enum TraderMsg {
         Arc<crate::RspInfo>,
     ),
     on_rtn_comb_action(Arc<crate::CombAction>),
-    on_err_rtn_comb_action_insert(Arc<crate::InputCombAction>, Arc<crate::RspInfo>),
-    on_rsp_qry_contract_bank(Arc<crate::ContractBank>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_qry_parked_order(Arc<crate::ParkedOrder>, Arc<crate::RspInfo>, i32, bool),
+    on_err_rtn_comb_action_insert(
+        Arc<crate::InputCombAction>,
+        Arc<crate::RspInfo>,
+    ),
+    on_rsp_qry_contract_bank(
+        Arc<crate::ContractBank>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_qry_parked_order(
+        Arc<crate::ParkedOrder>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_parked_order_action(
         Arc<crate::ParkedOrderAction>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_qry_trading_notice(Arc<crate::TradingNotice>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_trading_notice(
+        Arc<crate::TradingNotice>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_broker_trading_params(
         Arc<crate::BrokerTradingParams>,
         Arc<crate::RspInfo>,
@@ -329,8 +571,14 @@ pub enum TraderMsg {
     on_rtn_repeal_from_bank_to_future_by_future_manual(Arc<crate::RspRepeal>),
     on_rtn_repeal_from_future_to_bank_by_future_manual(Arc<crate::RspRepeal>),
     on_rtn_query_bank_balance_by_future(Arc<crate::NotifyQueryAccount>),
-    on_err_rtn_bank_to_future_by_future(Arc<crate::ReqTransfer>, Arc<crate::RspInfo>),
-    on_err_rtn_future_to_bank_by_future(Arc<crate::ReqTransfer>, Arc<crate::RspInfo>),
+    on_err_rtn_bank_to_future_by_future(
+        Arc<crate::ReqTransfer>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_future_to_bank_by_future(
+        Arc<crate::ReqTransfer>,
+        Arc<crate::RspInfo>,
+    ),
     on_err_rtn_repeal_bank_to_future_by_future_manual(
         Arc<crate::ReqRepeal>,
         Arc<crate::RspInfo>,
@@ -366,7 +614,12 @@ pub enum TraderMsg {
     on_rtn_open_account_by_bank(Arc<crate::OpenAccount>),
     on_rtn_cancel_account_by_bank(Arc<crate::CancelAccount>),
     on_rtn_change_account_by_bank(Arc<crate::ChangeAccount>),
-    on_rsp_qry_classified_instrument(Arc<crate::Instrument>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_classified_instrument(
+        Arc<crate::Instrument>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_comb_promotion_param(
         Arc<crate::CombPromotionParam>,
         Arc<crate::RspInfo>,
@@ -445,7 +698,12 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_spmm_inst_param(Arc<crate::SPMMInstParam>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_spmm_inst_param(
+        Arc<crate::SPMMInstParam>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_spmm_product_param(
         Arc<crate::SPMMProductParam>,
         Arc<crate::RspInfo>,
@@ -536,8 +794,18 @@ pub enum TraderMsg {
         i32,
         bool,
     ),
-    on_rsp_qry_comb_leg(Arc<crate::CombLeg>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_offset_setting(Arc<crate::InputOffsetSetting>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_qry_comb_leg(
+        Arc<crate::CombLeg>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_offset_setting(
+        Arc<crate::InputOffsetSetting>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_cancel_offset_setting(
         Arc<crate::InputOffsetSetting>,
         Arc<crate::RspInfo>,
@@ -545,11 +813,23 @@ pub enum TraderMsg {
         bool,
     ),
     on_rtn_offset_setting(Arc<crate::OffsetSetting>),
-    on_err_rtn_offset_setting(Arc<crate::InputOffsetSetting>, Arc<crate::RspInfo>),
-    on_err_rtn_cancel_offset_setting(Arc<crate::CancelOffsetSetting>, Arc<crate::RspInfo>),
-    on_rsp_qry_offset_setting(Arc<crate::OffsetSetting>, Arc<crate::RspInfo>, i32, bool),
+    on_err_rtn_offset_setting(
+        Arc<crate::InputOffsetSetting>,
+        Arc<crate::RspInfo>,
+    ),
+    on_err_rtn_cancel_offset_setting(
+        Arc<crate::CancelOffsetSetting>,
+        Arc<crate::RspInfo>,
+    ),
+    on_rsp_qry_offset_setting(
+        Arc<crate::OffsetSetting>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
 }
 
+#[derive(Clone)]
 pub struct TraderSpi {
     tx: Sender<TraderMsg>,
 }
@@ -1700,18 +1980,41 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rsp_error(&self, rsp_info: crate::RspInfo, request_id: i32, is_last: bool) {
+    pub fn on_rsp_error(
+        &self,
+        rsp_info: crate::RspInfo,
+        request_id: i32,
+        is_last: bool,
+    ) {
         self.tx
-            .send(TraderMsg::on_rsp_error(Arc::new(rsp_info), request_id, is_last))
+            .send(TraderMsg::on_rsp_error(
+                Arc::new(rsp_info),
+                request_id,
+                is_last,
+            ))
             .ok();
     }
-    pub fn on_rtn_order(&self, order: crate::Order) {
-        self.tx.send(TraderMsg::on_rtn_order(Arc::new(order))).ok();
+    pub fn on_rtn_order(
+        &self,
+        order: crate::Order,
+    ) {
+        self.tx
+            .send(TraderMsg::on_rtn_order(Arc::new(order)))
+            .ok();
     }
-    pub fn on_rtn_trade(&self, trade: crate::Trade) {
-        self.tx.send(TraderMsg::on_rtn_trade(Arc::new(trade))).ok();
+    pub fn on_rtn_trade(
+        &self,
+        trade: crate::Trade,
+    ) {
+        self.tx
+            .send(TraderMsg::on_rtn_trade(Arc::new(trade)))
+            .ok();
     }
-    pub fn on_err_rtn_order_insert(&self, input_order: crate::InputOrder, rsp_info: crate::RspInfo) {
+    pub fn on_err_rtn_order_insert(
+        &self,
+        input_order: crate::InputOrder,
+        rsp_info: crate::RspInfo,
+    ) {
         self.tx
             .send(TraderMsg::on_err_rtn_order_insert(
                 Arc::new(input_order),
@@ -1731,15 +2034,26 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_instrument_status(&self, instrument_status: crate::InstrumentStatus) {
+    pub fn on_rtn_instrument_status(
+        &self,
+        instrument_status: crate::InstrumentStatus,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_instrument_status(Arc::new(instrument_status)))
             .ok();
     }
-    pub fn on_rtn_bulletin(&self, bulletin: crate::Bulletin) {
-        self.tx.send(TraderMsg::on_rtn_bulletin(Arc::new(bulletin))).ok();
+    pub fn on_rtn_bulletin(
+        &self,
+        bulletin: crate::Bulletin,
+    ) {
+        self.tx
+            .send(TraderMsg::on_rtn_bulletin(Arc::new(bulletin)))
+            .ok();
     }
-    pub fn on_rtn_trading_notice(&self, trading_notice_info: crate::TradingNoticeInfo) {
+    pub fn on_rtn_trading_notice(
+        &self,
+        trading_notice_info: crate::TradingNoticeInfo,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_trading_notice(Arc::new(trading_notice_info)))
             .ok();
@@ -1749,12 +2063,13 @@ impl TraderSpi {
         error_conditional_order: crate::ErrorConditionalOrder,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_error_conditional_order(Arc::new(
-                error_conditional_order,
-            )))
+            .send(TraderMsg::on_rtn_error_conditional_order(Arc::new(error_conditional_order)))
             .ok();
     }
-    pub fn on_rtn_exec_order(&self, exec_order: crate::ExecOrder) {
+    pub fn on_rtn_exec_order(
+        &self,
+        exec_order: crate::ExecOrder,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_exec_order(Arc::new(exec_order)))
             .ok();
@@ -1795,10 +2110,19 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_quote(&self, quote: crate::Quote) {
-        self.tx.send(TraderMsg::on_rtn_quote(Arc::new(quote))).ok();
+    pub fn on_rtn_quote(
+        &self,
+        quote: crate::Quote,
+    ) {
+        self.tx
+            .send(TraderMsg::on_rtn_quote(Arc::new(quote)))
+            .ok();
     }
-    pub fn on_err_rtn_quote_insert(&self, input_quote: crate::InputQuote, rsp_info: crate::RspInfo) {
+    pub fn on_err_rtn_quote_insert(
+        &self,
+        input_quote: crate::InputQuote,
+        rsp_info: crate::RspInfo,
+    ) {
         self.tx
             .send(TraderMsg::on_err_rtn_quote_insert(
                 Arc::new(input_quote),
@@ -1818,7 +2142,10 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: crate::ForQuoteRsp) {
+    pub fn on_rtn_for_quote_rsp(
+        &self,
+        for_quote_rsp: crate::ForQuoteRsp,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_for_quote_rsp(Arc::new(for_quote_rsp)))
             .ok();
@@ -1828,9 +2155,7 @@ impl TraderSpi {
         cfmmc_trading_account_token: crate::CFMMCTradingAccountToken,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_cfmmc_trading_account_token(Arc::new(
-                cfmmc_trading_account_token,
-            )))
+            .send(TraderMsg::on_rtn_cfmmc_trading_account_token(Arc::new(cfmmc_trading_account_token)))
             .ok();
     }
     pub fn on_err_rtn_batch_order_action(
@@ -1845,7 +2170,10 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_option_self_close(&self, option_self_close: crate::OptionSelfClose) {
+    pub fn on_rtn_option_self_close(
+        &self,
+        option_self_close: crate::OptionSelfClose,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_option_self_close(Arc::new(option_self_close)))
             .ok();
@@ -1874,7 +2202,10 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_comb_action(&self, comb_action: crate::CombAction) {
+    pub fn on_rtn_comb_action(
+        &self,
+        comb_action: crate::CombAction,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_comb_action(Arc::new(comb_action)))
             .ok();
@@ -2003,46 +2334,52 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_from_bank_to_future_by_bank(&self, rsp_transfer: crate::RspTransfer) {
+    pub fn on_rtn_from_bank_to_future_by_bank(
+        &self,
+        rsp_transfer: crate::RspTransfer,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_from_bank_to_future_by_bank(Arc::new(
-                rsp_transfer,
-            )))
+            .send(TraderMsg::on_rtn_from_bank_to_future_by_bank(Arc::new(rsp_transfer)))
             .ok();
     }
-    pub fn on_rtn_from_future_to_bank_by_bank(&self, rsp_transfer: crate::RspTransfer) {
+    pub fn on_rtn_from_future_to_bank_by_bank(
+        &self,
+        rsp_transfer: crate::RspTransfer,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_from_future_to_bank_by_bank(Arc::new(
-                rsp_transfer,
-            )))
+            .send(TraderMsg::on_rtn_from_future_to_bank_by_bank(Arc::new(rsp_transfer)))
             .ok();
     }
-    pub fn on_rtn_repeal_from_bank_to_future_by_bank(&self, rsp_repeal: crate::RspRepeal) {
+    pub fn on_rtn_repeal_from_bank_to_future_by_bank(
+        &self,
+        rsp_repeal: crate::RspRepeal,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_bank(Arc::new(
-                rsp_repeal,
-            )))
+            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_bank(Arc::new(rsp_repeal)))
             .ok();
     }
-    pub fn on_rtn_repeal_from_future_to_bank_by_bank(&self, rsp_repeal: crate::RspRepeal) {
+    pub fn on_rtn_repeal_from_future_to_bank_by_bank(
+        &self,
+        rsp_repeal: crate::RspRepeal,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_bank(Arc::new(
-                rsp_repeal,
-            )))
+            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_bank(Arc::new(rsp_repeal)))
             .ok();
     }
-    pub fn on_rtn_from_bank_to_future_by_future(&self, rsp_transfer: crate::RspTransfer) {
+    pub fn on_rtn_from_bank_to_future_by_future(
+        &self,
+        rsp_transfer: crate::RspTransfer,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_from_bank_to_future_by_future(Arc::new(
-                rsp_transfer,
-            )))
+            .send(TraderMsg::on_rtn_from_bank_to_future_by_future(Arc::new(rsp_transfer)))
             .ok();
     }
-    pub fn on_rtn_from_future_to_bank_by_future(&self, rsp_transfer: crate::RspTransfer) {
+    pub fn on_rtn_from_future_to_bank_by_future(
+        &self,
+        rsp_transfer: crate::RspTransfer,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_from_future_to_bank_by_future(Arc::new(
-                rsp_transfer,
-            )))
+            .send(TraderMsg::on_rtn_from_future_to_bank_by_future(Arc::new(rsp_transfer)))
             .ok();
     }
     pub fn on_rtn_repeal_from_bank_to_future_by_future_manual(
@@ -2050,9 +2387,7 @@ impl TraderSpi {
         rsp_repeal: crate::RspRepeal,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future_manual(
-                Arc::new(rsp_repeal),
-            ))
+            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future_manual(Arc::new(rsp_repeal)))
             .ok();
     }
     pub fn on_rtn_repeal_from_future_to_bank_by_future_manual(
@@ -2060,9 +2395,7 @@ impl TraderSpi {
         rsp_repeal: crate::RspRepeal,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future_manual(
-                Arc::new(rsp_repeal),
-            ))
+            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future_manual(Arc::new(rsp_repeal)))
             .ok();
     }
     pub fn on_rtn_query_bank_balance_by_future(
@@ -2070,9 +2403,7 @@ impl TraderSpi {
         notify_query_account: crate::NotifyQueryAccount,
     ) {
         self.tx
-            .send(TraderMsg::on_rtn_query_bank_balance_by_future(Arc::new(
-                notify_query_account,
-            )))
+            .send(TraderMsg::on_rtn_query_bank_balance_by_future(Arc::new(notify_query_account)))
             .ok();
     }
     pub fn on_err_rtn_bank_to_future_by_future(
@@ -2135,18 +2466,20 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_repeal_from_bank_to_future_by_future(&self, rsp_repeal: crate::RspRepeal) {
+    pub fn on_rtn_repeal_from_bank_to_future_by_future(
+        &self,
+        rsp_repeal: crate::RspRepeal,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future(Arc::new(
-                rsp_repeal,
-            )))
+            .send(TraderMsg::on_rtn_repeal_from_bank_to_future_by_future(Arc::new(rsp_repeal)))
             .ok();
     }
-    pub fn on_rtn_repeal_from_future_to_bank_by_future(&self, rsp_repeal: crate::RspRepeal) {
+    pub fn on_rtn_repeal_from_future_to_bank_by_future(
+        &self,
+        rsp_repeal: crate::RspRepeal,
+    ) {
         self.tx
-            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future(Arc::new(
-                rsp_repeal,
-            )))
+            .send(TraderMsg::on_rtn_repeal_from_future_to_bank_by_future(Arc::new(rsp_repeal)))
             .ok();
     }
     pub fn on_rsp_from_bank_to_future_by_future(
@@ -2197,17 +2530,26 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_open_account_by_bank(&self, open_account: crate::OpenAccount) {
+    pub fn on_rtn_open_account_by_bank(
+        &self,
+        open_account: crate::OpenAccount,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_open_account_by_bank(Arc::new(open_account)))
             .ok();
     }
-    pub fn on_rtn_cancel_account_by_bank(&self, cancel_account: crate::CancelAccount) {
+    pub fn on_rtn_cancel_account_by_bank(
+        &self,
+        cancel_account: crate::CancelAccount,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_cancel_account_by_bank(Arc::new(cancel_account)))
             .ok();
     }
-    pub fn on_rtn_change_account_by_bank(&self, change_account: crate::ChangeAccount) {
+    pub fn on_rtn_change_account_by_bank(
+        &self,
+        change_account: crate::ChangeAccount,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_change_account_by_bank(Arc::new(change_account)))
             .ok();
@@ -2740,7 +3082,10 @@ impl TraderSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_offset_setting(&self, offset_setting: crate::OffsetSetting) {
+    pub fn on_rtn_offset_setting(
+        &self,
+        offset_setting: crate::OffsetSetting,
+    ) {
         self.tx
             .send(TraderMsg::on_rtn_offset_setting(Arc::new(offset_setting)))
             .ok();

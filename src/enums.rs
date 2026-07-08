@@ -2,7 +2,7 @@ pub enum ResumeType {
     Restart = 0,
     Resume,
     Quick,
-    NONE,
+    None,
 }
 
 /// ExchangeProperty 是一个交易所属性类型
@@ -77,8 +77,7 @@ pub enum InvestorRange {
     /// 单一投资者
     Single = b'3',
 }
-
-/// DepartmentRange 是一个部门范围类型
+/// DepartmentRange 是一个投资者范围类型
 #[repr(u8)]
 pub enum DepartmentRange {
     /// 所有
@@ -88,7 +87,6 @@ pub enum DepartmentRange {
     /// 单一投资者
     Single = b'3',
 }
-
 /// DataSyncStatus 是一个数据同步状态类型
 #[repr(u8)]
 pub enum DataSyncStatus {
@@ -99,7 +97,6 @@ pub enum DataSyncStatus {
     /// 已同步
     Synchronized = b'3',
 }
-
 /// BrokerDataSyncStatus 是一个经纪公司数据同步状态类型
 #[repr(u8)]
 pub enum BrokerDataSyncStatus {
@@ -108,7 +105,6 @@ pub enum BrokerDataSyncStatus {
     /// 同步中
     Synchronizing = b'2',
 }
-
 /// ExchangeConnectStatus 是一个交易所连接状态类型
 #[repr(u8)]
 pub enum ExchangeConnectStatus {
@@ -119,7 +115,6 @@ pub enum ExchangeConnectStatus {
     /// 已经获取信息
     GotInformation = b'9',
 }
-
 /// TraderConnectStatus 是一个交易所交易员连接状态类型
 #[repr(u8)]
 pub enum TraderConnectStatus {
@@ -132,7 +127,6 @@ pub enum TraderConnectStatus {
     /// 订阅私有流
     SubPrivateFlow = b'4',
 }
-
 /// FunctionCode 是一个功能代码类型
 #[repr(u8)]
 pub enum FunctionCode {
@@ -570,7 +564,7 @@ pub enum ForceCloseReason {
     Other = b'6',
     /// 自然人临近交割
     PersonDelivery = b'7',
-    /// 本地强平资金不足,忽略敞口
+    /// 本地强平资金不足忽略敞口
     NotVerifyCapital = b'8',
     /// 本地强平资金不足
     LocalLackDeposit = b'9',
@@ -745,7 +739,6 @@ pub enum InstrumentStatusType {
     /// 交易业务处理
     TransactionProcessing = b'7',
 }
-
 /// InstStatusEnterReason 是一个品种进入交易状态原因类型
 #[repr(u8)]
 pub enum InstStatusEnterReason {
@@ -756,7 +749,6 @@ pub enum InstStatusEnterReason {
     /// 熔断
     Fuse = b'3',
 }
-
 /// BatchStatus 是一个处理状态类型
 #[repr(u8)]
 pub enum BatchStatus {
@@ -767,7 +759,6 @@ pub enum BatchStatus {
     /// 审核失败
     Failed = b'3',
 }
-
 /// ReturnStyle 是一个按品种返还方式类型
 #[repr(u8)]
 pub enum ReturnStyle {
@@ -776,7 +767,6 @@ pub enum ReturnStyle {
     /// 按品种
     ByProduct = b'2',
 }
-
 /// ReturnPattern 是一个返还模式类型
 #[repr(u8)]
 pub enum ReturnPattern {
@@ -785,7 +775,6 @@ pub enum ReturnPattern {
     /// 按留存手续费
     ByFeeOnHand = b'2',
 }
-
 /// ReturnLevel 是一个返还级别类型
 #[repr(u8)]
 pub enum ReturnLevel {
@@ -808,7 +797,6 @@ pub enum ReturnLevel {
     /// 级别9
     Level9 = b'9',
 }
-
 /// ReturnStandard 是一个返还标准类型
 #[repr(u8)]
 pub enum ReturnStandard {
@@ -817,7 +805,6 @@ pub enum ReturnStandard {
     /// 按某一标准
     ByStandard = b'2',
 }
-
 /// MortgageType 是一个质押类型类型
 #[repr(u8)]
 pub enum MortgageType {
@@ -1274,7 +1261,7 @@ pub enum Reason {
 #[repr(u8)]
 pub enum Sex {
     /// 未知
-    None_ = b'0',
+    None = b'0',
     /// 男
     Man = b'1',
     /// 女
@@ -1548,7 +1535,7 @@ pub enum VirTradeStatus {
     /// 系统出错，请人工处理
     SysException = b'6',
 }
-/// VirBankAccType 是一个银行帐户类型类型
+/// VirBankAccType 是一个银行账户类型类型
 #[repr(u8)]
 pub enum VirBankAccType {
     /// 存折
@@ -1558,7 +1545,7 @@ pub enum VirBankAccType {
     /// 信用卡
     CreditCard = b'3',
 }
-/// VirementStatus 是一个银行帐户类型类型
+/// VirementStatus 是一个银行账户类型类型
 #[repr(u8)]
 pub enum VirementStatus {
     /// 正常
@@ -2268,7 +2255,7 @@ pub enum SendType {
     /// 未发送
     NoSend = b'0',
     /// 已发送
-    Sent  = b'1',
+    Sent = b'1',
     /// 已生成
     Generated = b'2',
     /// 报送失败
@@ -3716,7 +3703,7 @@ pub enum AuthType {
 #[repr(u8)]
 pub enum ClassType {
     /// 所有合约
-    ALL = b'0',
+    All = b'0',
     /// 期货、即期、期转现、Tas、金属指数合约
     FUTURE = b'1',
     /// 期货、现货期权合约

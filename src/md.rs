@@ -37,15 +37,29 @@ pub enum MdMsg {
     on_front_connected,
     on_front_disconnected(i32),
     on_heart_beat_warning(i32),
-    on_rsp_user_login(Arc<crate::RspUserLogin>, Arc<crate::RspInfo>, i32, bool),
-    on_rsp_user_logout(Arc<crate::UserLogout>, Arc<crate::RspInfo>, i32, bool),
+    on_rsp_user_login(
+        Arc<crate::RspUserLogin>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
+    on_rsp_user_logout(
+        Arc<crate::UserLogout>,
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_qry_multicast_instrument(
         Arc<crate::MulticastInstrument>,
         Arc<crate::RspInfo>,
         i32,
         bool,
     ),
-    on_rsp_error(Arc<crate::RspInfo>, i32, bool),
+    on_rsp_error(
+        Arc<crate::RspInfo>,
+        i32,
+        bool,
+    ),
     on_rsp_sub_market_data(
         Arc<crate::SpecificInstrument>,
         Arc<crate::RspInfo>,
@@ -74,6 +88,7 @@ pub enum MdMsg {
     on_rtn_for_quote_rsp(Arc<crate::ForQuoteRsp>),
 }
 
+#[derive(Clone)]
 pub struct MdSpi {
     tx: Sender<MdMsg>,
 }
@@ -136,9 +151,18 @@ impl MdSpi {
             ))
             .ok();
     }
-    pub fn on_rsp_error(&self, rsp_info: crate::RspInfo, request_id: i32, is_last: bool) {
+    pub fn on_rsp_error(
+        &self,
+        rsp_info: crate::RspInfo,
+        request_id: i32,
+        is_last: bool,
+    ) {
         self.tx
-            .send(MdMsg::on_rsp_error(Arc::new(rsp_info), request_id, is_last))
+            .send(MdMsg::on_rsp_error(
+                Arc::new(rsp_info),
+                request_id,
+                is_last,
+            ))
             .ok();
     }
     pub fn on_rsp_sub_market_data(
@@ -205,12 +229,18 @@ impl MdSpi {
             ))
             .ok();
     }
-    pub fn on_rtn_depth_market_data(&self, depth_market_data: crate::DepthMarketData) {
+    pub fn on_rtn_depth_market_data(
+        &self,
+        depth_market_data: crate::DepthMarketData,
+    ) {
         self.tx
             .send(MdMsg::on_rtn_depth_market_data(Arc::new(depth_market_data)))
             .ok();
     }
-    pub fn on_rtn_for_quote_rsp(&self, for_quote_rsp: crate::ForQuoteRsp) {
+    pub fn on_rtn_for_quote_rsp(
+        &self,
+        for_quote_rsp: crate::ForQuoteRsp,
+    ) {
         self.tx
             .send(MdMsg::on_rtn_for_quote_rsp(Arc::new(for_quote_rsp)))
             .ok();

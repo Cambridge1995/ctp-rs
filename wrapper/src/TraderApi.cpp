@@ -152,7 +152,7 @@ int32_t TraderApi::register_wechat_user_system_info(WechatUserSystemInfo user_sy
     CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoToCpp(user_system_info));
     return api->RegisterWechatUserSystemInfo(&req);
 #else
-    (void)pUserSystemInfo;
+    (void)user_system_info;
     return -1;
 #endif
 }
@@ -162,7 +162,7 @@ int32_t TraderApi::submit_wechat_user_system_info(WechatUserSystemInfo user_syst
     CThostFtdcWechatUserSystemInfoField req(Converter::WechatUserSystemInfoToCpp(user_system_info));
     return api->SubmitWechatUserSystemInfo(&req);
 #else
-    (void)pUserSystemInfo;
+    (void)user_system_info;
     return -1;
 #endif
 }
@@ -464,7 +464,7 @@ int32_t TraderApi::req_qry_user_session(QryUserSession qry_user_session, int32_t
     CThostFtdcQryUserSessionField req(Converter::QryUserSessionToCpp(qry_user_session));
     return api->ReqQryUserSession(&req, request_id);
 #else
-    (void)pQryUserSession; (void)nRequestID;
+    (void)qry_user_session; (void)request_id;
     return -1;
 #endif
 }
@@ -1082,7 +1082,7 @@ int32_t TraderApi::req_qry_investor_info_comm_rec(QryInvestorInfoCommRec qry_inv
     CThostFtdcQryInvestorInfoCommRecField req(Converter::QryInvestorInfoCommRecToCpp(qry_investor_info_comm_rec));
     return api->ReqQryInvestorInfoCommRec(&req, request_id);
 #else
-    (void)pQryInvestorInfoCommRec; (void)nRequestID;
+    (void)qry_investor_info_comm_rec; (void)request_id;
     return -1;
 #endif
 }
@@ -1092,7 +1092,7 @@ int32_t TraderApi::req_qry_comb_leg(QryCombLeg qry_comb_leg, int32_t request_id)
     CThostFtdcQryCombLegField req(Converter::QryCombLegToCpp(qry_comb_leg));
     return api->ReqQryCombLeg(&req, request_id);
 #else
-    (void)pQryCombLeg; (void)nRequestID;
+    (void)qry_comb_leg; (void)request_id;
     return -1;
 #endif
 }
@@ -1102,7 +1102,7 @@ int32_t TraderApi::req_offset_setting(InputOffsetSetting input_offset_setting, i
     CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingToCpp(input_offset_setting));
     return api->ReqOffsetSetting(&req, request_id);
 #else
-    (void)pInputOffsetSetting; (void)nRequestID;
+    (void)input_offset_setting; (void)request_id;
     return -1;
 #endif
 }
@@ -1112,7 +1112,7 @@ int32_t TraderApi::req_cancel_offset_setting(InputOffsetSetting input_offset_set
     CThostFtdcInputOffsetSettingField req(Converter::InputOffsetSettingToCpp(input_offset_setting));
     return api->ReqCancelOffsetSetting(&req, request_id);
 #else
-    (void)pInputOffsetSetting; (void)nRequestID;
+    (void)input_offset_setting; (void)request_id;
     return -1;
 #endif
 }
@@ -1122,7 +1122,7 @@ int32_t TraderApi::req_qry_offset_setting(QryOffsetSetting qry_offset_setting, i
     CThostFtdcQryOffsetSettingField req(Converter::QryOffsetSettingToCpp(qry_offset_setting));
     return api->ReqQryOffsetSetting(&req, request_id);
 #else
-    (void)pQryOffsetSetting; (void)nRequestID;
+    (void)qry_offset_setting; (void)request_id;
     return -1;
 #endif
 }
