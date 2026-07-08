@@ -25,8 +25,8 @@ fn main() {
                 println!("front connected");
                 let req = ReqUserLogin {
                     broker_id: "9999".to_string(),
-                    user_id: "251795".to_string(),
-                    password: "wjq!15074971011".to_string(),
+                    user_id: "".to_string(),
+                    password: "".to_string(),
                     ..Default::default()
                 };
                 api.req_user_login(req, 0);

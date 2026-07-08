@@ -5,8 +5,8 @@ use ctp_rs::{
 use std::sync::Arc;
 
 const BROKER_ID: &str = "9999";
-const USER_ID: &str = "251795";
-const PASSWORD: &str = "wjq!15074971011";
+const USER_ID: &str = "";
+const PASSWORD: &str = "";
 const APP_ID: &str = "simnow_client_test";
 const AUTH_CODE: &str = "0000000000000000";
 const FRONT_ADDR: &str = "tcp://182.254.243.31:40001";
